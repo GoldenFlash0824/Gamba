@@ -1,16 +1,16 @@
-import React, {useEffect, useState} from 'react'
-import {WeavyClient, WeavyProvider, Chat, Messenger, MessengerProvider, Posts, ConversationList, Conversation, WeavyContext} from '@weavy/uikit-react'
-import {Col, Container, Row, media} from 'styled-bootstrap-grid'
+import React, { useEffect, useState } from 'react'
+import { WeavyClient, WeavyProvider, Chat, Messenger, MessengerProvider, Posts, ConversationList, Conversation, WeavyContext } from '@weavy/uikit-react'
+import { Col, Container, Row, media } from 'styled-bootstrap-grid'
 import styled from 'styled-components'
 import axios from 'axios'
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 import Loader from './common/Loader'
-import {addUsers, doGetUserProfile} from '../apis/apis'
-import {Flexed, Text} from '../styled/shared'
-import {useNavigate} from 'react-router-dom'
+import { addUsers, doGetUserProfile } from '../apis/apis'
+import { Flexed, Text } from '../styled/shared'
+import { useNavigate } from 'react-router-dom'
 import useRouter from './useRouterHook'
-import {toast} from 'react-toastify'
-import {toastError} from '../styled/toastStyle'
+import { toast } from 'react-toastify'
+import { toastError } from '../styled/toastStyle'
 
 function WeavyChat() {
 	const userId = useSelector<any>((state: any) => state.auth.userId)
@@ -60,7 +60,7 @@ function WeavyChat() {
 
 		try {
 			setLoading(true)
-			const response = await axios.post(url, data, {headers})
+			const response = await axios.post(url, data, { headers })
 			// const presence = await Weavy.presence.getUserPresence(user.id);
 
 			let userUrl = `${environment}/api/users/${response.data?.uid}/tokens`
@@ -71,7 +71,7 @@ function WeavyChat() {
 					name: name,
 					expires_in: 7200
 				},
-				{headers}
+				{ headers }
 			)
 
 			await axios
@@ -88,7 +88,7 @@ function WeavyChat() {
 							log: dbUserResponse?.data?.log
 						}
 					},
-					{headers}
+					{ headers }
 				)
 				.then((res) => res.data)
 				.catch((err) => {
@@ -116,10 +116,10 @@ function WeavyChat() {
 					Authorization: `Bearer ${userResponse.data.access_token}`
 				}
 
-				let _userDetails = await axios.get(`${environment}/api/users/${id}`, {headers})
+				let _userDetails = await axios.get(`${environment}/api/users/${id}`, { headers })
 				console.log('=======', _userDetails)
 				await axios
-					.get(url, {headers})
+					.get(url, { headers })
 					.then(async (response) => {
 						const chatList = response.data.data
 						console.log('======= chatList', chatList)
@@ -127,7 +127,7 @@ function WeavyChat() {
 						console.log('isGroup', isGroup)
 						if (isGroup == null) {
 							let conversation = await axios
-								.post(`${environment}/api/conversations`, {members: [_userDetails?.data?.id]}, {headers: updateHeader})
+								.post(`${environment}/api/conversations`, { members: [_userDetails?.data?.id] }, { headers: updateHeader })
 								.then((res) => res.data)
 								.catch((err) => {
 									setLoading(false)
@@ -169,8 +169,8 @@ function WeavyChat() {
 			Authorization: `Bearer ${userToken}`
 		}
 		// const getConversations = await axios.get(`https://375bda9517554a35abfb864ece0fbb38.weavy.io/api/conversations?contextual=false&skip=0&top=25`, {headers})
-		const getNotification = await axios.get(`${environment}/api/notifications`, {headers})
-		const response = await axios.get(`${environment}/api/notifications?top=10&unread=true`, {headers})
+		const getNotification = await axios.get(`${environment}/api/notifications`, { headers })
+		const response = await axios.get(`${environment}/api/notifications?top=10&unread=true`, { headers })
 		const notifications = response.data
 
 		console.log('notifications', notifications)

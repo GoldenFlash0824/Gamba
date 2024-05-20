@@ -213,7 +213,6 @@ const Community = ({ setUserId, setSellerId, sellerId, singlePost, setSelectCate
 		getAllUserAndPosts(page + 1, true)
 	}
 
-	console.log('singlePost======', singlePost)
 	return (
 		<Main fluid>
 			<Row justifyContent="center">

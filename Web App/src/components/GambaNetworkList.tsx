@@ -109,7 +109,6 @@ const GambaNetworkList = ({ social, product, setSellerId, setSelectCategory, set
 												_navigate(`/chat/${data?.chat_id}`)
 											} else {
 												setLoginPopup(true)
-												// toastError('Please LogIn First')
 											}
 										}}
 									/>

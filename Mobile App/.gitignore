@@ -38,8 +38,9 @@ local.properties
 #
 node_modules/
 android
-.bundle
+ios
 __tests__
+.bundle
 npm-debug.log
 yarn-error.log
 

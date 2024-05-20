@@ -142,7 +142,7 @@ function WeavyChat() {
 						console.log('chatList Error:', error)
 					})
 			}
-
+			console.log(userResponse.data.access_token);
 			setUserToken(userResponse.data.access_token)
 			setLoading(false)
 		} catch (error: any) {

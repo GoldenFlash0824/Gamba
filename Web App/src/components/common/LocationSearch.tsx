@@ -1,15 +1,15 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {palette} from '../../styled/colors'
+import { palette } from '../../styled/colors'
 import PlacesAutocomplete, {
 	geocodeByAddress,
 	geocodeByPlaceId,
 	getLatLng
 	// @ts-ignore
 } from 'react-places-autocomplete'
-import {Text} from '../../styled/shared'
+import { Text } from '../../styled/shared'
 
-const LocationSearch = ({setLocation, isPrivate, setLatitude, location, setLongitude, setLocationError, isProfile}: any) => {
+const LocationSearch = ({ setLocation, isPrivate, setLatitude, location, setLongitude, setLocationError, isProfile }: any) => {
 	const [address, setAddress] = useState('')
 
 	const handleSelect = (address: any) => {
@@ -32,7 +32,6 @@ const LocationSearch = ({setLocation, isPrivate, setLatitude, location, setLongi
 				.then((latLng: any) => {
 					setLatitude(latLng?.lat)
 					setLongitude(latLng?.lng)
-					console.log('latLng', latLng)
 				})
 				.catch((error: any) => console.error('Error', error))
 		}
@@ -54,7 +53,7 @@ const LocationSearch = ({setLocation, isPrivate, setLatitude, location, setLongi
 	return (
 		<>
 			<PlacesAutocomplete value={address} onChange={setAddress} onSelect={handleSelect}>
-				{({getInputProps, suggestions, getSuggestionItemProps, loading}: any) => (
+				{({ getInputProps, suggestions, getSuggestionItemProps, loading }: any) => (
 					<div>
 						<>
 							<InputWrapper>
@@ -108,12 +107,12 @@ const GoogleAutoLocation = styled.input<any>`
 	border-radius: 0.5rem;
 	padding: 0.7rem 1.25rem;
 	border: 1px solid ${palette.stroke};
-	color: ${({isPrivate}) => (isPrivate ? palette.gray : palette.black)};
+	color: ${({ isPrivate }) => (isPrivate ? palette.gray : palette.black)};
 	background: ${palette.white};
 	width: 100%;
 
 	&:focus {
-		border: 1px solid ${({error, disabled}) => (disabled ? 'none' : error ? palette.danger : palette.Btn_dark_green)};
+		border: 1px solid ${({ error, disabled }) => (disabled ? 'none' : error ? palette.danger : palette.Btn_dark_green)};
 	}
 	&::placeholder {
 		color: ${palette.gray_100};
@@ -121,7 +120,7 @@ const GoogleAutoLocation = styled.input<any>`
 
 	&:-ms-input-placeholder {
 		/* Internet Explorer 10-11 */
-		color: ${({disabled, isDarkTheme}) => (disabled || isDarkTheme ? `${palette.silver}` : `${palette.gray_100}`)};
+		color: ${({ disabled, isDarkTheme }) => (disabled || isDarkTheme ? `${palette.silver}` : `${palette.gray_100}`)};
 	}
 
 	&::-ms-input-placeholder {
@@ -135,7 +134,7 @@ const ListItems = styled.div<any>`
 	background: ${palette.white};
 	z-index: 1;
 	width: calc(100% - 1.875rem);
-	border: ${({open}) => (open ? `1px solid ${palette.stroke}` : null)};
+	border: ${({ open }) => (open ? `1px solid ${palette.stroke}` : null)};
 
 	border-radius: 1rem;
 

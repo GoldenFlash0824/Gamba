@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {toastError, toastSuccess} from '../styled/toastStyle'
+import { toastError, toastSuccess } from '../styled/toastStyle'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 axios.defaults.headers.post['Accept'] = 'application/json'
@@ -18,7 +18,7 @@ export const registerUser: any = async (firstName: any, lastName: any, email: an
 	let response: IData[] = []
 
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/register`, {first_name: firstName, last_name: lastName, email: email, password: password, confirmPassword: password, phone: phoneNumber, lat, log, address: location})
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/register`, { first_name: firstName, last_name: lastName, email: email, password: password, confirmPassword: password, phone: phoneNumber, lat, log, address: location })
 		.then((res) => {
 			response = res?.data
 			// if (res?.data?.success == true) {
@@ -34,7 +34,7 @@ export const registerUser: any = async (firstName: any, lastName: any, email: an
 export const loginUser: any = async (email: any, password: any, lat: any, log: any, location: any) => {
 	let response: IData[] = []
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/login`, {email: email, password: password, lat, log, address: location})
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/login`, { email: email, password: password, lat, log, address: location })
 		.then((res) => {
 			response = res?.data
 			response = res?.data
@@ -53,10 +53,10 @@ export const createPost: any = async (description: any, images: any, title: any,
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/posts/create_post`, {description: description, images: images, title: title, privacy, future_post_date: postDate}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/posts/create_post`, { description: description, images: images, title: title, privacy, future_post_date: postDate }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -71,10 +71,10 @@ export const editPost: any = async (id: any, description: any, images: any, titl
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/posts/update_post/${id}`, {description: description, images: images, title: title, privacy, future_post_date: postDate}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/posts/update_post/${id}`, { description: description, images: images, title: title, privacy, future_post_date: postDate }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -89,7 +89,7 @@ export const deletePost: any = async (id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.delete(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/posts/delete_post/${id}`, config)
@@ -107,7 +107,7 @@ export const createEvent: any = async (price: any, location: any, latitude: any,
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.post(
@@ -143,7 +143,7 @@ export const UpdateEvent: any = async (id: any, price: any, location: any, latit
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.put(
@@ -204,7 +204,7 @@ export const addNewProduct: any = async (
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.post(
@@ -278,7 +278,7 @@ export const updateProduct: any = async (
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.post(
@@ -326,7 +326,7 @@ export const deleteProduct: any = async (id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.delete(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/product/delete_product_good/${id}`, config)
@@ -344,7 +344,7 @@ export const getAllUserPosts: any = async (page: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/posts/get_all_posts?page=${page}`, config)
@@ -362,10 +362,10 @@ export const getSellerAllPost: any = async (userId: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/posts/seller_all_post`, {u_id: userId}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/posts/seller_all_post`, { u_id: userId }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -380,7 +380,7 @@ export const getCategory: any = async () => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/product/get_all_category?isWeb=true`, config)
@@ -398,10 +398,10 @@ export const verifyUserRegisterCodeApi: any = async (email: any, verification_co
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/verify_register_code`, {email: email, verification_code: verification_code, two_fector_auth}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/verify_register_code`, { email: email, verification_code: verification_code, two_fector_auth }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -417,8 +417,8 @@ export const getAllProductsApi: any = async (trade = 0, discount = 0, donation =
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		params: {is_trade: trade, is_donation: donation, is_discount: discount, is_organic: organicProducts},
-		headers: {authorization: `bearer ${token}`}
+		params: { is_trade: trade, is_donation: donation, is_discount: discount, is_organic: organicProducts },
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/product/get_all_products?page=${page}`, config)
@@ -437,7 +437,7 @@ export const getUserAllProductsApi: any = async (userId: any, trade = 0, discoun
 
 	const config = {
 		// params: {is_trade: trade, is_donation: donation, is_discount: discount},
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/product/get_user_products`, config)
@@ -456,10 +456,10 @@ export const addPostLikesApi: any = async (post_id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/posts/add_like`, {post_id: post_id}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/posts/add_like`, { post_id: post_id }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -474,8 +474,8 @@ export const getAllEventsApi: any = async (page) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		params: {page: page},
-		headers: {authorization: `bearer ${token}`}
+		params: { page: page },
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/event/all_events`, config)
@@ -494,7 +494,7 @@ export const deleteEvent: any = async (id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.delete(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/event/delete_event/${id}`, config)
@@ -513,8 +513,8 @@ export const getAllSellersApi: any = async (is_organic: any, page: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		params: {is_organic: is_organic},
-		headers: {authorization: `bearer ${token}`}
+		params: { is_organic: is_organic },
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/get_all_sellers?page=${page}`, config)
@@ -532,8 +532,8 @@ export const searchSellersApi: any = async (filter: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`},
-		params: {filter: filter}
+		headers: { authorization: `bearer ${token}` },
+		params: { filter: filter }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/search_sellers`, config)
@@ -551,8 +551,8 @@ export const searchProductsApi: any = async (trade = 0, discount = 0, donation =
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`},
-		params: {is_trade: trade, is_donation: donation, is_discount: discount, filter: filter, is_organic}
+		headers: { authorization: `bearer ${token}` },
+		params: { is_trade: trade, is_donation: donation, is_discount: discount, filter: filter, is_organic }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/product/search_products`, config)
@@ -570,10 +570,10 @@ export const searchTradeApi: any = async (trade, tradewith, is_organic) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/product/search`, {trade: trade, tradeWith: tradewith, is_organic}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/product/search`, { trade: trade, tradeWith: tradewith, is_organic }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -588,8 +588,8 @@ export const searchPostsApi: any = async (filter) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`},
-		params: {filter: filter}
+		headers: { authorization: `bearer ${token}` },
+		params: { filter: filter }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/posts/search_posts`, config)
@@ -607,7 +607,7 @@ export const getTopUsersApi: any = async () => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/get_user_with_max_posts`, config)
@@ -625,10 +625,10 @@ export const paymentApi: any = async (delivery_charges, service_charges, total, 
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/checkout/payment`, {delivery_charges: delivery_charges, service_charges: service_charges, total: total, products: products, payment_method}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/checkout/payment`, { delivery_charges: delivery_charges, service_charges: service_charges, total: total, products: products, payment_method }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -643,10 +643,10 @@ export const addRatingToProduct: any = async (product_id, rating) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/product/add_rating`, {product_id: product_id, rating: rating}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/product/add_rating`, { product_id: product_id, rating: rating }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -661,7 +661,7 @@ export const getOrdersApi: any = async () => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/checkout/orders`, config)
@@ -679,7 +679,7 @@ export const getUserPosts: any = async () => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/posts/view_single_user`, config)
@@ -696,7 +696,7 @@ export const getUserEvents: any = async () => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/event/event`, config)
@@ -715,10 +715,10 @@ export const doAddPostComment: any = async (p_id: any, comment: any, page: any, 
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/add_post_comments`, {p_id, comment, page, order: 'desc', imageData: media}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/add_post_comments`, { p_id, comment, page, order: 'desc', imageData: media }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -734,10 +734,10 @@ export const doGetPostComment: any = async (p_id: any, page: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/view_all_post_comments`, {p_id, page, order: 'desc'}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/view_all_post_comments`, { p_id, page, order: 'desc' }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -753,10 +753,10 @@ export const doAddPostCommentLike: any = async (p_id: any, c_id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/like_comment`, {p_id, c_id}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/like_comment`, { p_id, c_id }, config)
 		.then((res) => {
 			if (res.data?.success) {
 				response = res?.data
@@ -776,10 +776,10 @@ export const doAddPostReplyLike: any = async (p_id: any, r_id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/like_comment`, {p_id, r_id}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/like_comment`, { p_id, r_id }, config)
 		.then((res) => {
 			if (res.data?.success) {
 				response = res?.data
@@ -799,10 +799,10 @@ export const doPostCommentUnLike: any = async (p_id: any, c_id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/unlike_comment`, {p_id, c_id}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/unlike_comment`, { p_id, c_id }, config)
 		.then((res) => {
 			if (res.data?.success) {
 				response = res?.data
@@ -822,10 +822,10 @@ export const doPostReplyUnLike: any = async (p_id: any, r_id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/unlike_comment`, {p_id, r_id}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/unlike_comment`, { p_id, r_id }, config)
 		.then((res) => {
 			if (res.data?.success) {
 				response = res?.data
@@ -845,10 +845,10 @@ export const doAddPostReply = async (p_id: any, c_id: any, reply: any, page: any
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/add_post_reply`, {p_id, c_id, reply, page, order: 'desc', imageData: media}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/add_post_reply`, { p_id, c_id, reply, page, order: 'desc', imageData: media }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -864,10 +864,10 @@ export const doUnlikePost: any = async (post_id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/posts/un_like`, {post_id: post_id}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/posts/un_like`, { post_id: post_id }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -883,10 +883,10 @@ export const doUpdatePostComment = async (id: any, comment: any, page: any, medi
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/update_post_comment`, {id, comment, page, order: 'desc', imageData: media}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/update_post_comment`, { id, comment, page, order: 'desc', imageData: media }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -902,10 +902,10 @@ export const doUpdatePostReply = async (id: any, reply: any, page: any, p_id: an
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/update_post_reply`, {id, reply, page, order: 'desc', p_id, media}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/update_post_reply`, { id, reply, page, order: 'desc', p_id, media }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -921,10 +921,10 @@ export const doDeletePostReply = async (id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/delete_post_reply`, {id}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/delete_post_reply`, { id }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -940,10 +940,10 @@ export const doDeletePostComment = async (id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/delete_post_comment`, {id}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/delete_post_comment`, { id }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -959,10 +959,10 @@ export const doAddPostCommentDisLike: any = async (p_id: any, c_id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/disLike_comment`, {p_id, c_id}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/disLike_comment`, { p_id, c_id }, config)
 		.then((res) => {
 			if (res.data?.success) {
 				response = res?.data
@@ -982,10 +982,10 @@ export const doAddPostReplyDisLike: any = async (p_id: any, r_id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/disLike_comment`, {p_id, r_id}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/disLike_comment`, { p_id, r_id }, config)
 		.then((res) => {
 			if (res.data?.success) {
 				response = res?.data
@@ -1005,10 +1005,10 @@ export const doPostCommentRemoveDisLike: any = async (p_id: any, c_id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/remove_disLike_comment`, {p_id, c_id}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/remove_disLike_comment`, { p_id, c_id }, config)
 		.then((res) => {
 			if (res.data?.success) {
 				response = res?.data
@@ -1028,10 +1028,10 @@ export const doPostReplyremoveDisLike: any = async (p_id: any, r_id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/remove_disLike_comment`, {p_id, r_id}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/remove_disLike_comment`, { p_id, r_id }, config)
 		.then((res) => {
 			if (res.data?.success) {
 				response = res?.data
@@ -1051,10 +1051,10 @@ export const doViewAllDislikeUsers: any = async (p_id: any, r_id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/view_all_disLiked_comments`, {p_id, r_id}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/view_all_disLiked_comments`, { p_id, r_id }, config)
 		.then((res) => {
 			if (res.data?.success) {
 				response = res?.data
@@ -1073,7 +1073,7 @@ export const getPopularSeller: any = async () => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/top_seller`, config)
@@ -1091,7 +1091,7 @@ export const getPopularPost: any = async () => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/posts/get_popular_post`, config)
@@ -1109,7 +1109,7 @@ export const getPopularEvent: any = async () => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/event/popular_event`, config)
@@ -1126,10 +1126,10 @@ export const reportPost = async (post_id: any, reason: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}admin/reported_post`, {post_id, reason}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}admin/reported_post`, { post_id, reason }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -1144,10 +1144,10 @@ export const reportEvent = async (event_id: any, reason: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}admin/reported_event`, {event_id, reason}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}admin/reported_event`, { event_id, reason }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -1162,10 +1162,10 @@ export const reportProduct = async (product_id: any, reason: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}admin/reported_product`, {product_id, reason}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}admin/reported_product`, { product_id, reason }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -1180,7 +1180,7 @@ export const doGetChemicals = async () => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/product/get_all_chemical`, config)
@@ -1198,7 +1198,7 @@ export const doGetUserProfile = async () => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/user_profile`, config)
@@ -1216,10 +1216,10 @@ export const getPostById = async (post_id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/posts/get_post_by_id`, {post_id: parseInt(post_id)}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/posts/get_post_by_id`, { post_id: parseInt(post_id) }, config)
 		.then((res) => {
 			response = res?.data?.data
 		})
@@ -1234,10 +1234,10 @@ export const joinEvent = async (event_id: any, payment_id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/event/join_event`, {event_id, payment_id}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/event/join_event`, { event_id, payment_id }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -1251,10 +1251,10 @@ export const UnJoinEvent = async (event_id: any, payment_id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/event/un_join_event`, {event_id, payment_id}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/event/un_join_event`, { event_id, payment_id }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -1269,10 +1269,10 @@ export const updateUserInfo: any = async (first_name, last_name, image, phone, a
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/update`, {first_name: first_name, last_name: last_name, image: image, phone: phone, about: about, dob, gender, address, email}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/update`, { first_name: first_name, last_name: last_name, image: image, phone: phone, about: about, dob, gender, address, email }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -1287,10 +1287,10 @@ export const updatePassword: any = async (previousPassword, newPassword, forgotP
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/update_user_password`, {previousPassword: previousPassword, newPassword: newPassword, isUpdate: forgotPassword}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/update_user_password`, { previousPassword: previousPassword, newPassword: newPassword, isUpdate: forgotPassword }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -1305,10 +1305,10 @@ export const contectUs: any = async (first_name, last_name, email, phone, subjec
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/contect_us`, {first_name: first_name, last_name: last_name, email: email, phone: phone, subject: subject, message: message}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/contect_us`, { first_name: first_name, last_name: last_name, email: email, phone: phone, subject: subject, message: message }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -1323,8 +1323,8 @@ export const searchEventsApi: any = async (page: any, filter: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`},
-		params: {page: page, filter: filter}
+		headers: { authorization: `bearer ${token}` },
+		params: { page: page, filter: filter }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/event/search_events`, config)
@@ -1342,8 +1342,8 @@ export const searchMyEventsApi: any = async (page: any, filter: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`},
-		params: {page: page, filter: filter}
+		headers: { authorization: `bearer ${token}` },
+		params: { page: page, filter: filter }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/event/search_my_events`, config)
@@ -1361,10 +1361,10 @@ export const getEventById = async (event_id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/event/get_event_by_id`, {event_id: parseInt(event_id)}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/event/get_event_by_id`, { event_id: parseInt(event_id) }, config)
 		.then((res) => {
 			response = res?.data?.data
 		})
@@ -1378,10 +1378,10 @@ export const getSellerById = async (seller_id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/get_seller_by_id`, {seller_id: parseInt(seller_id)}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/get_seller_by_id`, { seller_id: parseInt(seller_id) }, config)
 		.then((res) => {
 			response = res?.data?.data
 		})
@@ -1395,10 +1395,10 @@ export const getProductById = async (product_id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/product/get_product_by_id`, {product_id: parseInt(product_id)}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/product/get_product_by_id`, { product_id: parseInt(product_id) }, config)
 		.then((res) => {
 			response = res?.data?.data
 		})
@@ -1412,7 +1412,7 @@ export const notificationApi: any = async () => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/user_notification`, config)
@@ -1430,10 +1430,10 @@ export const hidePost = async (post_id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/posts/hide_post`, {post_id: parseInt(post_id)}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/posts/hide_post`, { post_id: parseInt(post_id) }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -1448,10 +1448,10 @@ export const hideEvent = async (event_id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/event/hide_event`, {event_id: parseInt(event_id)}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/event/hide_event`, { event_id: parseInt(event_id) }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -1466,10 +1466,10 @@ export const hideSeller = async (seller_id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/hide_seller`, {seller_id: parseInt(seller_id)}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/hide_seller`, { seller_id: parseInt(seller_id) }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -1483,10 +1483,10 @@ export const getPostAllLikes = async (post_id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/posts/all_likes`, {post_id: parseInt(post_id)}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/posts/all_likes`, { post_id: parseInt(post_id) }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -1500,7 +1500,7 @@ export const getUserSoldProducts = async () => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/seller_order_data`, config)
@@ -1517,10 +1517,10 @@ export const deleteAccountApi = async (reason, password) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/delete_account`, {reason}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/delete_account`, { reason }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -1535,10 +1535,10 @@ export const dsiableAccountApi = async (u_id, enable) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/disable_account`, {u_id: u_id, enable: enable}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/disable_account`, { u_id: u_id, enable: enable }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -1553,12 +1553,12 @@ export const notificationSetting = async (allowOffers: any, emailNotification: a
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.post(
 			`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/notification_setting`,
-			{email_notification: emailNotification, sms_notification: smsNotification, recieve_msg: recieveMessages, promotional_offers: allowOffers, two_fector_auth: twoFactorAuthentication},
+			{ email_notification: emailNotification, sms_notification: smsNotification, recieve_msg: recieveMessages, promotional_offers: allowOffers, two_fector_auth: twoFactorAuthentication },
 			config
 		)
 		.then((res) => {
@@ -1575,7 +1575,7 @@ export const soldProductHistoryApi = async () => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/seller_order_data`, config)
@@ -1593,7 +1593,7 @@ export const getNotificationSettingApi = async () => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/get_notification_setting`, config)
@@ -1610,7 +1610,7 @@ export const getFavoriteProducts = async () => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/product/get_fev_product`, config)
@@ -1627,10 +1627,10 @@ export const addFavProducts = async (product_id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/product/mark_favorite`, {product_id}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/product/mark_favorite`, { product_id }, config)
 		.then((res) => {
 			response = res?.data?.data?.data
 		})
@@ -1644,10 +1644,10 @@ export const addFavSeller = async (seller_id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/add_seller_to_fev`, {seller_id}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/add_seller_to_fev`, { seller_id }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -1662,10 +1662,10 @@ export const reSendApi = async (email: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/re_send_verification_code`, {email}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/re_send_verification_code`, { email }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -1679,10 +1679,10 @@ export const forgetPassword = async (email: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/reset_password`, {email}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/reset_password`, { email }, config)
 		.then((res) => {
 			response = res?.data
 
@@ -1702,7 +1702,7 @@ export const totalCount = async () => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/posts/side_bar_count`, config)
@@ -1720,7 +1720,7 @@ export const getFevSeller = async () => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/get_all_fev_seller`, config)
@@ -1738,7 +1738,7 @@ export const sideBarCountProduct = async () => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/product/side_bar_count_product`, config)
@@ -1761,7 +1761,7 @@ export const getAccessToken = (id: any) => {
 		'Content-Type': 'application/json'
 	}
 	axios
-		.post(url, data, {headers})
+		.post(url, data, { headers })
 		.then(async (response) => {
 			const accessToken = response.data.access_token
 			sessionStorage.setItem('chatToken', accessToken)
@@ -1776,7 +1776,7 @@ export const addUserInChat = async (id: any, user: any) => {
 	const apiKey = process.env.REACT_APP_PUBLIC_WEAVY_APIKEY
 	let name = user?.first_name && user?.first_name + ' ' + user?.last_name
 	const config = {
-		headers: {authorization: `bearer ${user?.login_token}`}
+		headers: { authorization: `bearer ${user?.login_token}` }
 	}
 	try {
 		const headers = {
@@ -1792,10 +1792,9 @@ export const addUserInChat = async (id: any, user: any) => {
 					name: name,
 					expires_in: 7200
 				},
-				{headers}
+				{ headers }
 			)
 			.then((res) => {
-				console.log(res)
 			})
 			.catch((err) => {
 				console.log(err)
@@ -1807,25 +1806,23 @@ export const addUserInChat = async (id: any, user: any) => {
 				name: name,
 				expires_in: 7200
 			},
-			{headers}
+			{ headers }
 		)
 
 		const userResponse = await axios.put(
 			`${environment}/api/users/${id + 'a'}`,
-			{name: name, email: user?.email, phone_number: user?.phone, picture: user?.image ? process.env.REACT_APP_PUBLIC_IMAGE_URL + user?.image : process.env.REACT_APP_PUBLIC_IMAGE_URL + user?.first_name[0]?.toLowerCase() + '.png'},
-			{headers}
+			{ name: name, email: user?.email, phone_number: user?.phone, picture: user?.image ? process.env.REACT_APP_PUBLIC_IMAGE_URL + user?.image : process.env.REACT_APP_PUBLIC_IMAGE_URL + user?.first_name[0]?.toLowerCase() + '.png' },
+			{ headers }
 		)
 
 		await axios
-			.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/update`, {chat_id: userResponse?.data?.id}, config)
+			.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/update`, { chat_id: userResponse?.data?.id }, config)
 			.then((res) => {
-				console.log('res?.data', res?.data)
 			})
 			.catch((error) => {
 				console.error(error)
 			})
 
-		console.log('userResponse', userResponse)
 		return userResponse
 	} catch (error) {
 		console.log('Error:', error)
@@ -1833,7 +1830,7 @@ export const addUserInChat = async (id: any, user: any) => {
 }
 export const addUsers = async () => {
 	const adminConfig = {
-		headers: {authorization: `bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjoxLCJpc0FkbWluIjp0cnVlfSwiaWF0IjoxNjkyMDg1OTE5LCJleHAiOjE2OTcyNjk5MTl9.RV5yXak6hVP8Wn97MSVpxkdTGAsoPjH1eCvrRBIvLS0`}
+		headers: { authorization: `bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjoxLCJpc0FkbWluIjp0cnVlfSwiaWF0IjoxNjkyMDg1OTE5LCJleHAiOjE2OTcyNjk5MTl9.RV5yXak6hVP8Wn97MSVpxkdTGAsoPjH1eCvrRBIvLS0` }
 	}
 	const environment = process.env.REACT_APP_PUBLIC_WEAVY_URL
 	const apiKey = process.env.REACT_APP_PUBLIC_WEAVY_APIKEY
@@ -1844,10 +1841,9 @@ export const addUsers = async () => {
 			for (let i = 0; i < users?.length; i++) {
 				let name = users[i]?.first_name && users[i]?.first_name + ' ' + users[i]?.last_name
 
-				console.log('================= users[i]', users[i])
 
 				const config = {
-					headers: {authorization: `bearer ${users[i]?.login_token}`}
+					headers: { authorization: `bearer ${users[i]?.login_token}` }
 				}
 
 				try {
@@ -1857,21 +1853,18 @@ export const addUsers = async () => {
 					}
 
 					let userDetails = await axios
-						.get(`${environment}/api/users/${users[i]?.id + 'a'}`, {headers})
+						.get(`${environment}/api/users/${users[i]?.id + 'a'}`, { headers })
 						.then((res) => {
-							// console.log('=================', res.data)
 							return res
 						})
 						.catch((err) => {
 							console.log(err)
 						})
 
-					console.log('userDetails', userDetails)
 					if (userDetails?.data) {
 						await axios
-							.post(`http://44.215.216.235:5000/gamba/user/update`, {email: users[i]?.email, chat_id: userDetails?.data?.id}, config)
+							.post(`http://44.215.216.235:5000/gamba/user/update`, { email: users[i]?.email, chat_id: userDetails?.data?.id }, config)
 							.then((res) => {
-								// console.log('res?.data', res?.data)
 							})
 							.catch((error) => {
 								console.error(error)
@@ -1885,10 +1878,9 @@ export const addUsers = async () => {
 									name: name,
 									expires_in: 7200
 								},
-								{headers}
+								{ headers }
 							)
 							.then((res) => {
-								// console.log('=================', res.data)
 							})
 							.catch((err) => {
 								console.log(err)
@@ -1901,7 +1893,7 @@ export const addUsers = async () => {
 							name: name,
 							expires_in: 7200
 						},
-						{headers}
+						{ headers }
 					)
 
 					const userResponse = await axios.put(
@@ -1913,27 +1905,23 @@ export const addUsers = async () => {
 							display_name: name,
 							picture: users[i]?.image ? process.env.REACT_APP_PUBLIC_IMAGE_URL + users[i]?.image : process.env.REACT_APP_PUBLIC_IMAGE_URL + users[i]?.first_name[0]?.toLowerCase() + '.png'
 						},
-						{headers}
+						{ headers }
 					)
 
 					await axios
-						.post(`http://44.215.216.235:5000/gamba/user/update`, {chat_id: userResponse?.data?.id}, config)
+						.post(`http://44.215.216.235:5000/gamba/user/update`, { chat_id: userResponse?.data?.id }, config)
 						.then((res) => {
-							// console.log('res?.data', res?.data)
 						})
 						.catch((error) => {
 							console.error(error)
 						})
 
-					// console.log('userResponse', userResponse)
-					// return userResponse
 				} catch (error) {
 					console.log('Error:', error)
 				}
 			}
 		}
 	})
-	// console.log('getAllUsers', (await getAllUsers).data?.data?.all_users?.all_users)
 }
 
 export const updateUserInChat = async (id: any, user: any) => {
@@ -1952,7 +1940,7 @@ export const updateUserInChat = async (id: any, user: any) => {
 				name: name,
 				expires_in: 7200
 			},
-			{headers}
+			{ headers }
 		)
 
 		const userResponse = await axios.put(
@@ -1968,24 +1956,23 @@ export const updateUserInChat = async (id: any, user: any) => {
 					log: user?.log
 				}
 			},
-			{headers}
+			{ headers }
 		)
-		console.log('userResponse', userResponse)
 		return userResponse
 	} catch (error) {
 		console.log('Error:', error)
 	}
 }
 
-export const connectSellerTradeProduct = async (full_name: any, email: any, phone_number: any, interested_in: any, more_info: any, user_email: any, title:any, seller_name:any) => {
+export const connectSellerTradeProduct = async (full_name: any, email: any, phone_number: any, interested_in: any, more_info: any, user_email: any, title: any, seller_name: any) => {
 	let response: any = []
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/connect_product`, {full_name, email, phone_number, interested_in, more_info, user_email, title, seller_name}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/connect_product`, { full_name, email, phone_number, interested_in, more_info, user_email, title, seller_name }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -2000,10 +1987,10 @@ export const contactWithUs = async (full_name: any, email: any, phone_number: an
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/contact_us`, {full_name, email, phone_number, topic, message}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/contact_us`, { full_name, email, phone_number, topic, message }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -2018,11 +2005,11 @@ export const shareModelApi = async (post_id: any, product_id: any, event_id: any
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	if (token) {
 		await axios
-			.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/share_post`, {post_id: post_id ? post_id : undefined, product_id: product_id ? product_id : undefined, event_id: event_id ? event_id : undefined}, config)
+			.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/share_post`, { post_id: post_id ? post_id : undefined, product_id: product_id ? product_id : undefined, event_id: event_id ? event_id : undefined }, config)
 			.then((res) => {
 				response = res?.data
 			})
@@ -2039,10 +2026,10 @@ export const addUserProfileLike = async (f_id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/like_user`, {f_id}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/like_user`, { f_id }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -2057,10 +2044,10 @@ export const removeUserProfileLike = async (f_id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/remove_like_user`, {f_id}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/remove_like_user`, { f_id }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -2075,7 +2062,7 @@ export const viewAllProdileLikeUsers = async () => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/view_all_liked_users`, {}, config)
@@ -2094,10 +2081,10 @@ export const addUserProfileDisike = async (f_id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/dislike_user`, {f_id}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/dislike_user`, { f_id }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -2112,10 +2099,10 @@ export const removeUserProfileDislike = async (f_id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/remove_dislike_user`, {f_id}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/remove_dislike_user`, { f_id }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -2130,7 +2117,7 @@ export const viewAllProdileDislikeUsers = async () => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/view_all_disliked_users`, {}, config)
@@ -2148,7 +2135,7 @@ export const readAllNotifications = async () => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/mark_all_read_notification`, config)
@@ -2166,7 +2153,7 @@ export const readSingleNotifications = async (id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/read_notification?id=${id}`, config)
@@ -2184,7 +2171,7 @@ export const getUserPrivacySetting = async () => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/get_user_privacy_setting`, config)
@@ -2202,10 +2189,10 @@ export const updateUserPrivacySetting = async (display_phone: any, display_email
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/privacy_setting`, {display_phone, display_email, display_dob, display_location, display_profile, display_dob_full_format}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/privacy_setting`, { display_phone, display_email, display_dob, display_location, display_profile, display_dob_full_format }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -2220,10 +2207,10 @@ export const orderReport = async (order_id: any, reason: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/add_order_report`, {order_id, reason}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/add_order_report`, { order_id, reason }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -2238,7 +2225,7 @@ export const connectToStripe = async () => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/checkout/connect_to_stripe`, config)
@@ -2256,10 +2243,10 @@ export const retriveUserAccount = async (id: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/checkout/user_account`, {id}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/checkout/user_account`, { id }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -2274,7 +2261,7 @@ export const removeConnectedAccount = async () => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/checkout/remove_connected_account`, config)
@@ -2292,12 +2279,12 @@ export const completePayment: any = async (delivery_charges, service_charges, to
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.post(
 			`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/checkout/complete_payment/pay`,
-			{delivery_charges: delivery_charges, service_charges: service_charges, total: total, products: products, payment_method, amount, product_name, user_id, card_number, exp_year, exp_month, cvc},
+			{ delivery_charges: delivery_charges, service_charges: service_charges, total: total, products: products, payment_method, amount, product_name, user_id, card_number, exp_year, exp_month, cvc },
 			config
 		)
 		.then((res) => {
@@ -2314,10 +2301,10 @@ export const makePaymentInitialze: any = async (paymentToken, sellersAndProducts
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/checkout/payment_stripe`, {products: sellersAndProducts, token: paymentToken, payment_method, total, delivery_charges: 0, service_charges: 0}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/checkout/payment_stripe`, { products: sellersAndProducts, token: paymentToken, payment_method, total, delivery_charges: 0, service_charges: 0 }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -2333,10 +2320,10 @@ export const addCard: any = async (paymentMethodId) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}/user/checkout/add_card`, {paymentMethodId: paymentMethodId}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}/user/checkout/add_card`, { paymentMethodId: paymentMethodId }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -2351,7 +2338,7 @@ export const getCards: any = async () => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}/user/checkout/my_cards`, config)
@@ -2369,10 +2356,10 @@ export const setCardAsDefault: any = async (paymentMethodId) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.put(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}/user/checkout/change_default_payment`, {paymentMethodId: paymentMethodId}, config)
+		.put(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}/user/checkout/change_default_payment`, { paymentMethodId: paymentMethodId }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -2387,10 +2374,10 @@ export const updateUserPassword: any = async (password, id) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
-		headers: {authorization: `bearer ${token}`}
+		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/update_password/${id}`, {password}, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/update_password/${id}`, { password }, config)
 		.then((res) => {
 			response = res?.data
 		})

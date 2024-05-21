@@ -1,14 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-import {Modal} from 'react-responsive-modal'
+import { Modal } from 'react-responsive-modal'
 import 'react-responsive-modal/styles.css'
-import {Text, Spacer, Flexed} from '../../styled/shared'
-import {palette} from '../../styled/colors'
-import {media} from 'styled-bootstrap-grid'
+import { Text, Spacer, Flexed } from '../../styled/shared'
+import { palette } from '../../styled/colors'
+import { media } from 'styled-bootstrap-grid'
 import ProductPost from '../productPost/ProductPost'
 import SellersCard from '../sellers/SellersCard'
-import {setCommentOpen} from '../../actions/authActions'
-import {useDispatch} from 'react-redux'
+import { setCommentOpen } from '../../actions/authActions'
+import { useDispatch } from 'react-redux'
 
 const closeIcon = (
 	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -19,9 +19,8 @@ const closeIcon = (
 	</svg>
 )
 
-const CommentsModal = ({onClose, setUserId, sellersData, userData, data, sellersCardOpen, totalComments}: any) => {
+const CommentsModal = ({ onClose, setUserId, sellersData, userData, data, sellersCardOpen, totalComments }: any) => {
 	const _dispatch = useDispatch()
-	console.log('totalComments', totalComments)
 
 	return (
 		<>

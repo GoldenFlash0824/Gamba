@@ -1,17 +1,17 @@
-import React, {useState, useEffect} from 'react'
-import {palette} from '../styled/colors'
+import React, { useState, useEffect } from 'react'
+import { palette } from '../styled/colors'
 import styled from 'styled-components'
-import {Text, Flexed, getDistanceFromLatLonInMiles} from '../styled/shared'
-import {media} from 'styled-bootstrap-grid'
+import { Text, Flexed, getDistanceFromLatLonInMiles } from '../styled/shared'
+import { media } from 'styled-bootstrap-grid'
 import moment from 'moment'
 import ProductDetailsCardCarousel from './ProductDetailsCardCarousel'
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 import UsedChemicalsModal from './modals/UsedChemicalsModal'
 import TradeDetailsCardsCarousel from './TradeDetailsCardsCarousel'
 import TextWithSeeMore from './common/SeeMoreText'
 import Lightbox from 'react-image-lightbox'
 
-const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTrade, productPurchase, soldProducts}: any) => {
+const ProductDetailsCard = ({ cardIndex, sale, content, addToCart, donation, isTrade, productPurchase, soldProducts }: any) => {
 	const userId = useSelector<any>((state: any) => state.auth.userId)
 	const [isUsedChemicalsOpen, setIsUsedChemicalsOpen] = useState(false)
 	const isUserLogIn = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
@@ -77,7 +77,7 @@ const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTr
 								</Text>
 							</Box>
 							<Box>
-								<Text color="gray_500"  type="normal" fontSize={0.875} fontWeight={600}>
+								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
 									Product is For
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
@@ -85,7 +85,7 @@ const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTr
 								</Text>
 							</Box>
 							<Box>
-								<Text color="gray_500"  type="normal" fontSize={0.875} fontWeight={600}>
+								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
 									Chemicals
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
@@ -118,7 +118,7 @@ const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTr
 								</Text>
 							</Box>
 							<Box>
-								<Text color="gray_500"  type="normal" fontSize={0.875} fontWeight={600}>
+								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
 									Availability From
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
@@ -126,7 +126,7 @@ const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTr
 								</Text>
 							</Box>
 							<Box>
-								<Text color="gray_500"  type="normal" fontSize={0.875} fontWeight={600}>
+								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
 									Ends On
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
@@ -135,7 +135,7 @@ const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTr
 							</Box>
 
 							<Box>
-								<Text color="gray_500"  type="normal" fontSize={0.875} fontWeight={600}>
+								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
 									Category
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
@@ -151,7 +151,7 @@ const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTr
 								</Text>
 							</Box>
 							<Box>
-								<Text color="gray_500"  type="normal" fontSize={0.875} fontWeight={600}>
+								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
 									Seller Distance
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
@@ -159,7 +159,7 @@ const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTr
 								</Text>
 							</Box>
 							<Box>
-								<Text color="gray_500"  type="normal" fontSize={0.875} fontWeight={600}>
+								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
 									Allow To Order
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
@@ -172,7 +172,7 @@ const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTr
 								</Text>
 							</Box>
 							<Box>
-								<Text color="gray_500"  type="normal" fontSize={0.875} fontWeight={600}>
+								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
 									Sale Price
 								</Text>
 								<Flexed direction="row" align="end" justify="space-between">
@@ -219,7 +219,7 @@ const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTr
 							</Box>
 							{userId !== content?.u_id && (
 								<Box>
-									<Flexed direction="row" align="end" justify="space-between" style={{height: '100%'}}>
+									<Flexed direction="row" align="end" justify="space-between" style={{ height: '100%' }}>
 										<ActionButton
 											onClick={() => {
 												if (isUserLogIn !== null && defaultQuantity > 0 && quantity !== 0) {
@@ -235,7 +235,7 @@ const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTr
 					) : donation ? (
 						<CustomFlexed>
 							<Box>
-								<Text color="gray_500"  type="normal" fontSize={0.875} fontWeight={600}>
+								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
 									Name
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
@@ -243,7 +243,7 @@ const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTr
 								</Text>
 							</Box>
 							<Box>
-								<Text color="gray_500"  type="normal"  fontSize={0.875} fontWeight={600}>
+								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
 									Product is For
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
@@ -251,7 +251,7 @@ const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTr
 								</Text>
 							</Box>
 							<Box>
-								<Text color="gray_500"  type="normal" fontSize={0.875} fontWeight={600}>
+								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
 									Chemicals
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
@@ -291,7 +291,7 @@ const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTr
 								</Text>
 							</Box>
 							<Box>
-								<Text color="gray_500"  type="normal" fontSize={0.875} fontWeight={600}>
+								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
 									Ends On
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
@@ -299,7 +299,7 @@ const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTr
 								</Text>
 							</Box>
 							<Box>
-								<Text color="gray_500"  type="normal" fontSize={0.875} fontWeight={600}>
+								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
 									Category
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
@@ -307,7 +307,7 @@ const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTr
 								</Text>
 							</Box>
 							<Box>
-								<Text color="gray_500"  type="normal" fontSize={0.875} fontWeight={600}>
+								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
 									Delivery Type
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
@@ -315,7 +315,7 @@ const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTr
 								</Text>
 							</Box>
 							<Box>
-								<Text color="gray_500"  type="normal" fontSize={0.875} fontWeight={600}>
+								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
 									Delivery Distance
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
@@ -324,7 +324,7 @@ const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTr
 								</Text>
 							</Box>
 							<Box>
-								<Text color="gray_500"  type="normal" fontSize={0.875} fontWeight={600}>
+								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
 									Allow Per Persons
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
@@ -337,7 +337,7 @@ const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTr
 					) : isTrade ? (
 						<CustomFlexed>
 							<Box>
-								<Text color="gray_500"  type="normal" fontSize={0.875} fontWeight={600}>
+								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
 									Name
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
@@ -353,7 +353,7 @@ const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTr
 								</Text>
 							</Box>
 							<Box>
-								<Text color="gray_500"  type="normal" fontSize={0.875} fontWeight={600}>
+								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
 									Chemicals
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
@@ -376,18 +376,18 @@ const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTr
 								</Text>
 							</Box>
 							<Box>
-								<Text color="gray_500"  type="normal" fontSize={0.875} fontWeight={600}>
+								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
 									Trade With
 								</Text>
-								<Text color="black_100" type="normal" fontWeight={500}>
-									{content?.trade[0]?.title?.map((data: any, index: any) => {
-										return (
-											<>
-												{data?.trade_quantity} {data?.trade_unit} {data?.trade_title}
-											</>
-										)
-									})}
-								</Text>
+								{content?.trade[0]?.title && (() => {
+									const tradeArray = JSON.parse(content.trade[0].title);
+									return tradeArray.map((data: any, index: number) => (
+										<>
+											{data?.trade_quantity} {data?.trade_unit} {data?.trade_title}
+											{index < tradeArray.length - 1 ? <span>,&nbsp;</span> : ''}
+										</>
+									));
+								})()}
 							</Box>
 							<Box>
 								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
@@ -398,7 +398,7 @@ const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTr
 								</Text>
 							</Box>
 							<Box>
-								<Text color="gray_500"  type="normal" fontSize={0.875} fontWeight={600}>
+								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
 									Ends On
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
@@ -406,7 +406,7 @@ const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTr
 								</Text>
 							</Box>
 							<Box>
-								<Text color="gray_500"  type="normal" fontSize={0.875} fontWeight={600}>
+								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
 									Category
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
@@ -422,7 +422,7 @@ const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTr
 								</Text>
 							</Box>
 							<Box>
-								<Text color="gray_500"  type="normal" fontSize={0.875} fontWeight={600}>
+								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
 									Delivery Distance
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
@@ -434,7 +434,7 @@ const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTr
 					) : (
 						<CustomFlexed>
 							<Box>
-								<Text color="gray_500"  type="normal" fontSize={0.875} fontWeight={600}>
+								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
 									Name
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
@@ -442,7 +442,7 @@ const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTr
 								</Text>
 							</Box>
 							<Box>
-								<Text color="gray_500"  type="normal" fontSize={0.875} fontWeight={600}>
+								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
 									Product is For
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
@@ -489,7 +489,7 @@ const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTr
 								</Text>
 							</Box>
 							<Box>
-								<Text color="gray_500"  type="normal" fontSize={0.875} fontWeight={600}>
+								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
 									Ends On
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
@@ -497,7 +497,7 @@ const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTr
 								</Text>
 							</Box>
 							<Box>
-								<Text color="gray_500"  type="normal" fontSize={0.875} fontWeight={600}>
+								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
 									Category
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
@@ -531,7 +531,7 @@ const ProductDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTr
 							</Box>
 
 							<Box>
-								<Flexed direction="row" align="end" style={{height: '100%'}} justify="space-between">
+								<Flexed direction="row" align="end" style={{ height: '100%' }} justify="space-between">
 									<Text margin="0rem 0rem 0.5rem 0rem" color="black_100" type="large" fontWeight={700}>
 										${(content?.price - (content?.discount / 100) * content?.price)?.toFixed(2)}
 									</Text>
@@ -612,7 +612,7 @@ const CustomFlexed = styled(Flexed)`
 	${media.md`grid-template-columns: 1fr 1fr 1fr;`}
 `
 
-const CustomFlex = styled(Flexed)<any>`
+const CustomFlex = styled(Flexed) <any>`
 	width: 100%;
 	${media.xs`flex-direction: column;`}
 `
@@ -667,7 +667,7 @@ const Input = styled.input`
 	}
 `
 
-const QuantityWrapper = styled(Flexed)<any>`
+const QuantityWrapper = styled(Flexed) <any>`
 	border: 1px solid ${palette.stroke};
 	border-radius: 1.25rem;
 	min-width: 5rem;
@@ -675,11 +675,11 @@ const QuantityWrapper = styled(Flexed)<any>`
 	padding: 0.2rem;
 `
 
-const CountWrapper = styled(Flexed)<any>`
+const CountWrapper = styled(Flexed) <any>`
 	height: 95%;
 `
 
-export const MobileCartBtn = styled(SwapButton)<any>`
+export const MobileCartBtn = styled(SwapButton) <any>`
 	${media.xs`display:flex`}
 	${media.sm`display:none`};
 `
@@ -692,9 +692,9 @@ const Icons = styled.div<any>`
 	font-size: 0.8rem;
 	cursor: pointer;
 	color: ${palette.black};
-	// background-color: ${({add}) => (add ? palette.Btn_dark_green : 'rgb(164 164 164)')};
-	transform: ${({rotate}) => (rotate ? 'rotate(180deg)' : 'rotate(0deg)')};
-	margin-top: ${({rotate}) => (rotate ? '2px' : '0px')};
+	// background-color: ${({ add }) => (add ? palette.Btn_dark_green : 'rgb(164 164 164)')};
+	transform: ${({ rotate }) => (rotate ? 'rotate(180deg)' : 'rotate(0deg)')};
+	margin-top: ${({ rotate }) => (rotate ? '2px' : '0px')};
 `
 
 const ActionButton = styled.div<any>`
@@ -716,7 +716,7 @@ const ActionButton = styled.div<any>`
 	border: 1px solid ${palette.Btn_dark_green};
 	background-color: ${palette.Btn_dark_green};
 	font-family: 'Lato-Regular', sans-serif;
-	cursor: ${({disabled}) => (disabled ? 'no-drop' : 'pointer')};
+	cursor: ${({ disabled }) => (disabled ? 'no-drop' : 'pointer')};
 	margin-top: 14px;
 	&:hover {
 		background-color: ${palette.white};

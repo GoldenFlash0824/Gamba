@@ -1,9 +1,9 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import {Modal} from 'react-responsive-modal'
+import { Modal } from 'react-responsive-modal'
 import 'react-responsive-modal/styles.css'
-import {Text, Flexed} from '../../styled/shared'
-import {palette} from '../../styled/colors'
+import { Text, Flexed } from '../../styled/shared'
+import { palette } from '../../styled/colors'
 import TradeProduct from '../TradeProduct'
 
 const closeIcon = (
@@ -12,7 +12,7 @@ const closeIcon = (
 	</svg>
 );
 
-const DonateDetailsModal = ({onClose,content}: any) => {
+const DonateDetailsModal = ({ onClose, content }: any) => {
 	return (
 		<>
 			<Modal
@@ -31,7 +31,7 @@ const DonateDetailsModal = ({onClose,content}: any) => {
 						<Flexed direction="row" margin='0rem 0rem 3.125rem 0rem' align="center" justify="center">
 							<Text fontSize={1.5} fontWeight={700} color='black_300'>Connect</Text>
 						</Flexed>
-					<TradeProduct data={content}/>
+						<TradeProduct data={content} onClose={onClose} />
 					</Body>
 				</ModalWrapper>
 			</Modal>

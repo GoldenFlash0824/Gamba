@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import {Modal} from 'react-responsive-modal'
+import { Modal } from 'react-responsive-modal'
 import 'react-responsive-modal/styles.css'
-import {Text, Flexed} from '../../styled/shared'
-import {palette} from '../../styled/colors'
+import { Text, Flexed } from '../../styled/shared'
+import { palette } from '../../styled/colors'
 import useRouter from '../useRouterHook'
 const closeIcon = (
 	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -14,8 +14,7 @@ const closeIcon = (
 	</svg>
 )
 
-const InfoPopup = ({onClose, data}: any) => {
-	console.log('======data', data)
+const InfoPopup = ({ onClose, data }: any) => {
 	const router = useRouter()
 	return (
 		<>

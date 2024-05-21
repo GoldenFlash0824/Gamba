@@ -81,6 +81,7 @@ const welcomeEmail = async (user, email) => {
         </head>
         <body>
             <div class="container">
+                <img src="https://imagescontent.s3.us-east-1.amazonaws.com/1716209083707.png" alt="Logo" width={100}>
                 <p>Dear ${user?.first_name && user?.last_name ? user?.first_name + ' ' + user?.last_name : ''}</p>
                 <p>Welcome to Gamba, where health, sustainability, and community thrive! We're thrilled to have you join our vibrant family.</p>
                 <p>At Gamba, we're all about fostering connections and sharing knowledge. Whether you're a mini farmer, local grower, or just passionate about sustainability, Gamba is here to support your journey.</p>
@@ -89,7 +90,7 @@ const welcomeEmail = async (user, email) => {
                 <p>We've cultivated a friendly and supportive environment, and we kindly ask that you respect one another's ideas and perspectives.</p>
                 <p>If you have any questions or need assistance, reach out to us at gamba.earth@gmail.com. We're here to help!</p>
                 <p>Welcome to Gamba! We're excited to have you on board and can't wait to see the community grow.</p>
-                <p>Healthy regards,<br/><b>Gamba Community Team</b></p>
+                <p>Healthy regards,<br/><b>Gamba Team</b></p>
             </div>
         </body>
         </html>`,
@@ -149,6 +150,7 @@ const verificationCodeEmail = async (code, email) => {
         <body>
             <div class="container">
                 <div class="header">
+                    <img src="https://imagescontent.s3.us-east-1.amazonaws.com/1716209083707.png" alt="Logo" width={100}>
                     <h3>Your Gamba account verification code is:</h3>
                     <p class="code">${code}</p>
                 </div>
@@ -250,23 +252,23 @@ const resetPasswordEmail = async (user) => {
             </style>
         </head>
         <body>
-
             <div class="container">
-            <div class="container image-top"></div> <!-- Top Image -->
-                <div class="image-key"></div> <!-- Key Image -->
-                <div class="content">
-                    <h1 style="opacity: 0.8;">Reset Your Password</h1>
-                    <p style="opacity: 0.8;"><strong>FORGOT YOUR PASSWORD?</strong><br>NO PROBLEM!</p>
-                    <div style="margin: 1rem;">
-                    <p class="paragraph">Hi ${user?.first_name && user?.last_name ? user?.first_name + ' ' + user?.last_name : ''},</p>
-                    <p class="paragraph">We just received a request for a new password from your account.</p>
-                    <p class="paragraph">To reset your password, just click this link in the next 24 hours:</p>
-                    <div >
-                        <a class="button" href="${link}">Reset Password</a>
-                    </div>
-                    <p class="paragraph" style="margin-bottom: 1rem;">If you did not request a new password, ignore this email, and your password will remain unchanged.</p>
-                    <p class="paragraph" style="margin: 0rem; font-weight:400;">Happy growing,</p>
-                    <p class="paragraph" style="margin: 0rem; font-weight:400;">The Gamba Team</p>
+                <img src="https://imagescontent.s3.us-east-1.amazonaws.com/1716209083707.png" alt="Logo" width={100}>
+                <div class="container image-top"></div> <!-- Top Image -->
+                    <div class="image-key"></div> <!-- Key Image -->
+                    <div class="content">
+                        <h1 style="opacity: 0.8;">Reset Your Password</h1>
+                        <p style="opacity: 0.8;"><strong>FORGOT YOUR PASSWORD?</strong><br>NO PROBLEM!</p>
+                        <div style="margin: 1rem;">
+                        <p class="paragraph">Hi ${user?.first_name && user?.last_name ? user?.first_name + ' ' + user?.last_name : ''},</p>
+                        <p class="paragraph">We just received a request for a new password from your account.</p>
+                        <p class="paragraph">To reset your password, just click this link in the next 24 hours:</p>
+                        <div >
+                            <a class="button" href="${link}">Reset Password</a>
+                        </div>
+                        <p class="paragraph" style="margin-bottom: 1rem;">If you did not request a new password, ignore this email, and your password will remain unchanged.</p>
+                        <p class="paragraph" style="margin: 0rem; font-weight:400;">Happy growing,</p>
+                        <p class="paragraph" style="margin: 0rem; font-weight:400;">The Gamba Team</p>
                     </div>
                 </div>
             </div>
@@ -301,6 +303,7 @@ const adminResetPasswordEmail = async (user) => {
         </head>
         <body>
             <div class="container">
+                <img src="https://imagescontent.s3.us-east-1.amazonaws.com/1716209083707.png" alt="Logo" width={100}>
                 <div class="header">
                     <h1 style="opacity: 0.8;">Reset Your Password</h1>
                 </div>
@@ -354,7 +357,6 @@ const adminResetPasswordEmail = async (user) => {
     }
 };
 
-
 const newPasswordEmail = async (email, code) => {
     const msg = {
         to: email,
@@ -392,6 +394,7 @@ const newPasswordEmail = async (email, code) => {
             </head>
             <body>
                 <div class="container">
+                    <img src="https://imagescontent.s3.us-east-1.amazonaws.com/1716209083707.png" alt="Logo" width={100}>
                     <div class="header">
                         <h1>Reset Password</h1>
                     </div>
@@ -419,7 +422,6 @@ const newPasswordEmail = async (email, code) => {
             console.error(error);
         });
 };
-
 
 const adminPasswordUpdated = async (user, code) => {
     let defaultClient = Brevo.ApiClient.instance;
@@ -470,6 +472,7 @@ const adminPasswordUpdated = async (user, code) => {
         </head>
         <body>
             <div class="container">
+                <img src="https://imagescontent.s3.us-east-1.amazonaws.com/1716209083707.png" alt="Logo" width={100}>
                 <div class="content">
                     <h1>Password Updated Successfully</h1>
                     <p>Dear ${user?.first_name && user?.last_name
@@ -500,7 +503,6 @@ const adminPasswordUpdated = async (user, code) => {
         throw error;
     }
 };
-
 
 const passwordUpdated = async (user) => {
     let defaultClient = Brevo.ApiClient.instance;
@@ -548,6 +550,7 @@ const passwordUpdated = async (user) => {
         </head>
         <body>
             <div class="container">
+                <img src="https://imagescontent.s3.us-east-1.amazonaws.com/1716209083707.png" alt="Logo" width={100}>
                 <div class="content">
                     <h1>Password Updated Successfully</h1>
                     <p>Dear ${user?.first_name && user?.last_name
@@ -579,7 +582,6 @@ const passwordUpdated = async (user) => {
     }
 };
 
-
 const notificationEmail = async (email, user, message) => {
     let defaultClient = Brevo.ApiClient.instance;
     let apiKey = defaultClient.authentications['api-key'];
@@ -587,7 +589,7 @@ const notificationEmail = async (email, user, message) => {
     let apiInstance = new Brevo.TransactionalEmailsApi();
 
     const sendSmtpEmail = {
-        to: [{email: email,},],
+        to: [{ email: email, },],
         sender: { email: process.env.SENDER_EMAIL },
         subject: message,
 
@@ -622,6 +624,7 @@ const notificationEmail = async (email, user, message) => {
         </head>
         <body>
             <div class="container">
+                <img src="https://imagescontent.s3.us-east-1.amazonaws.com/1716209083707.png" alt="Logo" width={100}>
                 <div class="content">
                     <h1>${user}</h1>
                     <p>${message}</p>
@@ -655,12 +658,12 @@ const orderSellerNotificationEmail = async (email, seller, customer, order_id, o
     let apiInstance = new Brevo.TransactionalEmailsApi();
 
     let subTotal = 0;
-    
+
     let formatedItems = ''
     for (let i = 0; i < items.length; i++) {
-      const item = items[i];
-      formatedItems = formatedItems + orderItemTemplate.replace('ITEM_IMAGE', item.image).replace('ITEM_QUANTITY', item.quantity + ' ' + item.unit)
-        .replace('UNIT_PRICE', item.price.toFixed(2)).replace("TOTAL_AMOUNT", item.total.toFixed(2))
+        const item = items[i];
+        formatedItems = formatedItems + orderItemTemplate.replace('ITEM_IMAGE', item.image).replace('ITEM_QUANTITY', item.quantity + ' ' + item.unit)
+            .replace('UNIT_PRICE', item.price.toFixed(2)).replace("TOTAL_AMOUNT", item.total.toFixed(2))
         subTotal = subTotal + item.total
     }
 
@@ -676,9 +679,9 @@ const orderSellerNotificationEmail = async (email, seller, customer, order_id, o
         <p>Best Regards<br/>Gamba</p>
     `
     const sendSmtpEmail = {
-        to: [{email: email,},],
+        to: [{ email: email, },],
         sender: { email: process.env.SENDER_EMAIL },
-        subject:  `${NotificationMessage.SOLD_SELLER} - ${order_id}`,
+        subject: `${NotificationMessage.SOLD_SELLER} - ${order_id}`,
 
         htmlContent: orderTemplate.replace('TOP_MESSAGE', topMessage).replace('BOTTOM_MESSAGE', bottomeMessage).replace('SELLER_INFORMATION', seller + '<br/>' + seller_address).replace('ORDER_DATE', order_date)
             .replace('BUYER_INFORMATION', (customer + '<br/>' + shipping_address)).replace('ORDER_NO', order_id).replace('DELIVERY_OPTIONN', payment_method == 'cashOnDelivery' ? 'Cash On Delivery' : 'Delivery')
@@ -699,60 +702,60 @@ const orderSellerNotificationEmail = async (email, seller, customer, order_id, o
 };
 
 const orderBuyerNotificationEmail = async (email, customer, order_id, order_date, shipping_address, items, service_charges, delivery_charges, payment_method) => {
-    try{
+    try {
         let defaultClient = Brevo.ApiClient.instance;
-    let apiKey = defaultClient.authentications['api-key'];
-    apiKey.apiKey = process.env.BREVO_API_KEY;
-    let apiInstance = new Brevo.TransactionalEmailsApi();
-    
-    let sellerInfo = '';
-    let subTotal = 0;
-    
-    let formatedItems = ''
-    for (const sllerName in items) {
-        const sellerProducts = items[sllerName].products; 
-        sellerInfo = sellerInfo + (sellerInfo == '' ? '' : '<br/><br/>') + sllerName + '<br/>' + items[sllerName].address
-        for (let i = 0; i < sellerProducts.length; i++) {
-          const item = sellerProducts[i];
-          formatedItems = formatedItems + orderItemTemplate.replace('ITEM_IMAGE', item.image).replace('ITEM_QUANTITY', item.quantity + ' ' + item.unit)
-            .replace('UNIT_PRICE', item.price.toFixed(2)).replace("TOTAL_AMOUNT", item.total.toFixed(2))
-            subTotal = subTotal + item.total
+        let apiKey = defaultClient.authentications['api-key'];
+        apiKey.apiKey = process.env.BREVO_API_KEY;
+        let apiInstance = new Brevo.TransactionalEmailsApi();
+
+        let sellerInfo = '';
+        let subTotal = 0;
+
+        let formatedItems = ''
+        for (const sllerName in items) {
+            const sellerProducts = items[sllerName].products;
+            sellerInfo = sellerInfo + (sellerInfo == '' ? '' : '<br/><br/>') + sllerName + '<br/>' + items[sllerName].address
+            for (let i = 0; i < sellerProducts.length; i++) {
+                const item = sellerProducts[i];
+                formatedItems = formatedItems + orderItemTemplate.replace('ITEM_IMAGE', item.image).replace('ITEM_QUANTITY', item.quantity + ' ' + item.unit)
+                    .replace('UNIT_PRICE', item.price.toFixed(2)).replace("TOTAL_AMOUNT", item.total.toFixed(2))
+                subTotal = subTotal + item.total
+            }
         }
-    }
-    const topMessage = `
+        const topMessage = `
         <p>Hello ${customer}</p>
         <p>Thank you for choosing Gamba! We appreciate your recent order.</p>
         <p>Below you'll find the details of your order:</p>
     `
-    const bottomeMessage = `
+        const bottomeMessage = `
         <br/><br/>
         <p>If you hav any questions or concerns about your order, feel free to respond to this email with any concern.</p>
         <p>We look forward to serving you again soon!</p>
         <p>With sincere gratitude,<br/>Gamba</p>
     `
-    const sendSmtpEmail = {
-        to: [{email: email,},],
-        sender: { email: process.env.SENDER_EMAIL },
-        subject:  `Thank You for ${NotificationMessage.SOLD_BUYER}!`,
+        const sendSmtpEmail = {
+            to: [{ email: email, },],
+            sender: { email: process.env.SENDER_EMAIL },
+            subject: `Thank You for ${NotificationMessage.SOLD_BUYER}!`,
 
-        htmlContent: orderTemplate.replace('TOP_MESSAGE', topMessage).replace('BOTTOM_MESSAGE', bottomeMessage).replace('SELLER_INFORMATION', sellerInfo).replace('ORDER_DATE', order_date)
-            .replace('BUYER_INFORMATION', (customer + '<br/>' + shipping_address)).replace('ORDER_NO', order_id).replace('DELIVERY_OPTIONN', payment_method == 'cashOnDelivery' ? 'Cash On Delivery' : 'Delivery')
-            .replace('ITEM_INFORMATION', formatedItems).replace('SUB_TOTAL', subTotal.toFixed(2)).replace('DELIVER_FEE', delivery_charges.toFixed(2))
-            .replace('SALES_TAX', service_charges.toFixed(2)).replace('TOTAL_ORDER', (subTotal + delivery_charges + service_charges).toFixed(2)),
-        headers: {
-            'X-Mailin-custom': 'custom_header_1:custom_value_1|custom_header_2:custom_value_2',
-        },
-    };
+            htmlContent: orderTemplate.replace('TOP_MESSAGE', topMessage).replace('BOTTOM_MESSAGE', bottomeMessage).replace('SELLER_INFORMATION', sellerInfo).replace('ORDER_DATE', order_date)
+                .replace('BUYER_INFORMATION', (customer + '<br/>' + shipping_address)).replace('ORDER_NO', order_id).replace('DELIVERY_OPTIONN', payment_method == 'cashOnDelivery' ? 'Cash On Delivery' : 'Delivery')
+                .replace('ITEM_INFORMATION', formatedItems).replace('SUB_TOTAL', subTotal.toFixed(2)).replace('DELIVER_FEE', delivery_charges.toFixed(2))
+                .replace('SALES_TAX', service_charges.toFixed(2)).replace('TOTAL_ORDER', (subTotal + delivery_charges + service_charges).toFixed(2)),
+            headers: {
+                'X-Mailin-custom': 'custom_header_1:custom_value_1|custom_header_2:custom_value_2',
+            },
+        };
 
 
-    try {
-        const response = await apiInstance.sendTransacEmail(sendSmtpEmail);
-        return response;
-    } catch (error) {
-        console.error('Error sending email:', error);
-        throw error;
-    }
-}catch(e){console.log(e)}
+        try {
+            const response = await apiInstance.sendTransacEmail(sendSmtpEmail);
+            return response;
+        } catch (error) {
+            console.error('Error sending email:', error);
+            throw error;
+        }
+    } catch (e) { console.log(e) }
 };
 
 const connectTradeProductEmail = async (email, user) => {
@@ -801,6 +804,7 @@ const connectTradeProductEmail = async (email, user) => {
         </head>
         <body>
             <div class="container">
+                <img src="https://imagescontent.s3.us-east-1.amazonaws.com/1716209083707.png" alt="Logo" width={100}>
                 <div class="content">
                     <h1>Trade Connection</h1>
                     <p>User ${user?.full_name} wants to connect with you for trade products. Below are the details of the user:</p>
@@ -838,7 +842,7 @@ const connectGiveAwayProductBuyerEmail = async (email, full_name, title) => {
     let apiInstance = new Brevo.TransactionalEmailsApi();
 
     const sendSmtpEmail = {
-        to: [{email: email,},],
+        to: [{ email: email, },],
         sender: { email: process.env.SENDER_EMAIL },
         subject: "Your Interest in Gamba's Seller Giveaways!",
 
@@ -873,6 +877,7 @@ const connectGiveAwayProductBuyerEmail = async (email, full_name, title) => {
         </head>
         <body>
             <div class="container">
+                <img src="https://imagescontent.s3.us-east-1.amazonaws.com/1716209083707.png" alt="Logo" width={100}>
                 <div class="content">
                     <p>Dear ${full_name},</p>
                     <p>Thank you for expressing your interest in Gamba Seller's product giveaways!</p>
@@ -886,7 +891,7 @@ const connectGiveAwayProductBuyerEmail = async (email, full_name, title) => {
         </body>
         </html>
         `,
-        
+
         headers: {
             'X-Mailin-custom': 'custom_header_1:custom_value_1|custom_header_2:custom_value_2',
         },
@@ -909,7 +914,7 @@ const connectGiveAwayProductSellerEmail = async (email, full_name, title, custom
     let apiInstance = new Brevo.TransactionalEmailsApi();
 
     const sendSmtpEmail = {
-        to: [{email: email,},],
+        to: [{ email: email, },],
         sender: { email: process.env.SENDER_EMAIL },
         subject: "Action Required! Giveaway Request for " + title,
 
@@ -944,6 +949,7 @@ const connectGiveAwayProductSellerEmail = async (email, full_name, title, custom
         </head>
         <body>
             <div class="container">
+                <img src="https://imagescontent.s3.us-east-1.amazonaws.com/1716209083707.png" alt="Logo" width={100}>
                 <div class="content">
                     <p>Dear ${full_name},</p>
                     <p>We hope this email finds you well. You have a pending request from ${customer_name} for ${title}.</p>
@@ -955,7 +961,7 @@ const connectGiveAwayProductSellerEmail = async (email, full_name, title, custom
         </body>
         </html>
         `,
-        
+
         headers: {
             'X-Mailin-custom': 'custom_header_1:custom_value_1|custom_header_2:custom_value_2',
         },
@@ -970,7 +976,6 @@ const connectGiveAwayProductSellerEmail = async (email, full_name, title, custom
         throw error;
     }
 };
-
 
 const contactUsEmail = async (user) => {
     let defaultClient = Brevo.ApiClient.instance;
@@ -1034,6 +1039,7 @@ const contactUsEmail = async (user) => {
         </head>
         <body>
             <div class="container">
+                <img src="https://imagescontent.s3.us-east-1.amazonaws.com/1716209083707.png" alt="Logo" width={100}>
                 <div class="content">
                     <h1>Contact Us</h1>
                     <p>User ${user?.full_name} wants to contact with you. Below are the details of the user:</p>
@@ -1067,6 +1073,147 @@ const contactUsEmail = async (user) => {
     }
 };
 
+const createEventEmail = async (email, user, event) => {
+    let defaultClient = Brevo.ApiClient.instance;
+    let apiKey = defaultClient.authentications['api-key'];
+    apiKey.apiKey = process.env.BREVO_API_KEY;
+    let apiInstance = new Brevo.TransactionalEmailsApi();
+
+    let sendSmtpEmail = new Brevo.SendSmtpEmail();
+
+    sendSmtpEmail = {
+        to: [
+            { email: email }
+        ],
+        sender: { email: process.env.SENDER_EMAIL },
+        subject: `Configuration: Your Registration for ${event.title}`,
+
+        htmlContent: `<html>
+        <head>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f7f7f7;
+                }
+
+                .container {
+                    max-width: 600px;
+                    margin: 0 auto;
+                    padding: 20px;
+                    background-color: #ffffff;
+                    border-radius: 5px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                }
+
+                p {
+                    font-size: 16px;
+                    line-height: 1.5;
+                    color: #666;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <img src="https://imagescontent.s3.us-east-1.amazonaws.com/1716209083707.png" alt="Logo" width={100}>
+                <p>Dear ${user?.first_name && user?.last_name ? user?.first_name + ' ' + user?.last_name : ''}</p>
+                <p>Thanks for joining ${event?.title}.</p>
+                <p>Your registration has been successfully processed, and your payment has been received. You're now officially registered for the event.</p>
+                <p><b>Here are the details:</b></p>
+                <p><b>Event Name: </b>${event.title}</p>
+                <p>
+                    <b>Date: </b>${new Date(event.start_date).getFullYear()}-${String(new Date(event.start_date).getMonth() + 1).padStart(2, '0')}-${String(new Date(event.start_date).getDate()).padStart(2, '0')}
+                    <b>Time:</b> ${String(new Date(event.start_date).getHours()).padStart(2, '0')}:${String(new Date(event.start_date).getMinutes()).padStart(2, '0')}
+                </p>
+                <p><b>Location: </b>${event.location}</p>
+                <p>If you have any questions or need further assistance, feel free to reply.</p>
+                <p>We look forward to seeing you at ${event.title}!</p>
+                <p>Warm regards,</p>
+                <p>Gamba Team</p>
+            </div>
+        </body>
+        </html>`,
+        headers: {
+            'X-Mailin-custom': 'custom_header_1:custom_value_1|custom_header_2:custom_value_2'
+        }
+    }
+    return await apiInstance.sendTransacEmail(sendSmtpEmail).then(
+        function (data) {
+            console.log('API called successfully. Returned data: ' + data)
+            return data
+        },
+        function (error) {
+            console.error(error)
+        }
+    )
+}
+
+const joinedEventEmail = async (email, creator, participant) => {
+    let defaultClient = Brevo.ApiClient.instance;
+    let apiKey = defaultClient.authentications['api-key'];
+    apiKey.apiKey = process.env.BREVO_API_KEY;
+    let apiInstance = new Brevo.TransactionalEmailsApi();
+
+    let sendSmtpEmail = new Brevo.SendSmtpEmail();
+
+    sendSmtpEmail = {
+        to: [
+            { email: email }
+        ],
+        sender: { email: process.env.SENDER_EMAIL },
+        subject: `New Participiant Joined Your Event on Gamba!`,
+
+        htmlContent: `<html>
+        <head>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f7f7f7;
+                }
+
+                .container {
+                    max-width: 600px;
+                    margin: 0 auto;
+                    padding: 20px;
+                    background-color: #ffffff;
+                    border-radius: 5px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                }
+
+                p {
+                    font-size: 16px;
+                    line-height: 1.5;
+                    color: #666;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <img src="https://imagescontent.s3.us-east-1.amazonaws.com/1716209083707.png" alt="Logo" width={100}>
+                <p>Dear ${creator?.first_name && creator?.last_name ? creator?.first_name + ' ' + creator?.last_name : ''}</p>
+                <p>We're excited to inform you that ${participant?.first_name && participant?.last_name ? participant?.first_name + ' ' + participant.last_name : ''} has expressed interest in your event on Gamba!</p>
+                <p>Please note that this expression of interest does not confirm payment for the event. You will receive a separate email confirming payment once our customer completes the transaction.</p>
+                <p>Should you have any questions or require assistance, please feel free to reply to this email.</p>
+                <p>Thank you for selecting Gamba as your event host. We wish you ongoing success and eagerly anticipate the success of your event!</p>
+                <p>Warm regards,</p>
+                <p>Gamba Team</p>
+            </div>
+        </body>
+        </html>`,
+        headers: {
+            'X-Mailin-custom': 'custom_header_1:custom_value_1|custom_header_2:custom_value_2'
+        }
+    }
+    return await apiInstance.sendTransacEmail(sendSmtpEmail).then(
+        function (data) {
+            console.log('API called successfully. Returned data: ' + data)
+            return data
+        },
+        function (error) {
+            console.error(error)
+        }
+    )
+}
+
 const orderItemTemplate = `
     <tr class="d-flex  justify-content-between align-items-center" style="display: flex; justify-content: space-between; align-items: center;"> 
         <td class="w-100" style=" padding: 5px; width: 100%; vertical-align: top;">
@@ -1092,6 +1239,7 @@ const orderTemplate = `
             <title>Gamba Invoice</title>
         </head>
         <body style=" display: flex; justify-content: center; align-items: center;">
+            <img src="https://imagescontent.s3.us-east-1.amazonaws.com/1716209083707.png" alt="Logo" width={100}>
             <div class="invoice-box mb-3" style=" max-width: 550px; width: 100%;  margin-bottom: 1rem; margin: auto; /* padding: 24px; */ font-size: 16px; line-height: 24px; font-family: 'inter', sans-serif; min-height: auto; height: auto; position: relative; padding-bottom: 80px;">
                 TOP_MESSAGE
                 <table cellpadding="0" cellspacing="0" class="mb-3" style=" width: 100%;  margin-bottom: 1rem; line-height: inherit; text-align: left;">
@@ -1158,9 +1306,8 @@ const orderTemplate = `
         </body>
     </html>
 `
-
-export { 
+export {
     adminResetPasswordEmail, verificationCodeEmail, resetPasswordEmail, newPasswordEmail, orderSellerNotificationEmail, orderBuyerNotificationEmail,
     notificationEmail, connectTradeProductEmail, contactUsEmail, welcomeEmail, passwordUpdated, adminPasswordUpdated, connectGiveAwayProductBuyerEmail,
-    connectGiveAwayProductSellerEmail
+    connectGiveAwayProductSellerEmail, createEventEmail, joinedEventEmail
 }

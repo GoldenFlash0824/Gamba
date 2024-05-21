@@ -1,18 +1,18 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {palette} from '../../styled/colors'
-import {Flexed, Heading, Spacer, Text, getCurrentAddress, Divider} from '../../styled/shared'
-import {media} from 'styled-bootstrap-grid'
+import { palette } from '../../styled/colors'
+import { Flexed, Heading, Spacer, Text, getCurrentAddress, Divider } from '../../styled/shared'
+import { media } from 'styled-bootstrap-grid'
 import Button from '../../components/common/Button'
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import CustomInputField from '../../components/common/CustomInputField'
 import Checkbox from '../../components/common/CheckBox'
-import {loginUser} from '../../apis/apis'
-import {useDispatch} from 'react-redux'
-import {saveUser, setAuthToken, setIsLoading, setUserId} from '../../actions/authActions'
-import {toastError, toastSuccess} from '../../styled/toastStyle'
+import { loginUser } from '../../apis/apis'
+import { useDispatch } from 'react-redux'
+import { saveUser, setAuthToken, setIsLoading, setUserId } from '../../actions/authActions'
+import { toastError, toastSuccess } from '../../styled/toastStyle'
 import ValidationCode from '../../components/ValidationCode'
-import {DiviverGrid, SocialIconsCover} from '../../pages/SignUp'
+import { DiviverGrid, SocialIconsCover } from '../../pages/SignUp'
 import Modal from 'react-responsive-modal'
 import Loader from '../common/Loader'
 import EnableAccountModal from './EnableAccountModal'
@@ -26,7 +26,7 @@ const closeIcon = (
 	</svg>
 )
 
-const LoginPopupModel = ({onClose}: any) => {
+const LoginPopupModel = ({ onClose }: any) => {
 	const _dispatch = useDispatch()
 	let _navigate = useNavigate()
 	const [registrationCode, setRegistrationCode] = useState(false)
@@ -64,7 +64,7 @@ const LoginPopupModel = ({onClose}: any) => {
 			}
 			if (response?.data?.user?.lat && response?.data?.user?.log) {
 				// let userLocation:any = {lat:30.6682,log:73.1114};
-				let userLocation: any = {lat: response.data.user.lat, log: response.data.user.log}
+				let userLocation: any = { lat: response.data.user.lat, log: response.data.user.log }
 				localStorage.setItem('userLocation', JSON.stringify(userLocation))
 			}
 			setEmail('')
@@ -121,7 +121,6 @@ const LoginPopupModel = ({onClose}: any) => {
 			console.error('Geolocation is not supported by this browser.')
 		}
 	}
-	console.log('========== isAccountDisabled', sessionStorage?.getItem('isAccountDisabled') ? 6 : 2)
 	return (
 		<Modal
 			open={true}
@@ -145,7 +144,7 @@ const LoginPopupModel = ({onClose}: any) => {
 								<ValidationCode isRemmber={isRemmber} email={email} password={password} is2Fa={is2Fa} isModel={true} onClose={onClose} />
 							) : (
 								<Wrapper>
-								
+
 									<Flexed justify="center">
 										<Heading level={sessionStorage?.getItem('isAccountDisabled') ? 6 : 2} fontWeight={700} isCentered color="dark_black">
 											{sessionStorage.getItem('isAccountDisabled') ? 'Your account is now disabled! When you are ready to use Gamba again, simply login and enable your account. Hope to see you soon' : 'Login'}
@@ -200,9 +199,9 @@ const LoginPopupModel = ({onClose}: any) => {
 												<Text
 													textTransform="capitalize"
 													type="small"
-													
+
 													color="green_200"
-													className ="hover-link"
+													className="hover-link"
 													fontWeight={700}
 													pointer
 													onClick={() => {
@@ -265,10 +264,10 @@ const LoginPopupModel = ({onClose}: any) => {
 										</Text>
 
 										<Text
-											className ="hover-link"
+											className="hover-link"
 											pointer
 											type="normal"
-											
+
 											fontWeight={700}
 											color="green_200"
 											onClick={() => {

@@ -1,11 +1,11 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import {palette} from '../../styled/colors'
-import {Flexed, Text} from '../../styled/shared'
-import {BsFillEyeFill, BsFillEyeSlashFill} from 'react-icons/bs'
-import {useSelector} from 'react-redux'
-import {IoSend} from 'react-icons/io5'
-import {MdPercent} from 'react-icons/md'
+import { palette } from '../../styled/colors'
+import { Flexed, Text } from '../../styled/shared'
+import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs'
+import { useSelector } from 'react-redux'
+import { IoSend } from 'react-icons/io5'
+import { MdPercent } from 'react-icons/md'
 
 const CustomInputField = ({
 	setIsAllowToOrderModalOpen,
@@ -38,7 +38,6 @@ const CustomInputField = ({
 	const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (allowNumber) {
 			const re = /^[0-9 ]+/
-			console.log('======', event.target.value)
 			let val = event.target.value.replace(' ', '')
 			if (re.test(val) || val?.length == 0) {
 				if (handleChange) handleChange(event.target.value.replace(/[\s]/g, ''))
@@ -89,7 +88,7 @@ const CustomInputField = ({
 			{type !== 'textarea' ? (
 				<>
 					{label && (
-						<Label type="normal" style={{fontWeight: style && '500'}} margin="0rem 0rem 0.25rem 0rem" isDarkTheme={_isDarkTheme}>
+						<Label type="normal" style={{ fontWeight: style && '500' }} margin="0rem 0rem 0.25rem 0rem" isDarkTheme={_isDarkTheme}>
 							{label}{' '}
 							{modal && (
 								<span
@@ -223,13 +222,13 @@ const TextInput = styled.input<any>`
 	text-align: left;
 	font-size: 1rem;
 	border-radius: .5rem;
-	padding: ${({inputType}) => (inputType ? '0.7rem 4.1rem 0.7rem 1.25rem' : '0.7rem 1.25rem')};
-	border: 1px solid ${({error, disabled, bgTransparent}) => (disabled ? `${palette.light_gray}` : error ? `${palette.danger}` : bgTransparent ? `${palette.stroke}` : `#e1e5e8`)};
-	color: ${({disabled, isDarkTheme}) => (disabled ? `${palette.light_gray}` : isDarkTheme ? `${palette.text_black}` : `${palette.black}`)};
-	background: ${({disabled, bgTransparent, isDarkTheme}) => (bgTransparent ? 'transparent' : disabled ? `${palette.white}` : isDarkTheme ? `${palette.black}` : `${palette.white}`)};
+	padding: ${({ inputType }) => (inputType ? '0.7rem 4.1rem 0.7rem 1.25rem' : '0.7rem 1.25rem')};
+	border: 1px solid ${({ error, disabled, bgTransparent }) => (disabled ? `${palette.light_gray}` : error ? `${palette.danger}` : bgTransparent ? `${palette.stroke}` : `#e1e5e8`)};
+	color: ${({ disabled, isDarkTheme }) => (disabled ? `${palette.light_gray}` : isDarkTheme ? `${palette.text_black}` : `${palette.black}`)};
+	background: ${({ disabled, bgTransparent, isDarkTheme }) => (bgTransparent ? 'transparent' : disabled ? `${palette.white}` : isDarkTheme ? `${palette.black}` : `${palette.white}`)};
 	width: 100%;
 	&:focus {
-		border: 1px solid ${({error, disabled}) => (disabled ? 'none' : error ? palette.danger : palette.Btn_dark_green)};
+		border: 1px solid ${({ error, disabled }) => (disabled ? 'none' : error ? palette.danger : palette.Btn_dark_green)};
 	}
 	&::placeholder {
 		color: ${palette.gray_100};
@@ -237,7 +236,7 @@ const TextInput = styled.input<any>`
 
 	&:-ms-input-placeholder {
 		/* Internet Explorer 10-11 */
-		color: ${({disabled, isDarkTheme}) => (disabled || isDarkTheme ? `${palette.silver}` : `${palette.gray_100}`)};
+		color: ${({ disabled, isDarkTheme }) => (disabled || isDarkTheme ? `${palette.silver}` : `${palette.gray_100}`)};
 	}
 
 	&::-ms-input-placeholder {
@@ -246,14 +245,14 @@ const TextInput = styled.input<any>`
 	}
 `
 
-const Icon = styled(Flexed)<any>`
+const Icon = styled(Flexed) <any>`
 	position: absolute;
 	top: 0.063rem;
 	bottom: 0.063rem;
 	margin: auto;
 	right: 0.063rem;
 	width: 4rem;
-	background: ${({isDarkTheme}) => (isDarkTheme ? `${palette.black}` : `${palette.gray_200}`)};
+	background: ${({ isDarkTheme }) => (isDarkTheme ? `${palette.black}` : `${palette.gray_200}`)};
 	border-bottom-right-radius: 0.5rem;
 	border-top-right-radius: 0.5rem;
 `
@@ -275,12 +274,12 @@ const TextArea = styled.textarea<any>`
 	font-size: 1rem;
 	border-radius: 0.5rem;
 	padding: 0.7rem 4.1rem 0.7rem 1.25rem;
-	border: 1px solid ${({error, disabled, bgTransparent}) => (disabled ? `${palette.light_gray}` : error ? `${palette.danger}` : bgTransparent ? `${palette.stroke}` : `${palette.input_border}`)};
-	color: ${({disabled, isDarkTheme}) => (disabled ? `${palette.light_gray}` : isDarkTheme ? `${palette.text_black}` : `${palette.black}`)};
-	background: ${({disabled, bgTransparent, isDarkTheme}) => (bgTransparent ? 'transparent' : disabled ? `${palette.white}` : isDarkTheme ? `${palette.black}` : `${palette.gray_200}`)};
+	border: 1px solid ${({ error, disabled, bgTransparent }) => (disabled ? `${palette.light_gray}` : error ? `${palette.danger}` : bgTransparent ? `${palette.stroke}` : `${palette.input_border}`)};
+	color: ${({ disabled, isDarkTheme }) => (disabled ? `${palette.light_gray}` : isDarkTheme ? `${palette.text_black}` : `${palette.black}`)};
+	background: ${({ disabled, bgTransparent, isDarkTheme }) => (bgTransparent ? 'transparent' : disabled ? `${palette.white}` : isDarkTheme ? `${palette.black}` : `${palette.gray_200}`)};
 	width: 100%;
 	&:focus {
-		border: 1px solid ${({error, disabled}) => (disabled ? 'none' : error ? palette.danger : palette.Btn_dark_green)};
+		border: 1px solid ${({ error, disabled }) => (disabled ? 'none' : error ? palette.danger : palette.Btn_dark_green)};
 	}
 	&::placeholder {
 		color: ${palette.gray_100};
@@ -288,7 +287,7 @@ const TextArea = styled.textarea<any>`
 
 	&:-ms-input-placeholder {
 		/* Internet Explorer 10-11 */
-		color: ${({disabled, isDarkTheme}) => (disabled || isDarkTheme ? `${palette.silver}` : `${palette.gray_100}`)};
+		color: ${({ disabled, isDarkTheme }) => (disabled || isDarkTheme ? `${palette.silver}` : `${palette.gray_100}`)};
 	}
 
 	&::-ms-input-placeholder {
@@ -301,18 +300,18 @@ const Search = styled.img`
 	width: 1rem;
 `
 
-const Send = styled(IoSend)<any>`
+const Send = styled(IoSend) <any>`
 	font-size: 1.2rem;
 	cursor: pointer;
-	color: ${({value}) => (value ? palette.Btn_dark_green : palette.silver)};
+	color: ${({ value }) => (value ? palette.Btn_dark_green : palette.silver)};
 `
-const Percentage = styled(MdPercent)<any>`
+const Percentage = styled(MdPercent) <any>`
 	font-size: 1.2rem;
 	cursor: pointer;
 	color: ${palette.text};
 `
 
-const StyledIcon = styled(Flexed)<any>`
+const StyledIcon = styled(Flexed) <any>`
 	position: absolute;
 	top: 0.063rem;
 	bottom: 0.063rem;

@@ -1,16 +1,16 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {Modal} from 'react-responsive-modal'
+import { Modal } from 'react-responsive-modal'
 import 'react-responsive-modal/styles.css'
-import {Text, Spacer, Flexed} from '../../styled/shared'
-import {palette} from '../../styled/colors'
-import {FaFacebookF, FaWhatsapp, FaInstagram, FaLinkedinIn, FaRegCopy} from 'react-icons/fa'
-import {FiMail} from 'react-icons/fi'
-import {media} from 'styled-bootstrap-grid'
+import { Text, Spacer, Flexed } from '../../styled/shared'
+import { palette } from '../../styled/colors'
+import { FaFacebookF, FaWhatsapp, FaInstagram, FaLinkedinIn, FaRegCopy } from 'react-icons/fa'
+import { FiMail } from 'react-icons/fi'
+import { media } from 'styled-bootstrap-grid'
 import Button from '../../components/common/Button'
-import {addRatingToProduct} from '../../apis/apis'
-import {Rating} from 'react-simple-star-rating'
-import {toastSuccess} from '../../styled/toastStyle'
+import { addRatingToProduct } from '../../apis/apis'
+import { Rating } from 'react-simple-star-rating'
+import { toastSuccess } from '../../styled/toastStyle'
 const closeIcon = (
 	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
 		<path
@@ -19,7 +19,7 @@ const closeIcon = (
 		/>
 	</svg>
 )
-const GiveRating = ({onClose, productid}: any) => {
+const GiveRating = ({ onClose, productid }: any) => {
 	const [productRating, setProductRating] = useState(0)
 
 	const handleRating = (rate: number) => {
@@ -54,7 +54,7 @@ const GiveRating = ({onClose, productid}: any) => {
 							Rating
 						</Text>
 					</Head>
-					<Body style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+					<Body style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 						<Text margin="0rem 0rem 1.25rem 0rem" type="normal" color="black">
 							{' '}
 							Rate the product{' '}
@@ -64,7 +64,7 @@ const GiveRating = ({onClose, productid}: any) => {
 							onPointerEnter={onPointerEnter}
 							onPointerLeave={onPointerLeave}
 							onPointerMove={onPointerMove}
-							/* Available Props */
+						/* Available Props */
 						/>
 						<Spacer height={1.25} />
 						<Button
@@ -77,7 +77,7 @@ const GiveRating = ({onClose, productid}: any) => {
 						/>
 					</Body>
 				</ModalWrapper>
-				
+
 			</Modal>
 		</>
 	)
@@ -110,8 +110,8 @@ const Cover = styled.div<any>`
 	width: 3rem;
 	height: 3rem;
 	border-radius: 5rem;
-	background: ${({background}) => `${palette[background]}`};
-	border: 1px solid ${({hasBorder}) => (hasBorder ? palette.silver : palette.white)};
+	background: ${({ background }) => `${palette[background]}`};
+	border: 1px solid ${({ hasBorder }) => (hasBorder ? palette.silver : palette.white)};
 	cursor: pointer;
 	font-size: 1.5rem;
 `

@@ -1,14 +1,14 @@
-import React, {useState, useRef, useEffect} from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import styled from 'styled-components'
-import {Modal} from 'react-responsive-modal'
+import { Modal } from 'react-responsive-modal'
 import 'react-responsive-modal/styles.css'
-import {Text, Spacer, Flexed} from '../../styled/shared'
-import {palette} from '../../styled/colors'
-import {Row, Col, media} from 'styled-bootstrap-grid'
+import { Text, Spacer, Flexed } from '../../styled/shared'
+import { palette } from '../../styled/colors'
+import { Row, Col, media } from 'styled-bootstrap-grid'
 import Button from '../common/Button'
-import ReactCrop, {centerCrop, makeAspectCrop, Crop, PixelCrop, convertToPixelCrop} from 'react-image-crop'
-import {canvasPreview} from '../../cropImgAssets/canvasPreview'
-import {useDebounceEffect} from '../../cropImgAssets/useDebounceEffect'
+import ReactCrop, { centerCrop, makeAspectCrop, Crop, PixelCrop, convertToPixelCrop } from 'react-image-crop'
+import { canvasPreview } from '../../cropImgAssets/canvasPreview'
+import { useDebounceEffect } from '../../cropImgAssets/useDebounceEffect'
 import 'react-image-crop/dist/ReactCrop.css'
 import Slider from 'rc-slider'
 import 'rc-slider/assets/index.css'
@@ -25,8 +25,6 @@ const closeIcon = (
 // This is to demonstate how to make and center a % aspect crop
 // which is a bit trickier so we use some helper functions.
 function centerAspectCrop(mediaWidth: number, mediaHeight: number, aspect: number) {
-	console.log('ss', mediaWidth)
-	console.log('hh', mediaHeight)
 	return centerCrop(
 		makeAspectCrop(
 			{
@@ -42,7 +40,7 @@ function centerAspectCrop(mediaWidth: number, mediaHeight: number, aspect: numbe
 	)
 }
 
-const ImageCropModal = ({showImage, setResult, onClose}: any) => {
+const ImageCropModal = ({ showImage, setResult, onClose }: any) => {
 	const [imgSrc, setImgSrc] = useState(showImage)
 	const previewCanvasRef = useRef<HTMLCanvasElement>(null)
 	const imgRef = useRef<HTMLImageElement>(null)
@@ -57,7 +55,7 @@ const ImageCropModal = ({showImage, setResult, onClose}: any) => {
 
 	function onImageLoad(e: React.SyntheticEvent<HTMLImageElement>) {
 		if (aspect) {
-			const {width, height} = e.currentTarget
+			const { width, height } = e.currentTarget
 			setCrop(centerAspectCrop(width, height, aspect))
 		}
 	}
@@ -82,7 +80,7 @@ const ImageCropModal = ({showImage, setResult, onClose}: any) => {
 		if (aspect) {
 			setAspect(undefined)
 		} else if (imgRef.current) {
-			const {width, height} = imgRef.current
+			const { width, height } = imgRef.current
 			setAspect(2.1)
 			const newCrop = centerAspectCrop(width, height, 2.1)
 			setCrop(newCrop)
@@ -160,12 +158,12 @@ const ImageCropModal = ({showImage, setResult, onClose}: any) => {
 							</Row>
 							{!!imgSrc && (
 								<ReactCrop crop={crop} onChange={(_, percentCrop) => setCrop(percentCrop)} onComplete={(c) => setCompletedCrop(c)} aspect={aspect}>
-									<img ref={imgRef} alt="Crop me" src={imgSrc} style={{transform: `scale(${scale}) rotate(${rotate}deg)`}} onLoad={onImageLoad} />
+									<img ref={imgRef} alt="Crop me" src={imgSrc} style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }} onLoad={onImageLoad} />
 								</ReactCrop>
 							)}
 							{!!completedCrop && (
 								<>
-									<div style={{display: 'none'}}>
+									<div style={{ display: 'none' }}>
 										<canvas
 											ref={previewCanvasRef}
 											style={{
@@ -182,7 +180,7 @@ const ImageCropModal = ({showImage, setResult, onClose}: any) => {
 										<Flexed direction="row" align="center" justify="center">
 											<Button
 												label={`Crop`}
-												
+
 												ifClicked={(e: any) => {
 													onDownloadCropClick()
 												}}
@@ -205,7 +203,7 @@ const ImageCropModal = ({showImage, setResult, onClose}: any) => {
 						</div>
 					</Body>
 				</ModalWrapper>
-				
+
 			</Modal>
 		</>
 	)
@@ -233,8 +231,8 @@ const Cover = styled.div<any>`
 	width: 3rem;
 	height: 3rem;
 	border-radius: 5rem;
-	background: ${({background}) => `${palette[background]}`};
-	border: 1px solid ${({hasBorder}) => (hasBorder ? palette.silver : palette.white)};
+	background: ${({ background }) => `${palette[background]}`};
+	border: 1px solid ${({ hasBorder }) => (hasBorder ? palette.silver : palette.white)};
 	cursor: pointer;
 	font-size: 1.5rem;
 `

@@ -1,14 +1,14 @@
-import React, {useState} from 'react'
-import {Flexed, Spacer} from '../styled/shared'
-import {Col, Container, Row} from 'styled-bootstrap-grid'
+import React, { useState } from 'react'
+import { Flexed, Spacer } from '../styled/shared'
+import { Col, Container, Row } from 'styled-bootstrap-grid'
 import CustomInputField from './common/CustomInputField'
 import styled from 'styled-components'
-import {palette} from '../styled/colors'
-import {connectSellerTradeProduct} from '../apis/apis'
-import {toastError, toastSuccess} from '../styled/toastStyle'
+import { palette } from '../styled/colors'
+import { connectSellerTradeProduct } from '../apis/apis'
+import { toastError, toastSuccess } from '../styled/toastStyle'
 import Loader from './common/Loader'
 
-const TradeProduct = ({data, onClose}: any) => {
+const TradeProduct = ({ data, onClose }: any) => {
 	const [fullName, setFullName] = useState('')
 	const [email, setEmail] = useState('')
 	const [topic, setTopic] = useState('')
@@ -19,7 +19,7 @@ const TradeProduct = ({data, onClose}: any) => {
 	const [emailError, setEmailError] = useState('')
 	const [captionError, setCaptionError] = useState('')
 	const [contactNumberError, setContactNumberError] = useState('')
-	const [loading, setLaoding] = useState(false)
+	const [loading, setLoading] = useState(false)
 
 	const validation = () => {
 		let isValid = true
@@ -48,19 +48,20 @@ const TradeProduct = ({data, onClose}: any) => {
 	}
 
 	const connectHandler = async () => {
-		if (data?.user?.email) {
-			setLaoding(true)
-			let res = await connectSellerTradeProduct(fullName, email, contactNumber, topic, caption, data?.user?.email, data?.name, data?.user?.first_name + ' ' + data?.user?.last_name )
-			if (res?.success === true) {
-				onClose()
-				toastSuccess('Information is send')
-				setLaoding(false)
-			} else {
-				setLaoding(false)
-				toastError('Information sending failed ')
-			}
-			setLaoding(false)
-		}
+		console.log("Connecting");
+		// if (data?.user?.email) {
+		// 	setLoading(true)
+		// 	let res = await connectSellerTradeProduct(fullName, email, contactNumber, topic, caption, data?.user?.email, data?.name, data?.user?.first_name + ' ' + data?.user?.last_name)
+		// 	if (res?.success === true) {
+		// 		onClose()
+		// 		toastSuccess('Information is send')
+		// 		setLoading(false)
+		// 	} else {
+		// 		setLoading(false)
+		// 		toastError('Information sending failed ')
+		// 	}
+		// 	setLoading(false)
+		// }
 	}
 
 	return (

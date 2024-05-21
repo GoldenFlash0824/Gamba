@@ -1,33 +1,33 @@
-import React, {useEffect, useState} from 'react'
-import {palette} from '../styled/colors'
+import React, { useEffect, useState } from 'react'
+import { palette } from '../styled/colors'
 import styled from 'styled-components'
-import {Text, Flexed, Spacer, getDistanceFromLatLonInMiles} from '../styled/shared'
-import {AiOutlineMinus, AiOutlineSwap} from 'react-icons/ai'
-import {media} from 'styled-bootstrap-grid'
-import {AiOutlinePlus} from 'react-icons/ai'
-import {useDispatch} from 'react-redux'
-import {addItemInCart, addDirectItemInCart} from '../actions/cartActions'
-import {useNavigate} from 'react-router-dom'
-import {BsThreeDots} from 'react-icons/bs'
+import { Text, Flexed, Spacer, getDistanceFromLatLonInMiles } from '../styled/shared'
+import { AiOutlineMinus, AiOutlineSwap } from 'react-icons/ai'
+import { media } from 'styled-bootstrap-grid'
+import { AiOutlinePlus } from 'react-icons/ai'
+import { useDispatch } from 'react-redux'
+import { addItemInCart, addDirectItemInCart } from '../actions/cartActions'
+import { useNavigate } from 'react-router-dom'
+import { BsThreeDots } from 'react-icons/bs'
 import ProductDetailsModal from './modals/ProductDetailsModal'
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 import EditPostModal from './modals/EditPostModal'
 import 'owl.carousel/dist/assets/owl.carousel.css'
 import 'owl.carousel/dist/assets/owl.theme.default.css'
 import ReportModal from './modals/ReportModal'
 import DeleteModal from './modals/DeleteModal'
-import {addFavProducts, deleteProduct} from '../apis/apis'
-import {toastError, toastSuccess} from '../styled/toastStyle'
+import { addFavProducts, deleteProduct } from '../apis/apis'
+import { toastError, toastSuccess } from '../styled/toastStyle'
 import SocialShareModal from './modals/SocialShareModal'
 import DonateDetailsModal from './modals/DonateDetailsModal'
-import {BsCart3} from 'react-icons/bs'
-import {setIsLoading} from '../actions/authActions'
-import {AiOutlineHeart} from 'react-icons/ai'
-import {AiFillHeart} from 'react-icons/ai'
-import {RiArrowUpSFill} from 'react-icons/ri'
+import { BsCart3 } from 'react-icons/bs'
+import { setIsLoading } from '../actions/authActions'
+import { AiOutlineHeart } from 'react-icons/ai'
+import { AiFillHeart } from 'react-icons/ai'
+import { RiArrowUpSFill } from 'react-icons/ri'
 import LoginPopupModel from './modals/LoginPopupModel'
 //
-const StyledCard = ({cardIndex, sale, myProducts, content, addToCart, donation, trade, productPurchase, soldProducts, report, category, onClose}: any) => {
+const StyledCard = ({ cardIndex, sale, myProducts, content, addToCart, donation, trade, productPurchase, soldProducts, report, category, onClose }: any) => {
 	const dispatch = useDispatch()
 	const _navigate = useNavigate()
 	const userId = useSelector<any>((state: any) => state.auth.userId)
@@ -75,9 +75,8 @@ const StyledCard = ({cardIndex, sale, myProducts, content, addToCart, donation, 
 		} else {
 			content.discountPrice = content.price
 		}
-		// console.log('discount data', amount)
 		setQuantity(1)
-		dispatch(addItemInCart({content, quantity}))
+		dispatch(addItemInCart({ content, quantity }))
 	}
 
 	const reportProductFunction = async () => {
@@ -96,8 +95,6 @@ const StyledCard = ({cardIndex, sale, myProducts, content, addToCart, donation, 
 		setIsDeleteProductModalOpen(false)
 		dispatch(setIsLoading(false))
 	}
-	//
-	// console.log('content', content?.quantity > 0 && content?.quantity >= quantity)
 	const doAddFavProducts = async () => {
 		dispatch(setIsLoading(true))
 		const response = await addFavProducts(content?.id)
@@ -249,7 +246,7 @@ const StyledCard = ({cardIndex, sale, myProducts, content, addToCart, donation, 
 													</StyledText>
 													<Flexed direction="row">
 														<StyledText color="text_description">
-															<OnSaleText style={{color: '#273838', fontWeight: '400'}}>on sale </OnSaleText> <Discount> ${(content?.price - (content?.discount / 100) * content?.price)?.toFixed(2)}</Discount>
+															<OnSaleText style={{ color: '#273838', fontWeight: '400' }}>on sale </OnSaleText> <Discount> ${(content?.price - (content?.discount / 100) * content?.price)?.toFixed(2)}</Discount>
 														</StyledText>
 													</Flexed>
 												</Flexed>
@@ -339,7 +336,7 @@ const StyledCard = ({cardIndex, sale, myProducts, content, addToCart, donation, 
 														onClick={() => {
 															isUserLogIn !== null ? setOpenSocialModal(true) : setLoginPopup(true)
 														}}>
-															
+
 														Share
 													</DropMenu>
 													{userId === content?.u_id && (
@@ -559,17 +556,17 @@ const Distance = styled(Text)`
 `
 
 const CardContent = styled.div<any>`
-	width: ${({isProductCard}) => (isProductCard ? '100%' : '100%')};
-	margin-left: ${({isProductCard}) => (isProductCard ? '0' : '0')};
+	width: ${({ isProductCard }) => (isProductCard ? '100%' : '100%')};
+	margin-left: ${({ isProductCard }) => (isProductCard ? '0' : '0')};
 `
 
-const HeartIcon = styled(AiOutlineHeart)<any>`
+const HeartIcon = styled(AiOutlineHeart) <any>`
 	cursor: pointer;
 	color: ${palette?.Btn_dark_green};
 
 	font-size: 1.2rem;
 `
-const HeartIconFilled = styled(AiFillHeart)<any>`
+const HeartIconFilled = styled(AiFillHeart) <any>`
 	cursor: pointer;
 	color: ${palette?.Btn_dark_green};
 
@@ -582,7 +579,7 @@ const StyledDiv = styled.div<any>`
 	align-items: left;
 	justify-content: space-between;
 	min-height: 5rem;
-	width: ${({isProductCard}) => (isProductCard ? 'auto' : 'auto')};
+	width: ${({ isProductCard }) => (isProductCard ? 'auto' : 'auto')};
 	overflow: hidden;
 	gap: 0.4rem;
 	margin-top: 0.3rem;
@@ -597,7 +594,7 @@ const IconWrapper = styled(Flexed)`
 const Icon = styled.img`
 	width: 100%;
 `
-const Dots = styled(BsThreeDots)<any>`
+const Dots = styled(BsThreeDots) <any>`
 	color: ${palette.text};
 	cursor: pointer;
 	transform: rotate(90deg);
@@ -620,7 +617,7 @@ const DropContent = styled.div<any>`
 	margin-top: 0rem;
 	position: absolute;
 	right: 0;
-	background-color: ${({isDarkTheme}) => (isDarkTheme ? palette.black : palette.white)};
+	background-color: ${({ isDarkTheme }) => (isDarkTheme ? palette.black : palette.white)};
 	min-width: 8rem;
 	box-shadow: ${palette.shadow};
 	z-index: 2;
@@ -676,7 +673,7 @@ const ProductDetails = styled.div`
 	word-break: break-word;
 	width: 100%;
 `
-const ProductName = styled(Text)<any>`
+const ProductName = styled(Text) <any>`
 	overflow: hidden;
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
@@ -688,9 +685,9 @@ const ProductName = styled(Text)<any>`
 		transition: color 0.3s ease 0.5s;
 	}
 `
-const ProductCategory = styled(ProductName)<any>``
+const ProductCategory = styled(ProductName) <any>``
 
-const Sale = styled(Flexed)<any>`
+const Sale = styled(Flexed) <any>`
 	width: 2.5rem;
 	height: 2.5rem;
 	border-radius: 2rem;
@@ -735,8 +732,8 @@ const ViewCart = styled.div<any>`
 	gap: 0.2rem;
 	align-items: center;
 	justify-content: center;
-	background-color: ${({disabled}) => (disabled ? 'rgb(164, 164, 164)' : palette.orange)};
-	cursor: ${({disabled}) => (disabled ? 'no-drop' : 'pointer')};
+	background-color: ${({ disabled }) => (disabled ? 'rgb(164, 164, 164)' : palette.orange)};
+	cursor: ${({ disabled }) => (disabled ? 'no-drop' : 'pointer')};
 
 	/* min-width: 6rem; */
 	padding: 0.2rem 0.7rem;
@@ -761,7 +758,7 @@ const CardWrapper = styled.div<any>`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	min-height: ${({soldProducts, productPurchase}) => (soldProducts || productPurchase ? '7rem' : '9.65rem')};
+	min-height: ${({ soldProducts, productPurchase }) => (soldProducts || productPurchase ? '7rem' : '9.65rem')};
 	background-color: ${palette.white};
 	box-shadow: ${palette.posts_shadow_1} 0px 8px 24px;
 	border: 0.063rem solid #f0f2f5;
@@ -815,13 +812,13 @@ const Input = styled.input`
 	}
 `
 
-const QuantityWrapper = styled(Flexed)<any>`
-	// border: ${({productPurchase, soldProducts}) => (productPurchase || soldProducts ? '' : `1px solid ${palette.silver}`)};
+const QuantityWrapper = styled(Flexed) <any>`
+	// border: ${({ productPurchase, soldProducts }) => (productPurchase || soldProducts ? '' : `1px solid ${palette.silver}`)};
 	// border-radius: 1.2rem;
 	font-size: 14px;
 `
 
-export const MobileCartBtn = styled(SwapButton)<any>`
+export const MobileCartBtn = styled(SwapButton) <any>`
 	${media.xs`display:flex`}
 	${media.sm`display:none`};
 `
@@ -843,16 +840,16 @@ const Icons = styled.div<any>`
 	font-size: 0.8rem;
 	cursor: pointer;
 	color: ${palette.black};
-	// background-color: ${({add}) => (add ? palette.Btn_dark_green : 'rgb(164 164 164)')};
-	transform: ${({rotate}) => (rotate ? 'rotate(180deg)' : 'rotate(0deg)')};
-	margin-top: ${({rotate}) => (rotate ? '2px' : '0px')};
+	// background-color: ${({ add }) => (add ? palette.Btn_dark_green : 'rgb(164 164 164)')};
+	transform: ${({ rotate }) => (rotate ? 'rotate(180deg)' : 'rotate(0deg)')};
+	margin-top: ${({ rotate }) => (rotate ? '2px' : '0px')};
 	& img {
 		width: 10px;
 		height: 6px;
 	}
 `
 
-const CountWrapper = styled(Flexed)<any>`
+const CountWrapper = styled(Flexed) <any>`
 	height: 95%;
 `
 
@@ -880,10 +877,10 @@ const ActionButton = styled.div<any>`
 	text-transform: uppercase;
 	letter-spacing: 0.02em;
 	border: 1px solid ${palette.Btn_dark_green};
-	background-color: ${({disabled}) => (disabled ? palette.white : palette.white)};
-	cursor: ${({disabled}) => (disabled ? 'no-drop' : 'pointer')};
+	background-color: ${({ disabled }) => (disabled ? palette.white : palette.white)};
+	cursor: ${({ disabled }) => (disabled ? 'no-drop' : 'pointer')};
 	&:hover {
-		background-color: ${({disabled}) => (disabled ? palette.white : palette.Btn_dark_green)};
+		background-color: ${({ disabled }) => (disabled ? palette.white : palette.Btn_dark_green)};
 	}
 `
 const PlusIcons = styled.span`

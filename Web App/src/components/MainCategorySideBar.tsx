@@ -47,7 +47,6 @@ const MainCategorySideBar = ({ sellerId, setSinglePost, isContactUsOpen, setIsCo
 
 	const getTopPost = async () => {
 		let response = await getPopularPost()
-		console.log(response);
 		setTopPost(response)
 	}
 
@@ -87,7 +86,7 @@ const MainCategorySideBar = ({ sellerId, setSinglePost, isContactUsOpen, setIsCo
 						</Text>
 					)}
 					{topPost?.data?.map((item: any, index: any) => (
-						
+
 						<List key={index} onClick={() => handleItemClick(item?.id)}>
 							<li >
 								<Flexed direction="row" align="center" gap={0.5} className='most-viewed-posts'>
@@ -104,20 +103,20 @@ const MainCategorySideBar = ({ sellerId, setSinglePost, isContactUsOpen, setIsCo
 										</Profile>
 									</div>
 									<div>
-									<Name color="black_100" type="normal" pointer lineHeight={1.5} fontWeight={500} textTransform="capitalize">
-										<span>{item?.title}</span>
-									</Name>
-									
-									<Name color="gray" type="normal"  fontSize={0.75} pointer lineHeight={1.2} fontWeight={500} >
-										<em><span className='me-1 block'>by</span>
-										<span>{item?.user.first_name } {item?.user.last_name }</span></em>
-									</Name>
-										</div>
-										
+										<Name color="black_100" type="normal" pointer lineHeight={1.5} fontWeight={500} textTransform="capitalize">
+											<span>{item?.title}</span>
+										</Name>
+
+										<Name color="gray" type="normal" fontSize={0.75} pointer lineHeight={1.2} fontWeight={500} >
+											<em><span className='me-1 block'>by</span>
+												<span>{item?.user.first_name} {item?.user.last_name}</span></em>
+										</Name>
+									</div>
+
 								</Flexed>
 							</li>
 						</List>
-						
+
 					))}
 				</OnlyForWeb>
 			</MdHide>

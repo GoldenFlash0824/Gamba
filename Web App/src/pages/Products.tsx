@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Product from '../components/Product'
-import {RsponsiveSpacer} from '../styled/shared'
-import {useSelector} from 'react-redux'
-import {palette} from '../styled/colors'
+import { RsponsiveSpacer } from '../styled/shared'
+import { useSelector } from 'react-redux'
+import { palette } from '../styled/colors'
 
-const Products = ({addToCart, sellerId,setSellerId,setSelectedBtn, setUserId, userId,setSinglePost,setSingleEvent,setIsContactUsOpen,isContactUsOpen,setIsAboutOpen,
-	isAboutOpen}: any) => {
+const Products = ({ addToCart, sellerId, setSellerId, setSelectedBtn, setUserId, userId, setSinglePost, setSingleEvent, setIsContactUsOpen, isContactUsOpen, setIsAboutOpen,
+	isAboutOpen }: any) => {
 	const selectedCategory = useSelector<any>((state: any) => state.auth.selectedCategory)
 	const [isSelected, setIsSelected] = useState(selectedCategory)
 

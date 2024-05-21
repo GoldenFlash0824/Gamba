@@ -1,12 +1,12 @@
-import React, {useState} from 'react'
-import {palette} from '../../styled/colors'
+import React, { useState } from 'react'
+import { palette } from '../../styled/colors'
 import styled from 'styled-components'
-import {media} from 'styled-bootstrap-grid'
-import {Text, Flexed} from '../../styled/shared'
+import { media } from 'styled-bootstrap-grid'
+import { Text, Flexed } from '../../styled/shared'
 
-const CommentList = ({data, user, onLikeClick, onDisLikeClick}: any) => {
+const CommentList = ({ data, user, onLikeClick, onDisLikeClick }: any) => {
 	return (
-		<Flexed className='p-125 py-0 comment-list' direction="row"  gap={0.625}>
+		<Flexed className='p-125 py-0 comment-list' direction="row" gap={0.625}>
 			<div>
 				<Profile styledColor={''}>
 					{data?.commentedUser?.image ? (
@@ -36,7 +36,7 @@ const CommentList = ({data, user, onLikeClick, onDisLikeClick}: any) => {
 						</Flexed>
 					</Flexed> */}
 				</Box>
-				<CommentText   type="normal" color="gray" fontWeight={500} lineHeight={1.5}>
+				<CommentText type="normal" color="gray" fontWeight={500} lineHeight={1.5}>
 					{data?.comment}
 					<ImageSection direction="row" gap={0.3} flexWrap="wrap">
 						{data?.image && (
@@ -66,21 +66,21 @@ export const Img = styled.img`
 	object-fit: cover;
 `
 
-export const ImageSection = styled(Flexed)<any>`
+export const ImageSection = styled(Flexed) <any>`
 	margin-top: 0.25rem;
 	${media.xs`margin-top: 0.25rem;`}
 `
 
 const Icons = styled.img<any>`
 	cursor: pointer;
-	filter: ${({active}) => (active ? 'invert(49%) sepia(36%) saturate(2429%) hue-rotate(66deg) brightness(96%) contrast(101%);' : '')};
+	filter: ${({ active }) => (active ? 'invert(49%) sepia(36%) saturate(2429%) hue-rotate(66deg) brightness(96%) contrast(101%);' : '')};
 `
 
 const Profile = styled.div<any>`
 	height: 2.5rem;
 	width: 2.5rem;
 	border-radius: 100%;
-	background: ${({styledColor}) => styledColor && `${styledColor} !important`};
+	background: ${({ styledColor }) => styledColor && `${styledColor} !important`};
 	color: ${palette.black};
 	display: flex;
 	justify-content: center;
@@ -90,7 +90,7 @@ const Profile = styled.div<any>`
 `
 
 const ProfileText = styled(Text)`
-	color: ${({styledColor}) => (styledColor ? `${styledColor}` : palette.red)};
+	color: ${({ styledColor }) => (styledColor ? `${styledColor}` : palette.red)};
 `
 
 const UserProfileImg = styled.img`

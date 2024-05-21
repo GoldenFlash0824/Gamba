@@ -9,7 +9,6 @@ import { useDispatch } from 'react-redux'
 import { addFavSeller } from '../apis/apis'
 
 import LoginPopupModel from './modals/LoginPopupModel'
-import { BiEnvelope } from 'react-icons/bi'
 
 const GambaNetworkList = ({ social, product, setSellerId, setSelectCategory, setUserId, data }: any) => {
 	const dispatch = useDispatch()
@@ -92,14 +91,6 @@ const GambaNetworkList = ({ social, product, setSellerId, setSelectCategory, set
 						</Flexed>
 						<div>
 							<Flexed className='chat-hover' direction="row" gap={0.125} align="center">
-								{/* <BiEnvelope style={{fontSize: '1.3rem'}} onClick={() => {
-										if (isUserLogIn !== null) {
-											_navigate(`/chat/${data?.chat_id}`)
-										} else {
-											setLoginPopup(true)
-											// toastError('Please LogIn First')
-										}
-									}} /> */}
 								<span>
 									<Chat
 										src="/images/icons/chat-dots-svg.svg"

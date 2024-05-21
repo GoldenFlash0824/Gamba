@@ -5,7 +5,7 @@ import db from '../models/index.js'
 import { sendNotification } from '../notification/sendNotification.js'
 import { getUserIdFromToken } from '../utilities/authentication.js'
 import { deleteImage, s3ImageUpload } from './aws.js'
-import { notificationEmail } from './emailService.js'
+import { createEventEmail, joinedEventEmail, notificationEmail } from './emailService.js'
 import { facetStage } from './userService.js'
 
 const createEvent = async (req) => {
@@ -19,7 +19,6 @@ const createEvent = async (req) => {
         where: {
             id: u_id,
             [db.Op.or]: [{ disable: true }, { is_block: true }]
-
         }
     })
 
@@ -31,7 +30,8 @@ const createEvent = async (req) => {
     }
 
     let _createEvent = await db.Events.create({ price: price, location: location, summary: summary, start_date: startDate, u_id: u_id, end_date: endDate, latitude: latitude, longitude: longitude, image: eventImage, title: title, is_private: is_private, status: false, privacy: privacy, limit_to: limit_to || null, limit_to_number: limit_to_number || null })
-
+    let _createUser = await db.User.findOne({ where: { id: u_id }, raw: true })
+    await createEventEmail(_createUser.email, _createUser, _createEvent);
     if (_createEvent) {
         return {
             data: { event: _createEvent },
@@ -51,7 +51,6 @@ const getAllEvent = async (req) => {
     const { limit, offset } = await facetStage(req.query.page)
     const currentDate = moment.tz(moment().format(), process.env.TIME_ZONE).format()
 
-    console.log('================currentDate', currentDate)
     //disable user event
     let disable_user_data = await db.User.findAll({
         where: {
@@ -121,8 +120,6 @@ const getAllEvent = async (req) => {
         }
     }
 }
-
-// where: {[db.Op.and]: [{is_trade: true, is_donation: false, discount: 0}, {name: {[db.Op.like]: '%' + filter + '%'}}]},
 
 const searchEvents = async (req) => {
     const u_id = await getUserIdFromToken(req)
@@ -480,7 +477,11 @@ const getPopularEvent = async (req) => {
 
 const joinEvent = async (req) => {
     const u_id = await getUserIdFromToken(req)
-    let user = await db.User.findOne({ id: u_id })
+    let user = await db.User.findOne({
+        where: {
+            id: u_id
+        }
+    })
     const { event_id, payment_id } = req.body
 
     try {
@@ -538,11 +539,19 @@ const joinEvent = async (req) => {
             }
         }
 
+        let _event_creator = await db.User.findOne({
+            where: {
+                id: event_data.u_id
+            }
+        });
+
         await db.joinEvent.create({
             u_id: u_id,
             event_id: event_id,
             payment_id: payment_id
-        })
+        });
+
+        await joinedEventEmail(_event_creator.email, _event_creator, user);
 
         event_data = await db.Events.findOne({
             where: {

@@ -30,7 +30,6 @@ function WeavyChat() {
 			// addUsers()
 		}
 	}, [userId])
-	// console.log('router', router.query['*'])
 
 	const initializeWeavyApp = async () => {
 		const dbUserResponse: any = await doGetUserProfile()
@@ -107,7 +106,6 @@ function WeavyChat() {
 					Authorization: `Bearer ${userResponse.data.access_token}`
 				}
 			})
-			console.log('userDetails=======', userDetails)
 
 			if (id) {
 				const url = `${environment}/api/conversations`
@@ -117,14 +115,11 @@ function WeavyChat() {
 				}
 
 				let _userDetails = await axios.get(`${environment}/api/users/${id}`, { headers })
-				console.log('=======', _userDetails)
 				await axios
 					.get(url, { headers })
 					.then(async (response) => {
 						const chatList = response.data.data
-						console.log('======= chatList', chatList)
 						let isGroup = chatList?.find((e: any) => e.display_name == _userDetails?.data?.display_name)
-						console.log('isGroup', isGroup)
 						if (isGroup == null) {
 							let conversation = await axios
 								.post(`${environment}/api/conversations`, { members: [_userDetails?.data?.id] }, { headers: updateHeader })
@@ -139,10 +134,8 @@ function WeavyChat() {
 					})
 					.catch((error) => {
 						setLoading(false)
-						console.log('chatList Error:', error)
 					})
 			}
-			console.log(userResponse.data.access_token);
 			setUserToken(userResponse.data.access_token)
 			setLoading(false)
 		} catch (error: any) {
@@ -172,9 +165,6 @@ function WeavyChat() {
 		const getNotification = await axios.get(`${environment}/api/notifications`, { headers })
 		const response = await axios.get(`${environment}/api/notifications?top=10&unread=true`, { headers })
 		const notifications = response.data
-
-		console.log('notifications', notifications)
-		console.log('getNotifications', getNotification.data)
 	}
 
 	return (

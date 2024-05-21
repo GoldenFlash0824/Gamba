@@ -1,9 +1,9 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import {Modal} from 'react-responsive-modal'
+import { Modal } from 'react-responsive-modal'
 import 'react-responsive-modal/styles.css'
-import {Text, Flexed} from '../../styled/shared'
-import {palette} from '../../styled/colors'
+import { Text, Flexed } from '../../styled/shared'
+import { palette } from '../../styled/colors'
 import TradeProduct from '../TradeProduct'
 
 const closeIcon = (
@@ -15,7 +15,7 @@ const closeIcon = (
 	</svg>
 )
 
-const TradeDetailsModal = ({onClose, content}: any) => {
+const TradeDetailsModal = ({ onClose, content }: any) => {
 	return (
 		<>
 			<Modal
@@ -50,12 +50,12 @@ const ModalWrapper = styled.div`
 
 const Body = styled.div``
 
-export const MenuText = styled(Text)<any>`
+export const MenuText = styled(Text) <any>`
 	position: relative;
-	color: ${({active}) => (active ? palette.Btn_dark_green : palette.text)};
+	color: ${({ active }) => (active ? palette.Btn_dark_green : palette.text)};
 	letter-spacing: 0.05em;
 	/* font-weight: 600; */
-	font-size: ${({fontSize}) => (fontSize ? fontSize : '1rem')};
+	font-size: ${({ fontSize }) => (fontSize ? fontSize : '1rem')};
 
 	cursor: pointer;
 	&:not(:last-child) {
@@ -63,7 +63,7 @@ export const MenuText = styled(Text)<any>`
 	}
 
 	&:hover {
-		color: ${({active}) => (active ? palette.Btn_dark_green : palette.Btn_dark_green)};
+		color: ${({ active }) => (active ? palette.Btn_dark_green : palette.Btn_dark_green)};
 		transition: color 0.1s ease 0.1s;
 	}
 `

@@ -1,16 +1,16 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {media} from 'styled-bootstrap-grid'
-import {Flexed, Text} from '../../styled/shared'
-import {palette} from '../../styled/colors'
+import { media } from 'styled-bootstrap-grid'
+import { Flexed, Text } from '../../styled/shared'
+import { palette } from '../../styled/colors'
 import Toggle from '../common/Toggle'
-import {useNavigate} from 'react-router-dom'
-import {useDispatch} from 'react-redux'
-import {saveSearchText, setOrganicProducts} from '../../actions/authActions'
-import {useSelector} from 'react-redux'
-import {sideBarCountProduct} from '../../apis/apis'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { saveSearchText, setSelectedCategory, setOrganicProducts } from '../../actions/authActions'
+import { useSelector } from 'react-redux'
+import { sideBarCountProduct } from '../../apis/apis'
 
-const ProductCategories = ({setIsSellerSelfProfileOpen, getAllSellersApi, getAllProducts, isSellerProfileLinkOpen, setIsSellerProfileLinkOpen, getAllUserAndPosts, selectCategory, setSelectCategory, sellersProfile, setSelectSearchCategory}: any) => {
+const ProductCategories = ({ setIsSellerSelfProfileOpen, getAllSellersApi, getAllProducts, isSellerProfileLinkOpen, setIsSellerProfileLinkOpen, getAllUserAndPosts, selectCategory, setSelectCategory, sellersProfile }: any) => {
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 	const [toggle, setToggle] = useState(true)
 	let [countData, setCountData] = useState<any>('')
@@ -42,7 +42,6 @@ const ProductCategories = ({setIsSellerSelfProfileOpen, getAllSellersApi, getAll
 					active={selectCategory === 'products'}
 					onClick={() => {
 						setSelectCategory('products')
-						setSelectSearchCategory('products')
 						// _dispatch(setOrganicProducts(false))
 						_dispatch(saveSearchText(''))
 						if (isSellerProfileLinkOpen) {
@@ -62,7 +61,6 @@ const ProductCategories = ({setIsSellerSelfProfileOpen, getAllSellersApi, getAll
 						onClick={async () => {
 							setIsSellerSelfProfileOpen(false)
 							setSelectCategory('sellers')
-							setSelectSearchCategory('sellers')
 							_dispatch(saveSearchText(''))
 							if (isSellerProfileLinkOpen) {
 								setIsSellerProfileLinkOpen(false)
@@ -84,7 +82,6 @@ const ProductCategories = ({setIsSellerSelfProfileOpen, getAllSellersApi, getAll
 					active={selectCategory === 'trade'}
 					onClick={() => {
 						setSelectCategory('trade')
-						setSelectSearchCategory('trade')
 						_dispatch(saveSearchText(''))
 						if (isSellerProfileLinkOpen) {
 							setIsSellerProfileLinkOpen(false)
@@ -93,7 +90,6 @@ const ProductCategories = ({setIsSellerSelfProfileOpen, getAllSellersApi, getAll
 					}}>
 					<SocialIcon src="/images/icons/trade.svg" active={selectCategory === 'trade'} />
 					Trade
-					{/* {countData?.tradeProductCount ? `(${countData?.tradeProductCount})` : ``} */}
 				</CustomHeading>
 
 				<CustomHeading
@@ -101,7 +97,6 @@ const ProductCategories = ({setIsSellerSelfProfileOpen, getAllSellersApi, getAll
 					active={selectCategory === 'donation'}
 					onClick={() => {
 						setSelectCategory('donation')
-						setSelectSearchCategory('donation')
 						_dispatch(saveSearchText(''))
 						if (isSellerProfileLinkOpen) {
 							_navigate('/products')
@@ -110,7 +105,6 @@ const ProductCategories = ({setIsSellerSelfProfileOpen, getAllSellersApi, getAll
 					}}>
 					<SocialIcon src="/images/icons/give_away.svg" active={selectCategory === 'donation'} />
 					Giveaway
-					{/* {countData?.donationCount ? `(${countData?.donationCount})` : ``} */}
 				</CustomHeading>
 
 				<CustomHeading
@@ -118,7 +112,6 @@ const ProductCategories = ({setIsSellerSelfProfileOpen, getAllSellersApi, getAll
 					active={selectCategory === 'sale'}
 					onClick={() => {
 						setSelectCategory('sale')
-						setSelectSearchCategory('sale')
 						_dispatch(saveSearchText(''))
 						if (isSellerProfileLinkOpen) {
 							setIsSellerProfileLinkOpen(false)
@@ -129,6 +122,7 @@ const ProductCategories = ({setIsSellerSelfProfileOpen, getAllSellersApi, getAll
 					Sale
 					{/* {countData?.saleProductCount ? `(${countData?.saleProductCount})` : ``} */}
 				</CustomHeading>
+
 				<Filter
 					active={selectCategory === 'products'}
 					onClick={async () => {
@@ -143,10 +137,7 @@ const ProductCategories = ({setIsSellerSelfProfileOpen, getAllSellersApi, getAll
 						<div
 							onClick={async () => {
 								_dispatch(saveSearchText(''))
-								// if(selectCategory !== 'products'){
-								// }
 							}}>
-							{/* <Toggle  setToggle={(e) => _dispatch(setOrganicProducts(e))} toggle={organicProducts} /> */}
 							<Switch toggle={organicProducts}>
 								<Dot toggle={organicProducts} />
 							</Switch>
@@ -176,10 +167,10 @@ const Categories = styled(Flexed)`
 `
 
 const SocialIcon = styled.img<any>`
-	filter: ${({active}) => (active ? 'invert(49%) sepia(36%) saturate(2429%) hue-rotate(66deg) brightness(96%) contrast(101%);' : '')};
+	filter: ${({ active }) => (active ? 'invert(49%) sepia(36%) saturate(2429%) hue-rotate(66deg) brightness(96%) contrast(101%);' : '')};
 `
 
-const CustomHeading = styled(Text)<any>`
+const CustomHeading = styled(Text) <any>`
 	position: relative;
 	padding: 0.344rem 0.675rem;
 	cursor: pointer;
@@ -188,11 +179,11 @@ const CustomHeading = styled(Text)<any>`
 	align-items: center;
 	gap: 0.325rem;
 	white-space: nowrap;
-	font-weight: ${({active}) => (active ? 700 : 400)};
-	background: ${({active}) => (active ? palette.green_300 : palette.white)};
+	font-weight: ${({ active }) => (active ? 700 : 400)};
+	background: ${({ active }) => (active ? palette.green_300 : palette.white)};
 	text-align: center;
 	border-radius: 1.25rem;
-	color: ${({active}) => (active ? palette.green_200 : palette.gray_400)};
+	color: ${({ active }) => (active ? palette.green_200 : palette.gray_400)};
 	margin-bottom: 0.5rem;
 
 	&:hover {
@@ -211,30 +202,30 @@ const CustomHeading = styled(Text)<any>`
 const Filter = styled.div<any>`
 	padding: 0.344rem 0.5rem;
 	margin-bottom: 0.5rem;
-	// opacity: ${({active}) => (active ? '0.5' : '1')};
+	// opacity: ${({ active }) => (active ? '0.5' : '1')};
 `
 
-const OrganicText = styled(Text)<any>`
+const OrganicText = styled(Text) <any>`
 	position: relative;
 	cursor: pointer;
 	white-space: nowrap;
-	font-weight: ${({active}) => (active ? 700 : 400)};
-	color: ${({active}) => (active ? palette.green_200 : palette.gray_400)};
+	font-weight: ${({ active }) => (active ? 700 : 400)};
+	color: ${({ active }) => (active ? palette.green_200 : palette.gray_400)};
 `
 
 const Switch = styled.div<any>`
 	display: flex;
 	align-items: center;
-	justify-content: ${({toggle}) => (toggle ? 'flex-end' : 'flex-start')};
-	background-color: ${({toggle}) => (toggle ? palette.Btn_dark_green : palette.gray_100)};
+	justify-content: ${({ toggle }) => (toggle ? 'flex-end' : 'flex-start')};
+	background-color: ${({ toggle }) => (toggle ? palette.Btn_dark_green : palette.gray_100)};
 	width: 35px;
 	height: 21px;
 	border-radius: 1rem;
 	padding: 0.5rem 0.1rem;
 	margin-top: 3px;
 	transition: justify-content 2s, transform 2s;
-	border: 0.063rem solid ${({toggle}) => (toggle ? palette.fbBg : palette.fbBg)};
-	cursor: ${({disabled}) => (disabled ? 'no-drop' : 'pointer')};
+	border: 0.063rem solid ${({ toggle }) => (toggle ? palette.fbBg : palette.fbBg)};
+	cursor: ${({ disabled }) => (disabled ? 'no-drop' : 'pointer')};
 `
 
 const Dot = styled.div<any>`

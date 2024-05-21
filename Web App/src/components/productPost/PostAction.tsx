@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from 'react'
-import {palette} from '../../styled/colors'
+import React, { useEffect, useState } from 'react'
+import { palette } from '../../styled/colors'
 import styled from 'styled-components'
-import {Text, Flexed, Spacer} from '../../styled/shared'
-import {RxCrossCircled} from 'react-icons/rx'
-import {RiMore2Fill} from 'react-icons/ri'
+import { Text, Flexed, Spacer } from '../../styled/shared'
+import { RxCrossCircled } from 'react-icons/rx'
+import { RiMore2Fill } from 'react-icons/ri'
 import SocialShareModal from '../modals/SocialShareModal'
-import {media} from 'styled-bootstrap-grid'
-import {AiFillHeart} from 'react-icons/ai'
-import {AiOutlineHeart} from 'react-icons/ai'
-import {colorPicker} from '../utils'
+import { media } from 'styled-bootstrap-grid'
+import { AiFillHeart } from 'react-icons/ai'
+import { AiOutlineHeart } from 'react-icons/ai'
+import { colorPicker } from '../utils'
 
 import {
 	addPostLikesApi,
@@ -29,29 +29,28 @@ import {
 	doUpdatePostComment,
 	doUpdatePostReply
 } from '../../apis/apis'
-import EmojiInput from 'react-input-emoji'
-import {IoSend} from 'react-icons/io5'
+import { IoSend } from 'react-icons/io5'
 import CommentsModal from '../modals/CommentsModal'
 import moment from 'moment-timezone'
-import {RiDeleteBin6Line} from 'react-icons/ri'
+import { RiDeleteBin6Line } from 'react-icons/ri'
 import Loader from '../common/Loader'
-import {toastError} from '../../styled/toastStyle'
+import { toastError } from '../../styled/toastStyle'
 import ComentEditDeleteModal from '../modals/ComentEditDeleteModal'
 
-import {GoComment} from 'react-icons/go'
-import {TbShare3} from 'react-icons/tb'
-import {useSelector} from 'react-redux'
-import {useLocation, useNavigate} from 'react-router-dom'
+import { GoComment } from 'react-icons/go'
+import { TbShare3 } from 'react-icons/tb'
+import { useSelector } from 'react-redux'
+import { useLocation, useNavigate } from 'react-router-dom'
 import AllLikesModal from '../modals/AllLikesModal'
 import ProfileImg from '../ProfileImg'
 import PostCommentComponent from '../PostCommentComponent'
-import {useDispatch} from 'react-redux'
-import {commentCount} from '../../actions/authActions'
+import { useDispatch } from 'react-redux'
+import { commentCount } from '../../actions/authActions'
 import CommentList from './CommentList'
 import LoginPopupModel from '../modals/LoginPopupModel'
 
-const PostAction = ({data, sellersData, setUserId, userData, commentsModal, sellersCardOpen, setSellerId}: any) => {
-	const {pathname}: any = useLocation()
+const PostAction = ({ data, sellersData, setUserId, userData, commentsModal, sellersCardOpen, setSellerId }: any) => {
+	const { pathname }: any = useLocation()
 	const _navigate = useNavigate()
 	const [postComment, setPostComment] = useState([])
 	const [likes, setLikes] = useState(0)
@@ -96,10 +95,6 @@ const PostAction = ({data, sellersData, setUserId, userData, commentsModal, sell
 	useEffect(() => {
 		getSlugPost()
 	}, [])
-
-	const handleEmojiChange = (emoji: any) => {
-		setMyComment(myComment + emoji)
-	}
 
 	const addPostLikes = async () => {
 		const response = await addPostLikesApi(data.id)
@@ -295,7 +290,7 @@ const PostAction = ({data, sellersData, setUserId, userData, commentsModal, sell
 		}
 	}
 
-	const handleCapture = ({target}: any) => {
+	const handleCapture = ({ target }: any) => {
 		const allowedTypes = ['image/jpeg', 'image/png', 'image/gif']
 		let _isValidFile = false
 		if (target.files[0] && allowedTypes.includes(target.files[0].type)) {
@@ -418,21 +413,21 @@ const PostAction = ({data, sellersData, setUserId, userData, commentsModal, sell
 												{comment?.isMeComment && (
 													<>
 														<Drop className="dots-v-hover align-items-baseline ">
-															<Dots  />
+															<Dots />
 															<DropContent>
 																<DropMenu className="d-flex align-items-center gap-2"
 																	onClick={() => {
-																		setOnEditComment({...comment, isComment: true})
+																		setOnEditComment({ ...comment, isComment: true })
 																		setMyComment(comment?.text)
 																	}}>
-																		<svg width="14" height="14" viewBox="0 0 512 512"><path d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152V424c0 48.6 39.4 88 88 88H360c48.6 0 88-39.4 88-88V312c0-13.3-10.7-24-24-24s-24 10.7-24 24V424c0 22.1-17.9 40-40 40H88c-22.1 0-40-17.9-40-40V152c0-22.1 17.9-40 40-40H200c13.3 0 24-10.7 24-24s-10.7-24-24-24H88z" fill="#5B626A"></path></svg>
+																	<svg width="14" height="14" viewBox="0 0 512 512"><path d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152V424c0 48.6 39.4 88 88 88H360c48.6 0 88-39.4 88-88V312c0-13.3-10.7-24-24-24s-24 10.7-24 24V424c0 22.1-17.9 40-40 40H88c-22.1 0-40-17.9-40-40V152c0-22.1 17.9-40 40-40H200c13.3 0 24-10.7 24-24s-10.7-24-24-24H88z" fill="#5B626A"></path></svg>
 																	Edit
 																</DropMenu>
-																<DropMenu  className="d-flex align-items-center gap-2"
+																<DropMenu className="d-flex align-items-center gap-2"
 																	onClick={() => {
 																		onDeleteComment(false, comment?.id)
 																	}}>
-																		<svg width="14" height="14" viewBox="0 0 448 512"><path d="M170.5 51.6L151.5 80h145l-19-28.4c-1.5-2.2-4-3.6-6.7-3.6H177.1c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80H368h48 8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-8V432c0 44.2-35.8 80-80 80H112c-44.2 0-80-35.8-80-80V128H24c-13.3 0-24-10.7-24-24S10.7 80 24 80h8H80 93.8l36.7-55.1C140.9 9.4 158.4 0 177.1 0h93.7c18.7 0 36.2 9.4 46.6 24.9zM80 128V432c0 17.7 14.3 32 32 32H336c17.7 0 32-14.3 32-32V128H80zm80 64V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16z" fill="#5B626A"></path></svg>
+																	<svg width="14" height="14" viewBox="0 0 448 512"><path d="M170.5 51.6L151.5 80h145l-19-28.4c-1.5-2.2-4-3.6-6.7-3.6H177.1c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80H368h48 8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-8V432c0 44.2-35.8 80-80 80H112c-44.2 0-80-35.8-80-80V128H24c-13.3 0-24-10.7-24-24S10.7 80 24 80h8H80 93.8l36.7-55.1C140.9 9.4 158.4 0 177.1 0h93.7c18.7 0 36.2 9.4 46.6 24.9zM80 128V432c0 17.7 14.3 32 32 32H336c17.7 0 32-14.3 32-32V128H80zm80 64V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16z" fill="#5B626A"></path></svg>
 																	Delete
 																</DropMenu>
 															</DropContent>
@@ -445,70 +440,70 @@ const PostAction = ({data, sellersData, setUserId, userData, commentsModal, sell
 										<Flexed margin="0rem 1rem 0rem 3rem">
 											{comment?.reply?.length
 												? comment?.reply?.map((e: any, i: any) => {
-														return (
-															<Flexed margin="0rem 0rem 1rem 0rem" gap={0.625} direction="row">
-																<ProfileImg commentReply={e} reply={true} setSellerId={setSellerId} />
-																<InnerContent>
-																	<Box>
-																		<UserName type="normal" textTransform="capitalize" fontWeight={500} color="black_200">
-																			{e.repliedUser.first_name + ' ' + e.repliedUser.last_name}
-																		</UserName>
-																		<BoxAction direction="row" align="center">
-																			<Reply
-																				color={palette.text_description}
-																				margin={'0'}
-																				cursor={'pointer'}
+													return (
+														<Flexed margin="0rem 0rem 1rem 0rem" gap={0.625} direction="row">
+															<ProfileImg commentReply={e} reply={true} setSellerId={setSellerId} />
+															<InnerContent>
+																<Box>
+																	<UserName type="normal" textTransform="capitalize" fontWeight={500} color="black_200">
+																		{e.repliedUser.first_name + ' ' + e.repliedUser.last_name}
+																	</UserName>
+																	<BoxAction direction="row" align="center">
+																		<Reply
+																			color={palette.text_description}
+																			margin={'0'}
+																			cursor={'pointer'}
+																			onClick={() => {
+																				setSelectedComment(e?.repliedUser?.first_name ? e?.repliedUser?.first_name + ' ' + e?.repliedUser?.last_name : '')
+																				setCommentId(e?.c_id)
+																			}}>
+																			Reply
+																		</Reply>
+																		<UserMessage color={palette.text_description} margin="0">
+																			{moment(e?.createdAt).from(moment(), true)}
+																		</UserMessage>
+																	</BoxAction>
+																</Box>
+																<CommentText margin="0.656rem 0rem 0rem 0rem" type="normal" color="gray" fontWeight={500} lineHeight={1.5}>
+																	{e.reply}
+																	<ImageSection direction="row" gap={0.3} flexWrap="wrap">
+																		{e?.image && (
+																			<ImgWrapper>
+																				<Img src={process.env.REACT_APP_PUBLIC_IMAGE_URL + e?.image} />
+																			</ImgWrapper>
+																		)}
+																	</ImageSection>
+																</CommentText>
+															</InnerContent>
+
+															{e?.isMeReply === 1 && (
+																<>
+																	<Drop className="dots-v-hover">
+																		<Dots />
+																		<DropContent>
+																			<DropMenu className="d-flex align-items-center gap-2"
 																				onClick={() => {
-																					setSelectedComment(e?.repliedUser?.first_name ? e?.repliedUser?.first_name + ' ' + e?.repliedUser?.last_name : '')
-																					setCommentId(e?.c_id)
+																					setOnEditComment({ ...e, isComment: false })
+
+																					setMyComment(onEditComment?.reply)
 																				}}>
-																				Reply
-																			</Reply>
-																			<UserMessage color={palette.text_description} margin="0">
-																				{moment(e?.createdAt).from(moment(), true)}
-																			</UserMessage>
-																		</BoxAction>
-																	</Box>
-																	<CommentText margin="0.656rem 0rem 0rem 0rem" type="normal" color="gray" fontWeight={500} lineHeight={1.5}>
-																		{e.reply}
-																		<ImageSection direction="row" gap={0.3} flexWrap="wrap">
-																			{e?.image && (
-																				<ImgWrapper>
-																					<Img src={process.env.REACT_APP_PUBLIC_IMAGE_URL + e?.image} />
-																				</ImgWrapper>
-																			)}
-																		</ImageSection>
-																	</CommentText>
-																</InnerContent>
-
-																{e?.isMeReply === 1 && (
-																	<>
-																		<Drop className="dots-v-hover">
-																			<Dots />
-																			<DropContent>
-																				<DropMenu className="d-flex align-items-center gap-2"
-																					onClick={() => {
-																						setOnEditComment({...e, isComment: false})
-
-																						setMyComment(onEditComment?.reply)
-																					}}>
-																						<svg width="14" height="14" viewBox="0 0 512 512"><path d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152V424c0 48.6 39.4 88 88 88H360c48.6 0 88-39.4 88-88V312c0-13.3-10.7-24-24-24s-24 10.7-24 24V424c0 22.1-17.9 40-40 40H88c-22.1 0-40-17.9-40-40V152c0-22.1 17.9-40 40-40H200c13.3 0 24-10.7 24-24s-10.7-24-24-24H88z" fill="#5B626A"></path></svg>
-																					Edit
-																				</DropMenu>
-																				<DropMenu className="d-flex align-items-center gap-2"
-																					onClick={() => {
-																						onDeleteComment(true, e?.id)
-																					}}>
-																						<svg width="14" height="14" viewBox="0 0 448 512"><path d="M170.5 51.6L151.5 80h145l-19-28.4c-1.5-2.2-4-3.6-6.7-3.6H177.1c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80H368h48 8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-8V432c0 44.2-35.8 80-80 80H112c-44.2 0-80-35.8-80-80V128H24c-13.3 0-24-10.7-24-24S10.7 80 24 80h8H80 93.8l36.7-55.1C140.9 9.4 158.4 0 177.1 0h93.7c18.7 0 36.2 9.4 46.6 24.9zM80 128V432c0 17.7 14.3 32 32 32H336c17.7 0 32-14.3 32-32V128H80zm80 64V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16z" fill="#5B626A"></path></svg>
-																					Delete
-																				</DropMenu>
-																			</DropContent>
-																		</Drop>
-																	</>
-																)}
-															</Flexed>
-														)
-												  })
+																				<svg width="14" height="14" viewBox="0 0 512 512"><path d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152V424c0 48.6 39.4 88 88 88H360c48.6 0 88-39.4 88-88V312c0-13.3-10.7-24-24-24s-24 10.7-24 24V424c0 22.1-17.9 40-40 40H88c-22.1 0-40-17.9-40-40V152c0-22.1 17.9-40 40-40H200c13.3 0 24-10.7 24-24s-10.7-24-24-24H88z" fill="#5B626A"></path></svg>
+																				Edit
+																			</DropMenu>
+																			<DropMenu className="d-flex align-items-center gap-2"
+																				onClick={() => {
+																					onDeleteComment(true, e?.id)
+																				}}>
+																				<svg width="14" height="14" viewBox="0 0 448 512"><path d="M170.5 51.6L151.5 80h145l-19-28.4c-1.5-2.2-4-3.6-6.7-3.6H177.1c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80H368h48 8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-8V432c0 44.2-35.8 80-80 80H112c-44.2 0-80-35.8-80-80V128H24c-13.3 0-24-10.7-24-24S10.7 80 24 80h8H80 93.8l36.7-55.1C140.9 9.4 158.4 0 177.1 0h93.7c18.7 0 36.2 9.4 46.6 24.9zM80 128V432c0 17.7 14.3 32 32 32H336c17.7 0 32-14.3 32-32V128H80zm80 64V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16z" fill="#5B626A"></path></svg>
+																				Delete
+																			</DropMenu>
+																		</DropContent>
+																	</Drop>
+																</>
+															)}
+														</Flexed>
+													)
+												})
 												: ''}
 										</Flexed>
 									</Flexed>
@@ -518,7 +513,7 @@ const PostAction = ({data, sellersData, setUserId, userData, commentsModal, sell
 						<Spacer height={0.5} />
 
 						<>
-							<CommentWriteBox direction="row"  align="center" gap={0.625}>
+							<CommentWriteBox direction="row" align="center" gap={0.625}>
 								<div className='img-40'>
 									<Profile styledColor={getForUserColor}>
 										{userDetails?.image ? (
@@ -529,20 +524,7 @@ const PostAction = ({data, sellersData, setUserId, userData, commentsModal, sell
 									</Profile>
 								</div>
 								<InputWrapper>
-									{/* <EmojiInput
-										fontSize="16px"
-										value={myComment}
-										onChange={setMyComment}
-										onKeyDown={(e) => {
-											if (e.key === 'Enter') {
-												e.preventDefault()
-												e.stopPropagation()
-												sendCommentCaseFirst()
-											}
-										}}
-										placeholder="Write your comment..."
-										onEmojiClick={handleEmojiChange}
-									/> */}
+									<Input value={myComment} onChange={(e) => setMyComment(e.target.value)} placeholder='Comment ...' />
 									<Icon direction="row" align="center" gap={3.65}>
 										<Label>
 											<FileInput
@@ -615,40 +597,38 @@ const PostAction = ({data, sellersData, setUserId, userData, commentsModal, sell
 					<>
 						{data?.userComments?.length
 							? data?.userComments?.map((res) => {
-									return (
-										<CommentList
-											data={res}
-											user={userDetails}
-											onLikeClick={() => {
-												if (isUserLogIn) {
-													if (res?.likeComment?.some((like) => like['u_id'] === userDetails?.id)) {
-														dispatch(commentCount(1))
-														postCommentUnLike(res?.id)
-													} else {
-														dispatch(commentCount(1))
-														addPostCommentLike(res?.id)
-													}
+								return (
+									<CommentList
+										data={res}
+										user={userDetails}
+										onLikeClick={() => {
+											if (isUserLogIn) {
+												if (res?.likeComment?.some((like) => like['u_id'] === userDetails?.id)) {
+													dispatch(commentCount(1))
+													postCommentUnLike(res?.id)
+												} else {
+													dispatch(commentCount(1))
+													addPostCommentLike(res?.id)
 												}
-											}}
-											onDisLikeClick={() => {
-												if (isUserLogIn) {
-													if (res?.dislikeComment?.some((like) => like['u_id'] === userDetails?.id)) {
-														dispatch(commentCount(1))
-														postCommentRemoveDisLike(res?.id)
-													} else {
-														dispatch(commentCount(1))
-														postCommentDisLike(res?.id)
-													}
+											}
+										}}
+										onDisLikeClick={() => {
+											if (isUserLogIn) {
+												if (res?.dislikeComment?.some((like) => like['u_id'] === userDetails?.id)) {
+													dispatch(commentCount(1))
+													postCommentRemoveDisLike(res?.id)
+												} else {
+													dispatch(commentCount(1))
+													postCommentDisLike(res?.id)
 												}
-											}}
-										/>
-									)
-							  })
+											}
+										}}
+									/>
+								)
+							})
 							: ''}
 
-						{/* // <CommentList /> */}
-
-						<CommentWriteBox  className="seller-post-comment" direction="row" padding="8px 0.875rem" margin="0rem 0rem 0rem 0rem" align="" gap={0.625}>
+						<CommentWriteBox className="seller-post-comment" direction="row" padding="8px 0.875rem" margin="0rem 0rem 0rem 0rem" align="" gap={0.625}>
 							<div className='img-40'>
 								<Profile styledColor={getForUserColor}>
 									{userDetails?.image ? (
@@ -659,26 +639,10 @@ const PostAction = ({data, sellersData, setUserId, userData, commentsModal, sell
 								</Profile>
 							</div>
 							<InputWrapper>
-								{/* <EmojiInput
-									value={myComment}
-									fontSize="16px"
-									onChange={setMyComment}
-									onKeyDown={(e) => {
-										if (e.key === 'Enter') {
-											e.preventDefault()
-											e.stopPropagation()
-											sendCommentCaseSecond()
-										}
-									}}
-									placeholder="Write your comment..."
-									onEmojiClick={handleEmojiChange}
-								/> */}
+								<Input value={myComment} onChange={(e) => setMyComment(e.target.value)} placeholder='Comment ...' />
 								<Icon direction="row" align="center" gap={3.65}>
 									<Label>
-										{/* <MiniIcons src="/images/icons/attach_fille.svg" alt="attach_fille.svg" /> */}
 										<FileInput
-											// multiple
-											// multiple
 											id="faceImage"
 											accept="image/jpeg/png"
 											type="file"
@@ -712,8 +676,6 @@ const PostAction = ({data, sellersData, setUserId, userData, commentsModal, sell
 							</InputWrapper>
 						</CommentWriteBox>
 						<ImageSection direction="row" gap={0.3} flexWrap="wrap">
-							{/* {imageData.map((value: any, index: any) => {
-								return ( */}
 							{imageData && (
 								<ImgWrapper>
 									<Img src={imageData} />
@@ -773,7 +735,7 @@ const StyledFlex = styled(Flexed)`
 const Wrapper = styled.div`
 	/* padding-bottom: 1rem; */
 `
-const Heart = styled(AiOutlineHeart)<any>`
+const Heart = styled(AiOutlineHeart) <any>`
 	color: ${palette.text};
 	${media.xs`font-size:0.85rem !important;`}
 	font-size: 1.2rem;
@@ -783,7 +745,7 @@ const Profile = styled.div<any>`
 	// height: 3.125rem;
 	// width: 3.125rem;
 	border-radius: 100%;
-	background: ${({styledColor}) => (styledColor ? `${styledColor} !important` : palette.Btn_dark_green)};
+	background: ${({ styledColor }) => (styledColor ? `${styledColor} !important` : palette.Btn_dark_green)};
 	color: ${palette.black};
 	display: flex;
 	justify-content: center;
@@ -799,14 +761,14 @@ const UserProfileImg = styled.img<any>`
 	height: 100%;
 `
 const ProfileText = styled(Text)`
-	color: ${({styledColor}) => (styledColor ? `${styledColor}` : palette.red)};
+	color: ${({ styledColor }) => (styledColor ? `${styledColor}` : palette.red)};
 `
 
 const CommentWrapper = styled.div`
 	// padding-top: 1.25rem;
 `
-const Flex = styled(Flexed)<any>``
-export const CustomFlex = styled(Flexed)<any>`
+const Flex = styled(Flexed) <any>``
+export const CustomFlex = styled(Flexed) <any>`
 	width: 100%;
 	padding: 1.25rem;
 	border-bottom: 1px solid rgba(3, 7, 30, 0.5);
@@ -817,7 +779,7 @@ export const DropContent = styled.div<any>`
 	margin-top: 0rem;
 	position: absolute;
 	right: 0;
-	background-color: ${({isDarkTheme}) => (isDarkTheme ? palette.black : palette.white)};
+	background-color: ${({ isDarkTheme }) => (isDarkTheme ? palette.black : palette.white)};
 	min-width: 8rem;
 	box-shadow: ${palette.shadow};
 	z-index: 2;
@@ -853,33 +815,33 @@ const DeleteComment = styled.div`
 	/* position: relative; */
 `
 
-export const Dots = styled(RiMore2Fill)<any>`
+export const Dots = styled(RiMore2Fill) <any>`
 	color: ${palette.text};
 	cursor: pointer;
 	margin-top: 0.75rem;
 `
 
-const DeleteIcon = styled(RiDeleteBin6Line)<any>`
+const DeleteIcon = styled(RiDeleteBin6Line) <any>`
 	color: ${palette.danger};
 	cursor: pointer;
-	display: ${({visible}) => (visible === true ? 'block' : 'none')};
+	display: ${({ visible }) => (visible === true ? 'block' : 'none')};
 	/* position: absolute; */
 `
 
-const EditIcon = styled(RiMore2Fill)<any>`
+const EditIcon = styled(RiMore2Fill) <any>`
 	/* color: ${palette.danger}; */
 	margin-top: 0.8rem;
 	cursor: pointer;
-	display: ${({visible}) => (visible === true ? 'block' : 'none')};
+	display: ${({ visible }) => (visible === true ? 'block' : 'none')};
 	/* position: absolute; */
 `
 
-export const ImageSection = styled(Flexed)<any>`
+export const ImageSection = styled(Flexed) <any>`
 	margin-top: 0rem !important;
 	${media.xs`margin-top: 0rem;`}
 `
 
-const HeartFill = styled(AiFillHeart)<any>`
+const HeartFill = styled(AiFillHeart) <any>`
 	color: ${palette.Btn_dark_green};
 	${media.xs`font-size:0.85rem !important;`}
 	font-size: 1.2rem;
@@ -908,18 +870,18 @@ export const IconWrapper = styled.div`
 
 const CrossIcon = styled(RxCrossCircled)``
 
-export const Comment = styled(GoComment)<any>`
-	color: ${({active}) => (active ? palette.Btn_dark_green : palette.text)};
+export const Comment = styled(GoComment) <any>`
+	color: ${({ active }) => (active ? palette.Btn_dark_green : palette.text)};
 	${media.xs`font-size:0.85rem !important;`}
 	font-size: 1.2rem;
 	cursor: pointer;
 `
-const CommentWriteBox = styled(Flexed)<any>`
+const CommentWriteBox = styled(Flexed) <any>`
 	${media.xs`margin-bottom: 2rem;`}
 	padding: 8px 0.875rem; 
 `
 
-const Icon = styled(Flexed)<any>`
+const Icon = styled(Flexed) <any>`
 	position: absolute;
 	right: 0.938rem;
 	top: 0;
@@ -930,7 +892,7 @@ const Icon = styled(Flexed)<any>`
 	${media.xs`bottom: 0rem;`}
 `
 
-export const Share = styled(TbShare3)<any>`
+export const Share = styled(TbShare3) <any>`
 	font-weight: 400 !important;
 	color: ${palette.text};
 	${media.xs`font-size:0.85rem !important;`}
@@ -941,18 +903,18 @@ export const Share = styled(TbShare3)<any>`
 const UserMessage = styled.p<any>`
 	text-align: left;
 	font-size: 0.8rem;
-	margin: ${({margin}) => (margin ? margin : '')};
-	cursor: ${({cursor}) => (cursor ? cursor : '')};
-	color: ${({color}) => (color ? color : 'palette.text_description')};
+	margin: ${({ margin }) => (margin ? margin : '')};
+	cursor: ${({ cursor }) => (cursor ? cursor : '')};
+	color: ${({ color }) => (color ? color : 'palette.text_description')};
 	margin: 0;
 	overflow-wrap: anywhere;
 `
 const Reply = styled.p<any>`
 	text-align: left;
 	font-size: 0.8rem;
-	margin: ${({margin}) => (margin ? margin : '')};
-	cursor: ${({cursor}) => (cursor ? cursor : '')};
-	color: ${({color}) => (color ? color : 'palette.text_description')};
+	margin: ${({ margin }) => (margin ? margin : '')};
+	cursor: ${({ cursor }) => (cursor ? cursor : '')};
+	color: ${({ color }) => (color ? color : 'palette.text_description')};
 	margin: 0;
 	overflow-wrap: anywhere;
 
@@ -966,14 +928,29 @@ export const CustomText = styled(Text)`
 	${media.xs`font-size:0.75rem !important;`}
 `
 
-const Send = styled(IoSend)<any>`
+const Send = styled(IoSend) <any>`
 	font-size: 1.4rem;
 	cursor: pointer;
-	color: ${({value}) => (value ? palette.Btn_dark_green : palette.silver)};
+	color: ${({ value }) => (value ? palette.Btn_dark_green : palette.silver)};
 `
 const InputWrapper = styled.div`
 	position: relative;
 	width: 100%;
+`
+
+const Input = styled.input`
+	font-family: 'Lato-Regular', sans-serif;
+	line-height: normal;
+	outline: none;
+	font-weight: 400;
+	text-align: left;
+	font-size: 1.15rem;
+	padding: 0.45rem 5.5rem 0.45rem 1.25rem;
+	color: ${palette.black};
+	width: 100%;
+	&::placeholder {
+		color: ${palette.gray_100};
+	}
 `
 
 const FileUploadInput = styled.input`
@@ -1059,7 +1036,7 @@ const UserName = styled(Text)`
 
 const Icons = styled.img<any>`
 	cursor: pointer;
-	filter: ${({active}) => (active ? 'invert(49%) sepia(36%) saturate(2429%) hue-rotate(66deg) brightness(96%) contrast(101%);' : '')};
+	filter: ${({ active }) => (active ? 'invert(49%) sepia(36%) saturate(2429%) hue-rotate(66deg) brightness(96%) contrast(101%);' : '')};
 `
 
 const CommentText = styled(Text)`

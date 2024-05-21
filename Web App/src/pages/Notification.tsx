@@ -1,17 +1,17 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {Container, Row, Col, media} from 'styled-bootstrap-grid'
-import {Flexed, Spacer, Text, MiddleLayout} from '../styled/shared'
-import {useSelector} from 'react-redux'
-import {palette} from '../styled/colors'
-import {useNavigate} from 'react-router-dom'
-import {useDispatch} from 'react-redux'
-import {setCommentOpen, setIsLoading} from '../actions/authActions'
-import {notificationApi, readAllNotifications} from '../apis/apis'
+import { Container, Row, Col, media } from 'styled-bootstrap-grid'
+import { Flexed, Spacer, Text, MiddleLayout } from '../styled/shared'
+import { useSelector } from 'react-redux'
+import { palette } from '../styled/colors'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { setCommentOpen, setIsLoading } from '../actions/authActions'
+import { notificationApi, readAllNotifications } from '../apis/apis'
 import NotificationCard from '../components/NotificationCard'
 import moment from 'moment-timezone'
 
-const Notification = ({getAllNotificationCount}) => {
+const Notification = ({ getAllNotificationCount }) => {
 	const _isDarkTheme = useSelector<any>((state: any) => state.auth.isDarkTheme)
 	let _navigate = useNavigate()
 	const _dispatch = useDispatch()
@@ -23,7 +23,7 @@ const Notification = ({getAllNotificationCount}) => {
 			const type: any = moment(notification.createdAt).format('MMM D, YYYY')
 
 			if (!acc[type]) {
-				acc[type] = {label: type, data: []}
+				acc[type] = { label: type, data: [] }
 			}
 
 			acc[type].data.push(notification)
@@ -39,7 +39,6 @@ const Notification = ({getAllNotificationCount}) => {
 	useEffect(() => {
 		getNotification()
 	}, [])
-	console.log('======', userNotifications)
 
 	const markReadAll = async () => {
 		_dispatch(setIsLoading(true))
@@ -47,7 +46,7 @@ const Notification = ({getAllNotificationCount}) => {
 		const groupedNotifications = response?.data?.data?.reduce((acc, notification) => {
 			const type: any = moment(notification.createdAt).format('MMM D, YYYY')
 			if (!acc[type]) {
-				acc[type] = {label: type, data: []}
+				acc[type] = { label: type, data: [] }
 			}
 			acc[type].data.push(notification)
 			return acc
@@ -64,7 +63,7 @@ const Notification = ({getAllNotificationCount}) => {
 				<Spacer height={1.25} />
 				<Row justifyContent="center">
 					<MiddleLayout xxl={7} xl={6} lg={10} >
-						<Flexed direction="row" align="center"  gap="0.5" justify="space-between">
+						<Flexed direction="row" align="center" gap="0.5" justify="space-between">
 							<Flexed direction="row" align="center" gap="0.5" >
 								<Text
 									pointer
@@ -112,7 +111,7 @@ const Notification = ({getAllNotificationCount}) => {
 
 										return (
 											<ListWrapper key={index}>
-												<Text type="normal" style={{color: '#050505', fontWeight: "500"}} margin="0rem 0rem 0.625rem 0.625rem">
+												<Text type="normal" style={{ color: '#050505', fontWeight: "500" }} margin="0rem 0rem 0.625rem 0.625rem">
 													{formattedDate}
 												</Text>
 												{data?.data?.map((re, ind) => {

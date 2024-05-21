@@ -1,25 +1,25 @@
-import React, {useEffect, useState, Suspense} from 'react'
+import React, { useEffect, useState, Suspense } from 'react'
 import styled from 'styled-components'
-import {Container, Row, Col, media} from 'styled-bootstrap-grid'
-import {Flexed, Spacer, Text, MiddleLayout} from '../styled/shared'
-import {palette} from '../styled/colors'
+import { Container, Row, Col, media } from 'styled-bootstrap-grid'
+import { Flexed, Spacer, Text, MiddleLayout } from '../styled/shared'
+import { palette } from '../styled/colors'
 import InputField from './common/InputField'
-import {getAllProductsApi, getAllUserPosts, getAllSellersApi, searchSellersApi, searchProductsApi, searchTradeApi, getSellerById, getProductById} from '../apis/apis'
-import {useDispatch} from 'react-redux'
-import {addFav, saveRoute, setIsLoading} from '../actions/authActions'
+import { getAllProductsApi, getAllUserPosts, getAllSellersApi, searchSellersApi, searchProductsApi, searchTradeApi, getSellerById, getProductById } from '../apis/apis'
+import { useDispatch } from 'react-redux'
+import { addFav, saveRoute, setIsLoading } from '../actions/authActions'
 import ProductCategories from './productPost/ProductCategories'
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 import SellersCard from './sellers/SellersCard'
 import SellerSelfProfile from './SellerSelfProfile'
 import PopularSellers from './PopularSellers'
-import {useLocation, useNavigate} from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import ProductDetailsModal from './modals/ProductDetailsModal'
 import MainCategorySideBar from './MainCategorySideBar'
 import useRouter from './useRouterHook'
 const StyledCard = React.lazy(() => import('./StyledCard'))
 const ProductsCard = React.lazy(() => import('./ProductCard'))
 
-const Product = ({addToCart, setSellerId, sellerId, userId, setSelectedBtn, setUserId, setSinglePost, isContactUsOpen, setIsContactUsOpen, setIsAboutOpen, isAboutOpen, setSingleEvent}: any) => {
+const Product = ({ addToCart, setSellerId, sellerId, userId, setSelectedBtn, setUserId, setSinglePost, isContactUsOpen, setIsContactUsOpen, setIsAboutOpen, isAboutOpen, setSingleEvent }: any) => {
 	const [selectCategory, setSelectCategory] = useState('products')
 	const [isSellerSelfProfileOpen, setIsSellerSelfProfileOpen] = useState(false)
 	const [posts, setPosts] = useState([])
@@ -40,9 +40,8 @@ const Product = ({addToCart, setSellerId, sellerId, userId, setSelectedBtn, setU
 	const [searchTradeWith, setSearchTradewith] = useState('')
 	const [isDataProgress, setIsDataProgress]: any = useState(true)
 
-	const [selectSearchCategory, setSelectSearchCategory] = useState('')
 	const currentRoute = useSelector<any>((state: any) => state.auth.currentRoute)
-	const {pathname}: any = useLocation()
+	const { pathname }: any = useLocation()
 
 	const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false)
 	const [singleProduct, setSingleProduct]: any = useState([])
@@ -76,8 +75,6 @@ const Product = ({addToCart, setSellerId, sellerId, userId, setSelectedBtn, setU
 	const fetchData = () => {
 		setSearchTrade('')
 		setSearchTradewith('')
-		setSelectSearchCategory('')
-
 		setPosts([])
 		setCopyPostsData([])
 		setSellers([])
@@ -222,7 +219,6 @@ const Product = ({addToCart, setSellerId, sellerId, userId, setSelectedBtn, setU
 			_dispatch(setIsLoading(false))
 			setIsDataProgress(false)
 
-			// } else if (pathname.includes('/products/product/')) {
 		} else {
 			const postIdExtraction = pathname.split('/')
 			const id = postIdExtraction[postIdExtraction.length - 1]
@@ -251,7 +247,6 @@ const Product = ({addToCart, setSellerId, sellerId, userId, setSelectedBtn, setU
 		if (searchSeller) {
 			if (searchSeller.trim().length >= 2 && pathname == '/products') {
 				timer = setTimeout(async () => {
-					// setSellers([])
 					_dispatch(setIsLoading(true))
 					setIsDataProgress(true)
 					const response = await searchSellersApi(searchSeller)
@@ -273,7 +268,6 @@ const Product = ({addToCart, setSellerId, sellerId, userId, setSelectedBtn, setU
 		if (searchProduct) {
 			if (searchProduct.trim().length >= 2 && pathname == '/products') {
 				timer = setTimeout(async () => {
-					// setPosts([])
 					_dispatch(setIsLoading(true))
 					setIsDataProgress(true)
 
@@ -317,7 +311,6 @@ const Product = ({addToCart, setSellerId, sellerId, userId, setSelectedBtn, setU
 		if (searchTrade || searchTradeWith) {
 			if (searchTrade.trim().length >= 2 || searchTradeWith.trim().length >= 2) {
 				timer = setTimeout(async () => {
-					// setPosts([])
 					_dispatch(setIsLoading(true))
 					setIsDataProgress(true)
 					const response = await searchTradeApi(searchTrade, searchTradeWith, organicProducts)
@@ -339,7 +332,7 @@ const Product = ({addToCart, setSellerId, sellerId, userId, setSelectedBtn, setU
 		if (!router?.query?.id) {
 			fetchData()
 		}
-	}, [selectCategory, selectSearchCategory, router?.query?.id, organicProducts])
+	}, [selectCategory, router?.query?.id, organicProducts])
 
 	const loadMoreProductData = () => {
 		setProductPageNo(productPageNo + 1)
@@ -379,38 +372,32 @@ const Product = ({addToCart, setSellerId, sellerId, userId, setSelectedBtn, setU
 							setSelectCategory={setSelectCategory}
 							selectCategory={selectCategory}
 							getAllUserAndPosts={getAllUserAndPosts}
-							setSelectSearchCategory={setSelectSearchCategory}
 						/>
 						{selectCategory === 'products' && (
 							<>
 								<Row mdJustifyContent="start" smJustifyContent="center">
 									{posts?.map((content: any, index) => {
 										return (
-											
-												<div className='col-md-6 mx-0 col-12 d-grid  align-items-stretch'>
-												
+
+											<div className='col-md-6 mx-0 col-12 d-grid  align-items-stretch'>
+
 												<Suspense fallback={''}>
 													{content?.discount > 0 ? (
 														<StyledCard cardIndex={index} sale content={content} addToCart={addToCart} category={selectCategory} />
 													)
-													
-													: content?.is_donation ? (
-														<StyledCard cardIndex={index} donation content={content} addToCart={addToCart} category={selectCategory} />
-													)
-													: content?.is_trade ? (
-														<ProductsCard cardIndex={index} trade content={content} addToCart={addToCart} category={selectCategory} />
-													) : (
-														<StyledCard cardIndex={index} content={content} addToCart={addToCart} report={true} />
-														
-														
-													)}
-													
 
-													
+														: content?.is_donation ? (
+															<StyledCard cardIndex={index} donation content={content} addToCart={addToCart} category={selectCategory} />
+														)
+															: content?.is_trade ? (
+																<ProductsCard cardIndex={index} trade content={content} addToCart={addToCart} category={selectCategory} />
+															) : (
+																<StyledCard cardIndex={index} content={content} addToCart={addToCart} report={true} />
+															)}
 												</Suspense>
-											
-												</div>
-											
+
+											</div>
+
 										)
 									})}
 									<Col>
@@ -618,7 +605,7 @@ const Section = styled.div<any>`
 	display: flex;
 
 	flex-direction: column;
-	justify-content: ${({scroll}) => (scroll > 750 ? 'flex-end' : 'space-between')};
+	justify-content: ${({ scroll }) => (scroll > 750 ? 'flex-end' : 'space-between')};
 	::-webkit-scrollbar {
 		display: none;
 	}

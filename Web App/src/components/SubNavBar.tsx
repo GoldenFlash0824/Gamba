@@ -1,20 +1,20 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {Col, media} from 'styled-bootstrap-grid'
-import {Text, Arrow, Flexed} from '../styled/shared'
-import {palette} from '../styled/colors'
-import {useNavigate, useLocation} from 'react-router-dom'
-import {useSelector} from 'react-redux'
+import { Col, media } from 'styled-bootstrap-grid'
+import { Text, Arrow, Flexed } from '../styled/shared'
+import { palette } from '../styled/colors'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import AddPostModal from './modals/AddPostModal'
 import MobViewAddPost from './MobViewAddPost'
 import Loader from './common/Loader'
-import {useDispatch} from 'react-redux'
-import {saveSearchText} from '../actions/authActions'
+import { useDispatch } from 'react-redux'
+import { saveSearchText } from '../actions/authActions'
 import LoginPopupModel from './modals/LoginPopupModel'
 
 const SubNavBar = () => {
 	const _navigate = useNavigate()
-	const {pathname} = useLocation()
+	const { pathname } = useLocation()
 	const authToken = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 	const isLoading = useSelector<any>((state: any) => state.auth.isLoading)
 	const [isAddPostModalOpen, setIsAddPostModalOpen] = useState(false)
@@ -94,15 +94,15 @@ const Grid = styled.div`
 
 const SocialIcon = styled.img<any>`
 	width: 1.5rem;
-	color: ${({pathname}) => (pathname === '/' ? palette.Btn_dark_green : palette.text)};
+	color: ${({ pathname }) => (pathname === '/' ? palette.Btn_dark_green : palette.text)};
 `
 const ProductsIcon = styled.img<any>`
 	width: 1.3rem;
-	color: ${({pathname}) => (pathname === '/products' ? palette.Btn_dark_green : palette.text)};
+	color: ${({ pathname }) => (pathname === '/products' ? palette.Btn_dark_green : palette.text)};
 `
 const CalenderIcon = styled.img<any>`
 	width: 1.4rem;
-	color: ${({pathname}) => (pathname === '/calendar' ? palette.Btn_dark_green : palette.text)};
+	color: ${({ pathname }) => (pathname === '/calendar' ? palette.Btn_dark_green : palette.text)};
 `
 
 const CustomCol = styled(Col)`
@@ -187,12 +187,12 @@ const CartIcon = styled.span`
 	font-size: 1.5rem;
 `
 
-export const MenuText = styled(Text)<any>`
+export const MenuText = styled(Text) <any>`
 	position: relative;
 	color: ${palette.text};
 	letter-spacing: 0.05em;
 	/* font-weight: 600; */
-	font-size: ${({fontSize, active}) => (fontSize ? fontSize : active ? '1rem' : '1rem')};
+	font-size: ${({ fontSize, active }) => (fontSize ? fontSize : active ? '1rem' : '1rem')};
 
 	cursor: pointer;
 	&:not(:last-child) {
@@ -200,7 +200,7 @@ export const MenuText = styled(Text)<any>`
 	}
 
 	& ${Arrow} {
-		color: ${({scroll, path, isDarkTheme}) => (isDarkTheme ? `${palette.silver}` : scroll < 0 && path ? `${palette.text_black}` : `${palette.gray}`)};
+		color: ${({ scroll, path, isDarkTheme }) => (isDarkTheme ? `${palette.silver}` : scroll < 0 && path ? `${palette.text_black}` : `${palette.gray}`)};
 	}
 
 	&:hover ${Arrow} {
@@ -209,31 +209,31 @@ export const MenuText = styled(Text)<any>`
 	}
 
 	&:hover {
-		color: ${({active}) => (active ? palette.Btn_dark_green : palette.Btn_dark_green)};
+		color: ${({ active }) => (active ? palette.Btn_dark_green : palette.Btn_dark_green)};
 		transition: color 0.1s ease 0.1s;
 	}
 `
 
 const StyledText = styled(MenuText)`
 	display: block;
-	font-weight: ${({active}) => (active ? 600 : 400)};
+	font-weight: ${({ active }) => (active ? 600 : 400)};
 	${media.xs`
 	display:none
 	`}
 `
 
-const Tab = styled(Flexed)<any>`
+const Tab = styled(Flexed) <any>`
 	display: flex;
 	/* justify-content: center; */
 	padding: 0.5rem 0rem;
 	/* min-width: 33%; old property */
 	/* min-width: 20%; */
 	/* margin-bottom: 0.125rem; */
-	border-bottom: ${({active}) => (active ? `0.188rem solid ${palette.orange}` : `0.188rem solid transparent`)};
-	/* border-right: ${({border}) => (border ? ` 0.063rem solid ${palette.gray}` : '')}; */
+	border-bottom: ${({ active }) => (active ? `0.188rem solid ${palette.orange}` : `0.188rem solid transparent`)};
+	/* border-right: ${({ border }) => (border ? ` 0.063rem solid ${palette.gray}` : '')}; */
 	cursor: pointer;
 
-	/* background-color: ${({active}) => (active ? '#e5e6e9' : '')}; */
+	/* background-color: ${({ active }) => (active ? '#e5e6e9' : '')}; */
 	/* opacity: 0.1; */
 	&:hover {
 		border-bottom: 0.188rem solid ${palette.orange};

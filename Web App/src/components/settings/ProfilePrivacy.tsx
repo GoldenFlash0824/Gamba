@@ -1,15 +1,15 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {media} from 'styled-bootstrap-grid'
-import {Flexed, Spacer, Text} from '../../styled/shared'
-import {palette} from '../../styled/colors'
+import { media } from 'styled-bootstrap-grid'
+import { Flexed, Spacer, Text } from '../../styled/shared'
+import { palette } from '../../styled/colors'
 import Toggle from '../common/Toggle'
-import {getUserPrivacySetting, updateUserPrivacySetting} from '../../apis/apis'
+import { getUserPrivacySetting, updateUserPrivacySetting } from '../../apis/apis'
 import Loader from '../common/Loader'
-import {Button} from './ProfileUpdate'
-import {toastSuccess} from '../../styled/toastStyle'
+import { Button } from './ProfileUpdate'
+import { toastSuccess } from '../../styled/toastStyle'
 
-const ProfilePrivacy = ({setSelectProfileSettingsCategory, setSelectCategory}) => {
+const ProfilePrivacy = ({ setSelectProfileSettingsCategory, setSelectCategory }) => {
 	const [isProfileHide, setIsProfileHide] = useState(true)
 	const [isEmailHide, setIsEmailHide] = useState(false)
 	const [isPhoneNumberHide, setIsPhoneNumberHide] = useState(false)
@@ -41,7 +41,6 @@ const ProfilePrivacy = ({setSelectProfileSettingsCategory, setSelectCategory}) =
 		setLoading(true)
 		let response = await getUserPrivacySetting()
 		if (response?.data) {
-			console.log('======', response?.data?.display_profile)
 			setIsProfileHide(response?.data?.display_profile)
 			setIsEmailHide(response?.data?.display_email)
 			setIsBirthDayHideHide(response?.data?.display_dob)
@@ -201,7 +200,7 @@ const Wrapper = styled.div`
 	border-radius : 1rem !important;
 `
 
-const Flex = styled(Flexed)<any>`
+const Flex = styled(Flexed) <any>`
 	border: 1px solid ${palette.stroke};
 	border-radius: 0.875rem;
 	background: ${palette.white};
@@ -212,16 +211,16 @@ const Flex = styled(Flexed)<any>`
 const Switch = styled.div<any>`
 	display: flex;
 	align-items: center;
-	justify-content: ${({toggle}) => (toggle ? 'flex-end' : 'flex-start')};
-	background-color: ${({toggle}) => (toggle ? palette.Btn_dark_green : palette.gray_100)};
+	justify-content: ${({ toggle }) => (toggle ? 'flex-end' : 'flex-start')};
+	background-color: ${({ toggle }) => (toggle ? palette.Btn_dark_green : palette.gray_100)};
 	width: 40px;
 	height: 26px;
 	border-radius: 1rem;
 	padding: 0.5rem 0.1rem;
 	transition: justify-content 2s, transform 2s;
-	border: 0.063rem solid ${({toggle}) => (toggle ? palette.fbBg : palette.fbBg)};
-	cursor: ${({disabled}) => (disabled ? 'no-drop' : 'pointer')};
-	opacity: ${({disabled}) => (disabled ? '0.4' : '1')};
+	border: 0.063rem solid ${({ toggle }) => (toggle ? palette.fbBg : palette.fbBg)};
+	cursor: ${({ disabled }) => (disabled ? 'no-drop' : 'pointer')};
+	opacity: ${({ disabled }) => (disabled ? '0.4' : '1')};
 `
 
 const Dot = styled.div<any>`

@@ -487,8 +487,6 @@ const getAllProductGood = async (req) => {
         all_disable_user_product = all_disable_user_product.map((product) => product.id)
 
         let where = parseInt(is_trade) == 1 ? { is_trade: true, is_donation: false, discount: 0, is_block: false, is_organic: is_organic == 'true' ? true : false } : parseInt(is_donation) == 1 ? { is_donation: true, is_trade: false, discount: 0, is_block: false, is_organic: is_organic == 'true' ? true : false } : parseInt(is_discount) == 1 ? { is_donation: false, is_trade: false, discount: { [db.Op.gt]: 0 }, is_block: false, is_organic: is_organic == 'true' ? true : false } : is_organic == 'true' ? { is_organic: true } : {}
-
-        console.log('where', where, currentDate)
         const whereClause = {}
         if ('$userProductGood.allow_to_0rder_advance' > 0) {
             whereClause.available_from = {
@@ -500,7 +498,6 @@ const getAllProductGood = async (req) => {
             }
         }
 
-        // console.log('========allow_to_0rder_advance', allow_to_0rder_advance)
         let allProducts = await db.UserProducts.findAll({
             where: {
                 ...where,
@@ -516,17 +513,17 @@ const getAllProductGood = async (req) => {
 
                 available_from: {
                     [db.Op.lte]: db.sequelize.literal(`
-                CASE
-                    WHEN userProductGood.id = userProductGood.id AND userProductGood.allow_to_0rder_advance > 0 THEN
-                        CASE
-                            WHEN userProductGood.allow_to_0rder = 'Hour(s)' THEN
-                                DATE_FORMAT(DATE_ADD(NOW(), INTERVAL userProductGood.allow_to_0rder_advance HOUR), '%m/%d/%y')
-                            ELSE
-                                DATE_FORMAT(DATE_ADD(NOW(), INTERVAL userProductGood.allow_to_0rder_advance DAY), '%m/%d/%y')
-                        END
-                    ELSE '${currentDate}'
-                END
-            `)
+                    CASE
+                        WHEN userProductGood.id = userProductGood.id AND userProductGood.allow_to_0rder_advance > 0 THEN
+                            CASE
+                                WHEN userProductGood.allow_to_0rder = 'Hour(s)' THEN
+                                    DATE_FORMAT(DATE_ADD(NOW(), INTERVAL userProductGood.allow_to_0rder_advance HOUR), '%m/%d/%y')
+                                ELSE
+                                    DATE_FORMAT(DATE_ADD(NOW(), INTERVAL userProductGood.allow_to_0rder_advance DAY), '%m/%d/%y')
+                            END
+                        ELSE '${currentDate}'
+                    END
+                `)
                 },
                 id: { [db.Op.notIn]: [...all_disable_user_product, ...all_block_user_product] },
                 u_id: { [db.Op.notIn]: hideSeller },
@@ -570,6 +567,7 @@ const getAllProductGood = async (req) => {
             offset: offset,
             limit: limit
         })
+
 
         if (allProducts) {
             return {

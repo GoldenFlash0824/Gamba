@@ -42,7 +42,10 @@ const userModel = (sequelize, DataTypes) => {
             defaultValue: false
         },
         stripe_id: DataTypes.STRING,
-        chat_id: DataTypes.STRING,
+        chat_id: {
+            type: DataTypes.INTEGER,
+            unique: true
+        },
         display_profile: {
             type: DataTypes.BOOLEAN,
             defaultValue: true
@@ -81,9 +84,9 @@ const userModel = (sequelize, DataTypes) => {
         ref_id: {
             type: DataTypes.VIRTUAL,
             get() {
-              const desiredLength = 7;
-              const propertyString = String(this.id);
-              return propertyString.length < desiredLength ? '0'.repeat(desiredLength - propertyString.length) + propertyString : propertyString;
+                const desiredLength = 7;
+                const propertyString = String(this.id);
+                return propertyString.length < desiredLength ? '0'.repeat(desiredLength - propertyString.length) + propertyString : propertyString;
             },
         },
     })

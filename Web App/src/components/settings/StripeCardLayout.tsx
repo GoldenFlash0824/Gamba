@@ -30,10 +30,9 @@ const StripeCardLayout = () => {
     if (result.error) {
       setMessage(result.error.message as string);
     } else {
-      console.log(result?.paymentMethod?.id);
       const res: any = await addCard(result?.paymentMethod?.id)
       if (res.success) { setMessage(res.message); }
-      else { 
+      else {
         setMessage(res.message.raw.message);
       }
 
@@ -43,11 +42,11 @@ const StripeCardLayout = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <PaymentElement  />
-      <Button  disabled={isProcessing || !stripe || !elements} id="submit"
-						label={isProcessing ? "Processing ... " : "Save Card"}
-						type="primary"
-					></Button>
+      <PaymentElement />
+      <Button disabled={isProcessing || !stripe || !elements} id="submit"
+        label={isProcessing ? "Processing ... " : "Save Card"}
+        type="primary"
+      ></Button>
       {message && <div id="payment-message">{message}</div>}
     </form>
   )

@@ -95,7 +95,6 @@ const PlaceOrder = () => {
 		if (cart?.products.length) {
 			let res = await paymentApi(0, 0, total, cart?.products, paymentMethod)
 			if (res.data) {
-				console.log(res.data)
 				MySwal.fire({
 					customClass: {
 						container: 'my-custom-swal'

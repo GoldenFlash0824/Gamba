@@ -47,6 +47,7 @@
     "node-cron": "^3.0.3",
     "nodemon": "^2.0.7",
     "parse": "^3.4.1",
+    "path": "^0.12.7",
     "paypal-rest-sdk": "^1.8.1",
     "read-excel-file": "^5.6.1",
     "sequelize": "^7.0.0-alpha.3",

@@ -91,7 +91,8 @@ router.post('/dislike_user', verifyAuthToken(), disLikeProfileController.addDisl
 router.post('/remove_dislike_user', verifyAuthToken(), disLikeProfileController.removeDislikeProfile)
 router.post('/view_all_disliked_users', verifyAuthToken(), disLikeProfileController.viewAllUserDisLikedProfiles)
 
-router.post('/connect_product', verifyAuthToken(), userController.connectProduct)
+router.post('/connect_trade_product', verifyAuthToken(), userController.connectTradeProduct);
+router.post('/connect_giveaway_product', verifyAuthToken(), userController.connectGiveAwayProduct)
 router.post('/contact_us', verifyAuthToken(), userController.contactWithUs)
 
 //share post/event/product

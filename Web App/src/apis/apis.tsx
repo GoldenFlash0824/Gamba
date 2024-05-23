@@ -1964,7 +1964,7 @@ export const updateUserInChat = async (id: any, user: any) => {
 	}
 }
 
-export const connectSellerTradeProduct = async (full_name: any, email: any, phone_number: any, interested_in: any, more_info: any, user_email: any, title: any, seller_name: any) => {
+export const connectTradeProduct = async (full_name: any, email: any, phone_number: any, topic: any, trade_with: any, more_info: any, user_email: any, title: any, seller_name: any, trade_info: any) => {
 	let response: any = []
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
@@ -1972,7 +1972,25 @@ export const connectSellerTradeProduct = async (full_name: any, email: any, phon
 		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/connect_product`, { full_name, email, phone_number, interested_in, more_info, user_email, title, seller_name }, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/connect_trade_product`, { full_name, email, phone_number, topic, trade_with, more_info, user_email, title, seller_name, trade_info }, config)
+		.then((res) => {
+			response = res?.data
+		})
+		.catch((error) => {
+			console.error(error)
+		})
+	return response
+}
+
+export const connectGiveAwayProduct = async (full_name: any, email: any, phone_number: any, interested_in: any, more_info: any, user_email: any, title: any, seller_name: any) => {
+	let response: any = []
+	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
+
+	const config = {
+		headers: { authorization: `bearer ${token}` }
+	}
+	await axios
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/connect_giveaway_product`, { full_name, email, phone_number, interested_in, more_info, user_email, title, seller_name }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -1997,7 +2015,7 @@ export const contactWithUs = async (full_name: any, email: any, phone_number: an
 		.catch((error) => {
 			console.error(error)
 		})
-	return response
+	return response;
 }
 
 export const shareModelApi = async (post_id: any, product_id: any, event_id: any) => {

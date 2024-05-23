@@ -288,7 +288,6 @@ const ProductsCard = ({ cardIndex, productPurchase, soldProducts, sale, myProduc
 					}}
 				/>
 			)}
-
 			{openSocialModal && (
 				<SocialShareModal
 					product={true}
@@ -298,7 +297,6 @@ const ProductsCard = ({ cardIndex, productPurchase, soldProducts, sale, myProduc
 					}}
 				/>
 			)}
-
 			{reportProduct && (
 				<ReportModal
 					data={content}

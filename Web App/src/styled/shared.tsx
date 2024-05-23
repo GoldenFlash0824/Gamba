@@ -1,9 +1,9 @@
 import styled from 'styled-components'
-import {palette} from './colors'
-import {FaAngleDown} from 'react-icons/fa'
-import {useEffect, useState} from 'react'
+import { palette } from './colors'
+import { FaAngleDown } from 'react-icons/fa'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
-import {Col, media} from 'styled-bootstrap-grid'
+import { Col, media } from 'styled-bootstrap-grid'
 
 interface DividerProps {
 	isDarkTheme?: boolean
@@ -46,18 +46,18 @@ const handleHeadingFontSize = (level: any) => {
 // level 6 16px || 1rem
 
 export const Heading = styled.div<any>`
-	text-transform: ${({textTransform}) => (textTransform ? textTransform : 'capitalize')};
-	font-size: ${({level, fontSize}) => (fontSize ? `${fontSize}rem` : handleHeadingFontSize(level))};
+	text-transform: ${({ textTransform }) => (textTransform ? textTransform : 'capitalize')};
+	font-size: ${({ level, fontSize }) => (fontSize ? `${fontSize}rem` : handleHeadingFontSize(level))};
 	font-family: 'Lato-Regular', sans-serif;
-	line-height: ${({level, lineHeight}) => lineHeight};
-	color: ${({color, isDarkTheme}) => (color ? palette[color] : isDarkTheme ? palette.white : palette.text_description)};
-	margin: ${({margin}) => `${margin}`};
-	text-align: ${({isCentered}) => (isCentered ? `center` : 'inherit')};
-	font-weight: ${({fontWeight}) => (fontWeight ? fontWeight : 400)};
-	cursor: ${({pointer}) => (pointer ? `pointer` : '')};
-	opacity: ${({opacity}) => (opacity ? opacity : '1')};
-	// letter-spacing: 0.02em;
-	font-style: ${({fontStyle}) => (fontStyle ? fontStyle : 'normal')};
+	line-height: ${({ level, lineHeight }) => lineHeight};
+	color: ${({ color, isDarkTheme }) => (color ? palette[color] : isDarkTheme ? palette.white : palette.text_description)};
+	backgroundColor: ${({ backgroundColor, isDarkTheme }) => (backgroundColor ? palette[backgroundColor] : isDarkTheme ? palette.white : palette.text_description)};
+	margin: ${({ margin }) => `${margin}`};
+	text-align: ${({ isCentered }) => (isCentered ? `center` : 'inherit')};
+	font-weight: ${({ fontWeight }) => (fontWeight ? fontWeight : 400)};
+	cursor: ${({ pointer }) => (pointer ? `pointer` : '')};
+	opacity: ${({ opacity }) => (opacity ? opacity : '1')};
+	font-style: ${({ fontStyle }) => (fontStyle ? fontStyle : 'normal')};
 `
 
 const handleParagraphFontSize = (type: any) => {
@@ -103,31 +103,31 @@ const handleParagraphLineHeight = (type: any) => {
 // xsmall    12px || 0.875rem    .      18px || 1.125rem
 
 export const Text = styled.div<any>`
-	font-weight: ${({fontWeight}) => (fontWeight ? fontWeight : '400')};
-	font-size: ${({type, fontSize}) => (fontSize ? `${fontSize}rem` : handleParagraphFontSize(type))};
+	font-weight: ${({ fontWeight }) => (fontWeight ? fontWeight : '400')};
+	font-size: ${({ type, fontSize }) => (fontSize ? `${fontSize}rem` : handleParagraphFontSize(type))};
 	font-family: 'Lato-Regular', sans-serif;
-	line-height: ${({type, lineHeight}) => (lineHeight ? `${lineHeight}rem` : handleParagraphLineHeight(type))};
-	color: ${({color, isDarkTheme}) => (color ? palette[color] : isDarkTheme ? palette.light_gray : palette.dark_gray)};
-	margin: ${({margin}) => `${margin}`};
-	text-align: ${({isCentered}) => (isCentered ? `center` : 'left')};
-	cursor: ${({pointer}) => (pointer ? `pointer` : '')};
-	opacity: ${({opacity}) => (opacity ? opacity : '1')};
-	text-transform: ${({textTransform}) => (textTransform ? textTransform : '')};
-	text-decoration: ${({textDecoration}) => textDecoration};
-	text-underline-offset: ${({textDecoration}) => (textDecoration ? '2.9px' : '')};
-	white-space: ${({whiteSpaces}) => whiteSpaces};
+	line-height: ${({ type, lineHeight }) => (lineHeight ? `${lineHeight}rem` : handleParagraphLineHeight(type))};
+	color: ${({ color, isDarkTheme }) => (color ? palette[color] : isDarkTheme ? palette.light_gray : palette.dark_gray)};
+	margin: ${({ margin }) => `${margin}`};
+	text-align: ${({ isCentered }) => (isCentered ? `center` : 'left')};
+	cursor: ${({ pointer }) => (pointer ? `pointer` : '')};
+	opacity: ${({ opacity }) => (opacity ? opacity : '1')};
+	text-transform: ${({ textTransform }) => (textTransform ? textTransform : '')};
+	text-decoration: ${({ textDecoration }) => textDecoration};
+	text-underline-offset: ${({ textDecoration }) => (textDecoration ? '2.9px' : '')};
+	white-space: ${({ whiteSpaces }) => whiteSpaces};
 `
 
 export const Divider = styled.div<DividerProps>`
 	height: 1px;
 	width: 100%;
-	background: ${({color}) => (color ? palette[color] : palette.gray)};
-	margin: ${({margin}) => `${margin}`};
-	opacity: ${({opacity}) => `${opacity}`};
+	background: ${({ color }) => (color ? palette[color] : palette.gray)};
+	margin: ${({ margin }) => `${margin}`};
+	opacity: ${({ opacity }) => `${opacity}`};
 `
 
 export const Spacer = styled.div<any>`
-	height: ${({height}) => `${height}rem`};
+	height: ${({ height }) => `${height}rem`};
 `
 
 export const RsponsiveSpacer = styled(Spacer)`
@@ -141,32 +141,32 @@ export const MiddleLayout = styled(Col)`
 `
 
 export const VerticalSpacer = styled.span<any>`
-	width: ${({width}) => `${width}rem`};
+	width: ${({ width }) => `${width}rem`};
 	display: inline-block;
 `
 
 export const Flexed = styled.div<any>`
-	display: ${({inline}) => (inline ? 'inline-flex' : 'flex')};
+	display: ${({ inline }) => (inline ? 'inline-flex' : 'flex')};
 	flex-direction: column;
-	flex-direction: ${({direction}) => direction};
-	align-items: ${({align}) => align};
-	justify-content: ${({justify}) => justify};
-	margin: ${({margin}) => `${margin}`};
-	gap: ${({gap}) => `${gap}rem`};
-	cursor: ${({pointer}) => (pointer ? `pointer` : '')};
-	flex-wrap: ${({flexWrap}) => `${flexWrap}`};
+	flex-direction: ${({ direction }) => direction};
+	align-items: ${({ align }) => align};
+	justify-content: ${({ justify }) => justify};
+	margin: ${({ margin }) => `${margin}`};
+	gap: ${({ gap }) => `${gap}rem`};
+	cursor: ${({ pointer }) => (pointer ? `pointer` : '')};
+	flex-wrap: ${({ flexWrap }) => `${flexWrap}`};
 `
 
 export const IconWrapper = styled.div<any>`
-	padding: ${({padding}) => `${padding}`};
-	margin: ${({margin}) => `${margin}`};
-	width: ${({width}) => `${width}rem`};
-	height: ${({height}) => `${height}rem`};
+	padding: ${({ padding }) => `${padding}`};
+	margin: ${({ margin }) => `${margin}`};
+	width: ${({ width }) => `${width}rem`};
+	height: ${({ height }) => `${height}rem`};
 `
 
 export const DropMenu = styled.span<any>`
 	min-width: 10.5rem;
-	color: ${({isDarkTheme}) => (isDarkTheme ? palette.text_black : palette.text_black)};
+	color: ${({ isDarkTheme }) => (isDarkTheme ? palette.text_black : palette.text_black)};
 	font-size: 0.875rem;
 	font-weight: 400;
 	padding: 0.625rem 1.563rem;
@@ -180,17 +180,17 @@ export const DropMenu = styled.span<any>`
 	}
 `
 
-export const Arrow = styled(FaAngleDown)<any>`
+export const Arrow = styled(FaAngleDown) <any>`
 	transition: transform 0.2s;
 	transform: rotate(0deg);
 `
 
-export const MenuText = styled(Text)<IProps>`
+export const MenuText = styled(Text) <IProps>`
 	position: relative;
 	color: ${palette.dark_gray};
 	letter-spacing: 0.05em;
 	font-weight: 600;
-	font-size: ${({fontSize}) => (fontSize ? fontSize : '1rem')};
+	font-size: ${({ fontSize }) => (fontSize ? fontSize : '1rem')};
 
 	cursor: pointer;
 	&:not(:last-child) {
@@ -198,7 +198,7 @@ export const MenuText = styled(Text)<IProps>`
 	}
 
 	& ${Arrow} {
-		color: ${({scroll, path, isDarkTheme}) => (isDarkTheme ? `${palette.silver}` : scroll < 0 && path ? `${palette.text_black}` : `${palette.gray}`)};
+		color: ${({ scroll, path, isDarkTheme }) => (isDarkTheme ? `${palette.silver}` : scroll < 0 && path ? `${palette.text_black}` : `${palette.gray}`)};
 	}
 
 	&:hover ${Arrow} {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { WeavyClient, WeavyProvider, Chat, Messenger, MessengerProvider, Posts, ConversationList, Conversation, WeavyContext } from '@weavy/uikit-react'
+import { WeavyClient, WeavyProvider, MessengerProvider, ConversationList, Conversation } from '@weavy/uikit-react'
 import { Col, Container, Row, media } from 'styled-bootstrap-grid'
 import styled from 'styled-components'
 import axios from 'axios'
@@ -23,13 +23,6 @@ function WeavyChat() {
 	const [conversactionId, setConversationId] = useState(null)
 	const router: any = useRouter()
 	let id = router.query['*'] ? parseInt(router.query['*']) : null
-
-	useEffect(() => {
-		if (userId) {
-			initializeWeavyApp()
-			// addUsers()
-		}
-	}, [userId])
 
 	const initializeWeavyApp = async () => {
 		const dbUserResponse: any = await doGetUserProfile()
@@ -59,9 +52,7 @@ function WeavyChat() {
 
 		try {
 			setLoading(true)
-			const response = await axios.post(url, data, { headers })
-			// const presence = await Weavy.presence.getUserPresence(user.id);
-
+			const response = await axios.post(url, data, { headers });
 			let userUrl = `${environment}/api/users/${response.data?.uid}/tokens`
 
 			const userResponse = await axios.post(
@@ -96,10 +87,12 @@ function WeavyChat() {
 						toast.error(err?.response?.data?.detail)
 					}
 				})
+
 			const updateHeader = {
 				Authorization: `Bearer ${userResponse.data.access_token}`,
 				'Content-Type': 'application/json'
 			}
+
 			let userDetails = await axios.get(`${environment}/api/users/${response.data?.uid}`, {
 				headers: {
 					'Content-Type': 'application/json',
@@ -118,9 +111,9 @@ function WeavyChat() {
 				await axios
 					.get(url, { headers })
 					.then(async (response) => {
-						const chatList = response.data.data
+						const chatList = response.data.data;
 						let isGroup = chatList?.find((e: any) => e.display_name == _userDetails?.data?.display_name)
-						if (isGroup == null) {
+						if (isGroup === null) {
 							let conversation = await axios
 								.post(`${environment}/api/conversations`, { members: [_userDetails?.data?.id] }, { headers: updateHeader })
 								.then((res) => res.data)
@@ -145,6 +138,21 @@ function WeavyChat() {
 		}
 	}
 
+	const getNotifications = async () => {
+		const headers = {
+			Authorization: `Bearer ${userToken}`
+		}
+		const getNotification = await axios.get(`${environment}/api/notifications`, { headers });
+		const response = await axios.get(`${environment}/api/notifications?top=10&unread=true`, { headers })
+	}
+
+	useEffect(() => {
+		if (userId) {
+			initializeWeavyApp()
+			// addUsers()
+		}
+	}, [userId]);
+
 	useEffect(() => {
 		if (userToken && environment) {
 			const client = new WeavyClient({
@@ -155,17 +163,7 @@ function WeavyChat() {
 			clientRef.current = client
 			getNotifications()
 		}
-	}, [userToken, environment])
-
-	const getNotifications = async () => {
-		const headers = {
-			Authorization: `Bearer ${userToken}`
-		}
-		// const getConversations = await axios.get(`https://375bda9517554a35abfb864ece0fbb38.weavy.io/api/conversations?contextual=false&skip=0&top=25`, {headers})
-		const getNotification = await axios.get(`${environment}/api/notifications`, { headers })
-		const response = await axios.get(`${environment}/api/notifications?top=10&unread=true`, { headers })
-		const notifications = response.data
-	}
+	}, [userToken, environment]);
 
 	return (
 		<>
@@ -197,7 +195,7 @@ function WeavyChat() {
 							<WeavyProvider client={clientRef.current}>
 								<MessengerProvider>
 									<ChatWrapper>
-										<ChatList className='chat-list'>
+										<ChatList>
 											<ConversationList />
 										</ChatList>
 										<ChatWindow>
@@ -229,11 +227,11 @@ const ChatWrapper = styled.div`
 	display: flex;
 	flex-direction: row;
 	gap: 1rem;
+	position: relative;
 	@media screen and (min-width: 0px) and (max-width: 767px) {
 		flex-direction: column;
 		
 	}
-	// height: calc( 100vh - 150px )
 	${media.lg`
 	height: calc( 100vh - 150px )
 	`};
@@ -248,9 +246,8 @@ const ChatList = styled.div`
 	background-color: #ffffff;
 	border-radius: 12px;
 	box-shadow: 0px 3px 4px 0px rgba(0, 0, 0, 0.03);
-	overflow: hidden;
+	overflow: none;
 	border: 1px solid rgb(221 221 234);
-	
 `
 
 const ChatWindow = styled.div`

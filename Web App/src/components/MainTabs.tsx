@@ -1,17 +1,17 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import {media} from 'styled-bootstrap-grid'
-import {Text, Arrow, Flexed} from '../styled/shared'
-import {palette} from '../styled/colors'
-import {useLocation} from 'react-router-dom'
-import {useNavigate} from 'react-router-dom'
-import {useDispatch} from 'react-redux'
-import {saveSearchText} from '../actions/authActions'
+import { media } from 'styled-bootstrap-grid'
+import { Text, Arrow, Flexed } from '../styled/shared'
+import { palette } from '../styled/colors'
+import { useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { saveSearchText } from '../actions/authActions'
 
-const MainTabs = ({setSellerId, setSelectedBtn, setSinglePost, setSingleEvent}: any) => {
+const MainTabs = ({ setSellerId, setSelectedBtn, setSinglePost, setSingleEvent }: any) => {
 	const _navigate = useNavigate()
 	const _dispatch = useDispatch()
-	const {pathname} = useLocation()
+	const { pathname } = useLocation()
 	const [scrollPosition, setScrollPosition] = useState(0)
 
 	const useWindowSize = () => {
@@ -22,7 +22,7 @@ const MainTabs = ({setSellerId, setSelectedBtn, setSinglePost, setSingleEvent}: 
 				setSize([window.innerHeight, window.innerWidth])
 			}
 			window.addEventListener('resize', handleResize)
-			window.addEventListener('scroll', handleScroll, {passive: true})
+			window.addEventListener('scroll', handleScroll, { passive: true })
 		}, [])
 		return size
 	}
@@ -36,28 +36,6 @@ const MainTabs = ({setSellerId, setSelectedBtn, setSinglePost, setSingleEvent}: 
 
 	return (
 		<MainWrapper className="d-flex justify-content-between mb-1 mt-3 mt-md-auto mb-md-auto">
-			<Tab 
-				className="d-flex align-items-center justify-content-center justify-content-md-start "
-				active={pathname === '/'}
-				direction="row"
-				align="center"
-				border
-				gap={0.625}
-				onClick={() => {
-					setSelectedBtn('social')
-					setSellerId('')
-					setSinglePost(null)
-					_navigate('/')
-					_dispatch(saveSearchText(''))
-				}}>
-				<div>
-					<SocialIcon active={pathname === '/'} src="/images/icons/home.svg" alt="home" />
-				</div>
-				<StyledText active={pathname === '/'} type="normal">
-					Home
-				</StyledText>
-			</Tab>
-
 			<Tab
 				className="d-flex align-items-center justify-content-center justify-content-md-start"
 				active={pathname === '/products' || pathname === '/products/sellers/'}
@@ -72,10 +50,31 @@ const MainTabs = ({setSellerId, setSelectedBtn, setSinglePost, setSingleEvent}: 
 					_dispatch(saveSearchText(''))
 				}}>
 				<div>
-					<SocialIcon active={pathname === '/products' || pathname === '/products/sellers/'} src="/images/icons/product.svg" alt="product" />
+					<SocialIcon active={pathname === '/'} src="/images/icons/home.svg" alt="home" />
 				</div>
 				<StyledText active={pathname === '/products' || pathname === '/products/sellers/'} type="normal">
-					Products
+					Home
+				</StyledText>
+			</Tab>
+			<Tab
+				className="d-flex align-items-center justify-content-center justify-content-md-start "
+				active={pathname === '/'}
+				direction="row"
+				align="center"
+				border
+				gap={0.625}
+				onClick={() => {
+					setSelectedBtn('social')
+					setSellerId('')
+					setSinglePost(null)
+					_navigate('/')
+					_dispatch(saveSearchText(''))
+				}}>
+				<div>
+					<SocialIcon active={pathname === '/products' || pathname === '/products/sellers/'} src="/images/icons/sellers.svg" alt="product" />
+				</div>
+				<StyledText active={pathname === '/'} type="normal">
+					Community
 				</StyledText>
 			</Tab>
 			<Tab
@@ -101,7 +100,7 @@ const MainTabs = ({setSellerId, setSelectedBtn, setSinglePost, setSingleEvent}: 
 	)
 }
 
-const MainWrapper = styled(Flexed)<any>`
+const MainWrapper = styled(Flexed) <any>`
 	flex-direction: row;
 	${media.xs` padding: 0rem 0.3rem;`};
 	${media.sm` justify-content: center; gap:0.25rem;`};
@@ -112,16 +111,16 @@ const MainWrapper = styled(Flexed)<any>`
 `
 
 const SocialIcon = styled.img<any>`
-	filter: ${({active}) => (active ? 'invert(49%) sepia(36%) saturate(2429%) hue-rotate(66deg) brightness(96%) contrast(101%);' : '')};
+	filter: ${({ active }) => (active ? 'invert(49%) sepia(36%) saturate(2429%) hue-rotate(66deg) brightness(96%) contrast(101%);' : '')};
 `
 
-export const MenuText = styled(Text)<any>`
+export const MenuText = styled(Text) <any>`
 	position: relative;
-	color: ${({active}) => (active ? '#0f1419' : palette.gray)};
+	color: ${({ active }) => (active ? '#0f1419' : palette.gray)};
 	cursor: pointer;
 
 	& ${Arrow} {
-		color: ${({scroll, path, isDarkTheme}) => (isDarkTheme ? `${palette.silver}` : scroll < 0 && path ? `${palette.text_black}` : `${palette.gray}`)};
+		color: ${({ scroll, path, isDarkTheme }) => (isDarkTheme ? `${palette.silver}` : scroll < 0 && path ? `${palette.text_black}` : `${palette.gray}`)};
 	}
 
 	&:hover ${Arrow} {
@@ -137,17 +136,17 @@ export const MenuText = styled(Text)<any>`
 
 const StyledText = styled(MenuText)`
 	display: block;
-	font-weight: ${({active}) => (active ? 700 : 500)};
+	font-weight: ${({ active }) => (active ? 700 : 500)};
 `
 
-const Tab = styled(Flexed)<any>`
+const Tab = styled(Flexed) <any>`
 	display: flex;
 	border-radius: 48px !important;
 	padding: 0.5rem 1.25rem;
 	@media only screen and (min-width: 1200px) {
-		background-color: ${({active}) => (active ? ` ${palette.white}` : `0.25rem solid transparent`)};
-		box-shadow: ${({active}) => (active ? '0 .125rem .25rem rgba(0,0,0,.075)!important;' : 'none')};
-		// background-color: ${({active}) => (active ? `${palette.green_200}` : `transparent`)};
+		background-color: ${({ active }) => (active ? ` ${palette.white}` : `0.25rem solid transparent`)};
+		box-shadow: ${({ active }) => (active ? '0 .125rem .25rem rgba(0,0,0,.075)!important;' : 'none')};
+		// background-color: ${({ active }) => (active ? `${palette.green_200}` : `transparent`)};
 		border-top-right-radius: 0.25rem;
 		border-bottom-right-radius: 0.25rem;
 		&:hover {
@@ -156,14 +155,14 @@ const Tab = styled(Flexed)<any>`
 	}
 
 	@media screen and (min-width: 0px) and (max-width: 768px) {
-		// border-bottom: ${({active}) => (active ? `0.25rem solid ${palette.green_200}` : `0.25rem solid transparent`)};
+		// border-bottom: ${({ active }) => (active ? `0.25rem solid ${palette.green_200}` : `0.25rem solid transparent`)};
 		// border-bottom-left-radius: 0.25rem;
 		// border-bottom-right-radius: 0.25rem;
 		// &:hover {
 		// 	border-bottom: 0.25rem solid ${palette.green_200};
 		// }
-		background-color: ${({active}) => (active ? ` ${palette.white}` : `0.25rem solid transparent`)};
-		box-shadow: ${({active}) => (active ? '0 .125rem .25rem rgba(0,0,0,.075)!important;' : 'none')};
+		background-color: ${({ active }) => (active ? ` ${palette.white}` : `0.25rem solid transparent`)};
+		box-shadow: ${({ active }) => (active ? '0 .125rem .25rem rgba(0,0,0,.075)!important;' : 'none')};
 		height: 36px;
 		padding: 0.5rem .75rem;
 	}

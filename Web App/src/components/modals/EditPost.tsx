@@ -1,22 +1,22 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import {Modal} from 'react-responsive-modal'
+import { Modal } from 'react-responsive-modal'
 import 'react-responsive-modal/styles.css'
-import {Text, Flexed, Spacer} from '../../styled/shared'
-import {palette} from '../../styled/colors'
+import { Text, Flexed, Spacer } from '../../styled/shared'
+import { palette } from '../../styled/colors'
 import Button from '../common/Button'
-import {Col, Container, Row, media} from 'styled-bootstrap-grid'
+import { Col, Container, Row, media } from 'styled-bootstrap-grid'
 import CustomInputField from '../common/CustomInputField'
-import {RxCrossCircled} from 'react-icons/rx'
+import { RxCrossCircled } from 'react-icons/rx'
 import InputField from '../common/InputField'
 import DropDown from '../DropDown'
-import {useDispatch} from 'react-redux'
-import {saveRoute, setIsLoading} from '../../actions/authActions'
-import {toastError, toastSuccess} from '../../styled/toastStyle'
-import {editPost} from '../../apis/apis'
-import {useNavigate} from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { saveRoute, setIsLoading } from '../../actions/authActions'
+import { toastError, toastSuccess } from '../../styled/toastStyle'
+import { editPost } from '../../apis/apis'
+import { useNavigate } from 'react-router-dom'
 import DateTimePicker from 'react-datetime-picker'
-import {BiCalendarAlt} from 'react-icons/bi'
+import { BiCalendarAlt } from 'react-icons/bi'
 import moment from 'moment-timezone'
 const closeIcon = (
 	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -27,7 +27,7 @@ const closeIcon = (
 	</svg>
 )
 
-const EditPost = ({onClose, postData, onEdit}: any) => {
+const EditPost = ({ onClose, postData, onEdit }: any) => {
 	const [privacyOptionsError, setPrivacyOptionsError] = useState('')
 	const [privacy, setPrivacy] = useState(postData?.privacy)
 	const [topicError, setTopicError] = useState('')
@@ -44,9 +44,9 @@ const EditPost = ({onClose, postData, onEdit}: any) => {
 	const _navigate = useNavigate()
 
 	const [privacyOption, setPrivacyOption] = useState([
-		{value: 'Public', label: 'Public'},
-		{value: 'My Network', label: 'My Network'},
-		{value: 'Only Me', label: 'Only Me'}
+		{ value: 'Public', label: 'Public' },
+		{ value: 'My Network', label: 'My Network' },
+		{ value: 'Only Me', label: 'Only Me' }
 	])
 
 	const deleteSelectImage = (index: any) => {
@@ -56,7 +56,7 @@ const EditPost = ({onClose, postData, onEdit}: any) => {
 		setImageData(deleteImage)
 	}
 
-	const handleCapture = ({target}: any) => {
+	const handleCapture = ({ target }: any) => {
 		const reader = new FileReader()
 		reader.readAsDataURL(target.files[0])
 		reader.onload = () => {
@@ -104,7 +104,6 @@ const EditPost = ({onClose, postData, onEdit}: any) => {
 			setDescription('')
 			_dispatch(saveRoute('/'))
 			// _navigate(-1)
-			onEdit()
 		} else {
 			toastError(response.message)
 		}
@@ -268,14 +267,14 @@ const EditPost = ({onClose, postData, onEdit}: any) => {
 										required
 									/>
 
-									
+
 								</Col>
 
 								<Col>
 									<Button
 										width="100%"
 										label="Update Post"
-									
+
 										ifClicked={() => {
 											if (checkValidationOnClick()) {
 												onEditPost()
@@ -365,7 +364,7 @@ const LabelWrapper = styled.div`
 	padding: 0 0.2rem;
 	// z-index: 2;
 `
-const CustomFlex = styled(Flexed)<any>`
+const CustomFlex = styled(Flexed) <any>`
 	width: 100%;
 `
 

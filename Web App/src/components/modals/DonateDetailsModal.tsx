@@ -4,7 +4,7 @@ import { Modal } from 'react-responsive-modal'
 import 'react-responsive-modal/styles.css'
 import { Text, Flexed } from '../../styled/shared'
 import { palette } from '../../styled/colors'
-import TradeProduct from '../TradeProduct'
+import ConnectProduct from '../ConnectProduct'
 
 const closeIcon = (
 	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -28,10 +28,10 @@ const DonateDetailsModal = ({ onClose, content }: any) => {
 				}}>
 				<ModalWrapper>
 					<Body>
-						<Flexed direction="row" margin='0rem 0rem 3.125rem 0rem' align="center" justify="center">
-							<Text fontSize={1.5} fontWeight={700} color='black_300'>Connect</Text>
+						<Flexed direction="row" margin='0rem 0rem 3.125rem 0rem' align="center">
+							<Text fontSize={1.5} fontWeight={700} color='black_300'>Giveaway</Text>
 						</Flexed>
-						<TradeProduct data={content} onClose={onClose} />
+						<ConnectProduct data={content} onClose={onClose} category="donate" />
 					</Body>
 				</ModalWrapper>
 			</Modal>
@@ -40,7 +40,7 @@ const DonateDetailsModal = ({ onClose, content }: any) => {
 }
 
 const ModalWrapper = styled.div`
-background: ${palette.white};
+	background: ${palette.white};
 `
 
 const Body = styled.div`

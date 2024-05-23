@@ -4,7 +4,7 @@ import { Modal } from 'react-responsive-modal'
 import 'react-responsive-modal/styles.css'
 import { Text, Flexed } from '../../styled/shared'
 import { palette } from '../../styled/colors'
-import TradeProduct from '../TradeProduct'
+import ConnectProduct from '../ConnectProduct'
 
 const closeIcon = (
 	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -33,10 +33,10 @@ const TradeDetailsModal = ({ onClose, content }: any) => {
 					<Body>
 						<Flexed direction="row" margin="0rem 0rem 1.5rem 0rem" align="" justify="">
 							<Text fontSize={1.5} fontWeight={700} color="black_300">
-								Connect
+								Trade
 							</Text>
 						</Flexed>
-						<TradeProduct data={content} onClose={onClose} />
+						<ConnectProduct data={content} onClose={onClose} category="trade" />
 					</Body>
 				</ModalWrapper>
 			</Modal>

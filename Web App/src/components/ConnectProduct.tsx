@@ -4,18 +4,21 @@ import { Col, Container, Row } from 'styled-bootstrap-grid'
 import CustomInputField from './common/CustomInputField'
 import styled from 'styled-components'
 import { palette } from '../styled/colors'
-import { connectSellerTradeProduct } from '../apis/apis'
+import { connectTradeProduct, connectGiveAwayProduct } from '../apis/apis'
 import { toastError, toastSuccess } from '../styled/toastStyle'
 import Loader from './common/Loader'
 
-const TradeProduct = ({ data, onClose }: any) => {
-	const [fullName, setFullName] = useState('')
+const ConnectProduct = ({ data, onClose, category }: any) => {
+	const [firstName, setFirstName] = useState('');
+	const [lastName, setLastName] = useState('');
 	const [email, setEmail] = useState('')
+	const [tradeWith, setTradeWith] = useState('');
 	const [topic, setTopic] = useState('')
 	const [contactNumber, setContactNumber] = useState('')
 	const [caption, setCaption] = useState('')
 
-	const [fullNameError, setFullNameError] = useState('')
+	const [firstNameError, setFirstNameError] = useState('')
+	const [lastNameError, setLastNameError] = useState('')
 	const [emailError, setEmailError] = useState('')
 	const [captionError, setCaptionError] = useState('')
 	const [contactNumberError, setContactNumberError] = useState('')
@@ -29,8 +32,13 @@ const TradeProduct = ({ data, onClose }: any) => {
 			isValid = false
 		}
 
-		if (fullName === '') {
-			setFullNameError('Name is required')
+		if (firstName === '') {
+			setFirstNameError('First Name is required')
+			isValid = false
+		}
+
+		if (lastName === '') {
+			setLastNameError('Last Name is required')
 			isValid = false
 		}
 
@@ -48,43 +56,82 @@ const TradeProduct = ({ data, onClose }: any) => {
 	}
 
 	const connectHandler = async () => {
-		console.log("Connecting");
-		// if (data?.user?.email) {
-		// 	setLoading(true)
-		// 	let res = await connectSellerTradeProduct(fullName, email, contactNumber, topic, caption, data?.user?.email, data?.name, data?.user?.first_name + ' ' + data?.user?.last_name)
-		// 	if (res?.success === true) {
-		// 		onClose()
-		// 		toastSuccess('Information is send')
-		// 		setLoading(false)
-		// 	} else {
-		// 		setLoading(false)
-		// 		toastError('Information sending failed ')
-		// 	}
-		// 	setLoading(false)
-		// }
+		if (category === 'trade') {
+			if (data?.user?.email) {
+				setLoading(true)
+				const trade_info = data.trade[0].title;
+				let full_name = firstName + lastName;
+				let res = await connectTradeProduct(full_name, email, contactNumber, topic, tradeWith, caption, data?.user?.email, data?.name, data?.user?.first_name + ' ' + data?.user?.last_name, trade_info);
+				if (res?.success === true) {
+					onClose()
+					toastSuccess('Information is send')
+					setLoading(false)
+				} else {
+					setLoading(false)
+					toastError('Information sending failed ')
+				}
+				setLoading(false)
+			}
+		} else {
+			if (data?.user?.email) {
+				setLoading(true);
+				let full_name = firstName + ' ' + lastName;
+				let res = await connectGiveAwayProduct(full_name, email, contactNumber, topic, caption, data?.user?.email, data?.name, data?.user?.first_name + ' ' + data?.user?.last_name)
+				if (res?.success === true) {
+					onClose()
+					toastSuccess('Information is send')
+					setLoading(false)
+				} else {
+					setLoading(false)
+					toastError('Information sending failed ')
+				}
+				setLoading(false)
+			}
+		}
 	}
 
 	return (
 		<Wrapper>
 			<Row>
 				{loading && <Loader visible={loading} />}
-				<Col md={6}>
+				<Col md={3}>
 					<CustomInputField
 						bgTransparent
 						type="text"
 						maxLength={40}
-						label="Full Name"
-						placeholder="John Doe"
+						label="First Name"
+						placeholder="John"
 						handleChange={(e: any) => {
-							setFullNameError('')
+							setFirstNameError('')
 							if (e === '') {
-								setFullNameError('Name is required')
+								setFirstNameError('First Name is required')
 							}
-							setFullName(e)
+							setFirstName(e)
 						}}
-						value={fullName}
-						error={fullNameError}
-						errorMsg={fullNameError}
+						value={firstName}
+						error={firstNameError}
+						errorMsg={firstNameError}
+						required
+					/>
+					<Spacer height={1.25} />
+				</Col>
+				<Col md={3}>
+					<CustomInputField
+						bgTransparent
+						type="text"
+						maxLength={40}
+						label="Last Name"
+						placeholder="Doe"
+						handleChange={(e: any) => {
+							setLastNameError('')
+							if (e === '') {
+								setLastNameError('Last Name is required')
+							}
+							setLastName(e)
+						}}
+						value={lastName}
+						error={lastNameError}
+						errorMsg={lastNameError}
 						required
 					/>
 					<Spacer height={1.25} />
@@ -133,20 +180,53 @@ const TradeProduct = ({ data, onClose }: any) => {
 					<Spacer height={1.25} />
 				</Col>
 
-				<Col md={6}>
-					<CustomInputField
-						bgTransparent
-						type="text"
-						maxLength={40}
-						label="Interested in"
-						placeholder="Topic"
-						handleChange={(e: any) => {
-							setTopic(e)
-						}}
-						value={topic}
-					/>
-					<Spacer height={1.25} />
-				</Col>
+				{category === 'trade' && <>
+					<Col md={3}>
+						<CustomInputField
+							bgTransparent
+							type="text"
+							maxLength={40}
+							label="Trade"
+							placeholder="Guava"
+							handleChange={(e: any) => {
+								setTopic(e)
+							}}
+							value={topic}
+						/>
+						<Spacer height={1.25} />
+					</Col>
+					<Col md={3}>
+						<CustomInputField
+							bgTransparent
+							type="text"
+							maxLength={40}
+							label="with"
+							placeholder="Banana"
+							handleChange={(e: any) => {
+								setTradeWith(e)
+							}}
+							value={tradeWith}
+						/>
+						<Spacer height={1.25} />
+					</Col>
+				</>}
+
+				{category === 'donate' && <>
+					<Col md={6}>
+						<CustomInputField
+							bgTransparent
+							type="text"
+							maxLength={40}
+							label="Giveaway"
+							placeholder="Apple"
+							handleChange={(e: any) => {
+								setTopic(e)
+							}}
+							value={topic}
+						/>
+						<Spacer height={1.25} />
+					</Col>
+				</>}
 
 				<Col>
 					<CustomInputField
@@ -213,4 +293,4 @@ const Button = styled.div`
 	font-family: Lato-Bold, sans-serif;
 `
 
-export default TradeProduct
+export default ConnectProduct;

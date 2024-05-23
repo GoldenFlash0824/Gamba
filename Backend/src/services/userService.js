@@ -4,7 +4,7 @@ import { hashPassword, comparePassword } from '../utilities/passwordUtils.js'
 import { sendNotification } from '../notification/sendNotification.js'
 import { deleteImage, deleteMultipleImage, s3SharpImageUpload } from './aws.js'
 import NotificationEnum from '../enums/notification-type-enum.js'
-import { connectTradeProductEmail, contactUsEmail, newPasswordEmail, passwordUpdated, resetPasswordEmail, verificationCodeEmail, welcomeEmail, connectGiveAwayProductBuyerEmail, connectGiveAwayProductSellerEmail } from './emailService.js'
+import { connectTradeProductEmail, connectGiveAwayProductBuyerEmail, connectGiveAwayProductSellerEmail, contactUsEmail, newPasswordEmail, passwordUpdated, resetPasswordEmail, verificationCodeEmail, welcomeEmail, connectGiveAwayProductEmail, connectTradeProductBuyerEmail, connectTradeProductSellerEmail } from './emailService.js'
 import moment from 'moment'
 import axios from 'axios'
 
@@ -2629,15 +2629,41 @@ const getuserPrivacySetting = async (req) => {
 
 const connectTradeProduct = async (req) => {
     try {
-        const { full_name, email, phone_number, interested_in, more_info, user_email } = req.body
-        const user = { full_name, email, phone: phone_number, interested: interested_in, info: more_info }
-        let res = await connectTradeProductEmail(user_email, user)
-        // const { full_name, email, phone_number, interested_in, more_info, user_email, title, seller_name } = req.body
-        // const user = { full_name, email, phone: phone_number, interested: interested_in, info: more_info }
-        // let res = await connectGiveAwayProductSellerEmail(user_email, seller_name, title, full_name)
-        // let res2 = await connectGiveAwayProductBuyerEmail(email, full_name, title)
+        const { full_name, email, phone_number, topic, tradeWith, more_info, user_email, title, seller_name, trade_info } = req.body;
+        const user = { full_name, email, phone: phone_number, topic, tradeWith, info: more_info };
+        let res1 = await connectTradeProductBuyerEmail(email, full_name, trade_info);
+        let res2 = await connectTradeProductSellerEmail(user_email, seller_name, title, full_name);
+        let res3 = await connectTradeProductEmail(user_email, user);
 
-        if (res) {
+        if (res1 && res2 && res3) {
+            return {
+                data: true,
+                status: true,
+                message: 'Email sent successfully'
+            }
+        } else {
+            return {
+                data: true,
+                status: false,
+                message: 'Failed to sent email'
+            }
+        }
+    } catch (error) {
+        return {
+            status: false,
+            message: error.message
+        }
+    }
+}
+
+const connectGiveAwayProduct = async (req) => {
+    try {
+        const { email, full_name, user_email, phone_number, interested_in, more_info, title, seller_name } = req.body;
+        const user = { full_name, email, phone: phone_number, interested: interested_in, info: more_info };
+        let res1 = await connectGiveAwayProductBuyerEmail(email, full_name, title);
+        let res2 = await connectGiveAwayProductSellerEmail(user_email, seller_name, title, full_name);
+        let res3 = await connectGiveAwayProductEmail(user_email, user);
+        if (res1 && res2 && res3) {
             return {
                 data: true,
                 status: true,
@@ -2702,4 +2728,4 @@ const getAllBlockUsers = async () => {
     }
 }
 
-export { getAllBlockUsers, connectTradeProduct, contactWithUs, userProfile, autoCreate, facetStage, deleteUserAllData, getUserNotificationsArray, getNewNotificatins, sendChatFcm, getAllNotification, registerUser, updateUser, autoLogin, loginUser, socialLogin, deleteUser, viewAllUser, sendRegisterCode, sendVerificationCode, verfyRegisterCode, resetPassword, updatePassword, searchByName, updateSocialUser, blockedUser, getUserById, getAllSellers, searchSellers, getUserWMaxPosts, topSeller, updateUserPassword, getSellerById, contectUs, getContectUs, notification, hideSellerProfile, SellerOrderData, deleteUserAccount, notificationSetting, getNotificationSetting, addSellerToFevrate, getAllFevrateSeller, disableAccount, getAllDisableAccount, enableAccount, verfyTwoFectorCode, userPrivacySetting, getuserPrivacySetting, markAllReadnotification, readNotification }
+export { getAllBlockUsers, connectTradeProduct, connectGiveAwayProduct, contactWithUs, userProfile, autoCreate, facetStage, deleteUserAllData, getUserNotificationsArray, getNewNotificatins, sendChatFcm, getAllNotification, registerUser, updateUser, autoLogin, loginUser, socialLogin, deleteUser, viewAllUser, sendRegisterCode, sendVerificationCode, verfyRegisterCode, resetPassword, updatePassword, searchByName, updateSocialUser, blockedUser, getUserById, getAllSellers, searchSellers, getUserWMaxPosts, topSeller, updateUserPassword, getSellerById, contectUs, getContectUs, notification, hideSellerProfile, SellerOrderData, deleteUserAccount, notificationSetting, getNotificationSetting, addSellerToFevrate, getAllFevrateSeller, disableAccount, getAllDisableAccount, enableAccount, verfyTwoFectorCode, userPrivacySetting, getuserPrivacySetting, markAllReadnotification, readNotification }

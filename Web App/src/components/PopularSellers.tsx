@@ -46,6 +46,10 @@ const PopularSellers = ({ setUserId, setSellerId, product, setSelectCategory, so
 		getTopUsers()
 	}, [randerGambaNetworkListToggle])
 
+	useEffect(() => {
+		console.log(seller);
+	}, [seller]);
+
 	return (
 		<Wrapper active={pathname === '/calendar' || pathname.includes('/calendar')}>
 			<div>
@@ -55,18 +59,6 @@ const PopularSellers = ({ setUserId, setSellerId, product, setSelectCategory, so
 							<Text type="normal" color="black_100" fontWeight="700">
 								Gamba’s Sellers
 							</Text>
-							<CustomText
-								className="VSP-hover"
-								pointer
-								type="normal"
-								textDecoration="none"
-								fontWeight={500}
-								color="green_200"
-								onClick={() => {
-									_navigate('/products/sellers/')
-								}}>
-								View Sellers & Products
-							</CustomText>
 						</Flexed>
 					</>
 				) : topUsers?.length > 0 && !pathname.includes('/products') ? (
@@ -74,17 +66,6 @@ const PopularSellers = ({ setUserId, setSellerId, product, setSelectCategory, so
 						<Flexed   >
 							<Text type="normal" color="black_100" fontWeight="700">
 								Gamba’s Network
-							</Text>
-							<Text className="VSP-hover"
-								pointer
-								type="normal"
-								textDecoration="none"
-								fontWeight={500}
-								color="green_200"
-								onClick={() => {
-									_navigate('/products/sellers/')
-								}}>
-								View Sellers & Products
 							</Text>
 						</Flexed>
 					</>
@@ -108,6 +89,7 @@ const PopularSellers = ({ setUserId, setSellerId, product, setSelectCategory, so
 				{!pathname.includes('/products') && topUsers?.length > 0 && <Spacer id="2" height={1.5} />}
 			</div>
 			<div>
+				<Spacer height={3} />
 				<HappeningAroundYou />
 				<AdsImg src="/images/ImageForGamba.png" alt="sidebar_ads_img" />
 				{/* <Text type="normal" fontWeight={700} color="black_100" textTransform="capitalize">

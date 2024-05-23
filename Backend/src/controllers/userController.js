@@ -450,8 +450,19 @@ const markAllReadnotification = async (req, res) => {
     }
 }
 
-const connectProduct = async (req, res) => {
+const connectTradeProduct = async (req, res) => {
     const response = await userService.connectTradeProduct(req)
+    if (response.status) {
+        return responseUtil.successResponse(res, response.message, {
+            data: response.data
+        })
+    } else {
+        return responseUtil.validationErrorResponse(res, response.message)
+    }
+}
+
+const connectGiveAwayProduct = async (req, res) => {
+    const response = await userService.connectGiveAwayProduct(req)
     if (response.status) {
         return responseUtil.successResponse(res, response.message, {
             data: response.data
@@ -481,4 +492,4 @@ const allBlockUsers = async (req, res) => {
     }
 }
 
-export { allBlockUsers, deleteUserAllData, contactWithUs, connectProduct, userMyProfile, sendChatFcm, getAllNotification, registerUser, updateUser, loginUser, autoLogin, viewAllUser, deleteUser, socialLogin, sendVerifictionCode, sendRegisterCode, verfyRegisterCode, resetPassword, updatePassword, viewUser, viewUserAllContacts, searchByName, updateSocialUser, getUserById, getAllSellers, searchSellers, getUserWMaxPosts, topSeller, updateUserPassword, getSellerById, contectUs, getContectUs, notification, hideSellerProfile, SellerOrderData, deleteUserAccount, notificationSetting, getNotificationSetting, addSellerToFevrate, getAllFevrateSeller, disableAccount, getAllDisableAccount, enableAccount, verfyTwoFectorCode, userPrivacySetting, getuserPrivacySetting, markAllReadnotification, readNotification }
+export { allBlockUsers, deleteUserAllData, contactWithUs, connectTradeProduct, connectGiveAwayProduct, userMyProfile, sendChatFcm, getAllNotification, registerUser, updateUser, loginUser, autoLogin, viewAllUser, deleteUser, socialLogin, sendVerifictionCode, sendRegisterCode, verfyRegisterCode, resetPassword, updatePassword, viewUser, viewUserAllContacts, searchByName, updateSocialUser, getUserById, getAllSellers, searchSellers, getUserWMaxPosts, topSeller, updateUserPassword, getSellerById, contectUs, getContectUs, notification, hideSellerProfile, SellerOrderData, deleteUserAccount, notificationSetting, getNotificationSetting, addSellerToFevrate, getAllFevrateSeller, disableAccount, getAllDisableAccount, enableAccount, verfyTwoFectorCode, userPrivacySetting, getuserPrivacySetting, markAllReadnotification, readNotification }

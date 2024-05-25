@@ -1,31 +1,27 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {Modal} from 'react-responsive-modal'
+import { Modal } from 'react-responsive-modal'
 import 'react-responsive-modal/styles.css'
-import {Text, Spacer, Flexed} from '../../styled/shared'
-import {palette} from '../../styled/colors'
+import { Text, Spacer, Flexed } from '../../styled/shared'
+import { palette } from '../../styled/colors'
 import InputField from '../common/InputField'
 import Button from '../common/Button'
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 import CreateEvent from '../CreateEvents'
 import CreateProducts from '../CreateProducts'
-import {createPost} from '../../apis/apis'
-import {RxCalendar} from 'react-icons/rx'
+import { createPost } from '../../apis/apis'
 import moment from 'moment-timezone'
-import {RxCrossCircled} from 'react-icons/rx'
-import {Container, Row, Col, media} from 'styled-bootstrap-grid'
-import {savePostMessage, saveRoute, setIsLoading} from '../../actions/authActions'
-import {useDispatch} from 'react-redux'
+import { Container, Row, Col, media } from 'styled-bootstrap-grid'
+import { savePostMessage, saveRoute, setIsLoading } from '../../actions/authActions'
+import { useDispatch } from 'react-redux'
 import Loader from '../common/Loader'
-import {toastError, toastSuccess} from '../../styled/toastStyle'
-import {BsPlusLg} from 'react-icons/bs'
+import { toastError, toastSuccess } from '../../styled/toastStyle'
 import DateTimePicker from 'react-datetime-picker'
 import CustomInputField from '../common/CustomInputField'
 import DropDown from '../DropDown'
-import {useLocation, useNavigate} from 'react-router-dom'
-import {BiCalendarAlt} from 'react-icons/bi'
-import {IoIosArrowForward} from 'react-icons/io'
-import ImageCropModal from './ImageCropModal'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { BiCalendarAlt } from 'react-icons/bi'
+import { IoIosArrowForward } from 'react-icons/io'
 
 const closeIcon = (
 	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -36,8 +32,8 @@ const closeIcon = (
 	</svg>
 )
 
-const AddPostModal = ({onClose, select, setSelect, isModalFooterOpen, setIsModalFooterOpen, onCreateProductCB}: any) => {
-	const {pathname} = useLocation()
+const AddPostModal = ({ onClose, select, setSelect, isModalFooterOpen, setIsModalFooterOpen, onCreateProductCB }: any) => {
+	const { pathname } = useLocation()
 	const _isDarkTheme: any = useSelector<any>((state: any) => state.auth.isDarkTheme)
 	const isLoading = useSelector<any>((state: any) => state.auth.isLoading)
 	const auth_token = useSelector<any>((state: any) => state.auth.auth_token)
@@ -71,9 +67,9 @@ const AddPostModal = ({onClose, select, setSelect, isModalFooterOpen, setIsModal
 	}, [])
 
 	const [privacyOption, setPrivacyOption] = useState([
-		{value: 'Public', label: 'Public'},
-		{value: 'My Network', label: 'My Network'},
-		{value: 'Only Me', label: 'Only Me'}
+		{ value: 'Public', label: 'Public' },
+		{ value: 'My Network', label: 'My Network' },
+		{ value: 'Only Me', label: 'Only Me' }
 	])
 
 	const [privacy, setPrivacy] = useState(privacyOption[0]?.value)
@@ -85,17 +81,14 @@ const AddPostModal = ({onClose, select, setSelect, isModalFooterOpen, setIsModal
 	const addPost = async () => {
 		_dispatch(setIsLoading(true))
 		let postDate: any = moment(startDate).format('MM/DD/YYYY')
-		// if (moment().format("MM/DD/YYYY") !== moment(startDate).format("MM/DD/YYYY")) {
-		// 	postDate = moment(startDate).format("MM/DD/YYYY")
-		// }
 		let response = await createPost(description, imageData, postTopic, privacy, postDate)
 		if (response.success === true) {
-			// toastSuccess(response.message)
+			toastSuccess(response.message)
 			setImageData([])
 			setDescription('')
-			_dispatch(saveRoute('/'))
+			_dispatch(saveRoute('/products'))
 			_dispatch(savePostMessage(''))
-			_navigate('/')
+			_navigate('/community')
 			onClose()
 		} else {
 			toastError(response.message)
@@ -121,7 +114,7 @@ const AddPostModal = ({onClose, select, setSelect, isModalFooterOpen, setIsModal
 	// 	}
 	// }
 
-	const handleCapture = ({target}: any) => {
+	const handleCapture = ({ target }: any) => {
 		// debugger
 		if (target.files[0]) {
 			const reader = new FileReader()
@@ -280,13 +273,13 @@ const AddPostModal = ({onClose, select, setSelect, isModalFooterOpen, setIsModal
 											</Col>
 
 											<Col>
-												{/* {imageData.length >= 4 && (
+												{imageData.length > 4 && (
 													<>
 														<Text fontSize={0.625} type="small" color="danger" texTransform="normal">
 															you can add maximum 4 images
 														</Text>
 													</>
-												)} */}
+												)}
 												{imageData?.length ? (
 													''
 												) : (
@@ -323,14 +316,6 @@ const AddPostModal = ({onClose, select, setSelect, isModalFooterOpen, setIsModal
 														<StyledCalender clearIcon={null} isCalendarOpen={true} minDate={new Date()} calendarIcon={null} disableClock={true} format="d-M-yyyy" onChange={handleStartDateChange} value={startDate} />
 													)}
 												</div>
-
-												{/* <RxCalendar
-													onClick={() => {
-														setIsCalenderOpen(true)
-													}}
-													fontSize="1.5rem"
-													color={palette.text}
-												/> */}
 
 												<CalendarIconCustom
 													onClick={() => {
@@ -389,10 +374,10 @@ const AddPostModal = ({onClose, select, setSelect, isModalFooterOpen, setIsModal
 												<Button
 													width="100%"
 													label="post"
-													
+
 													ifClicked={async () => {
-														if (await checkValidationOnClick()) {
-															addPost()
+														if (checkValidationOnClick()) {
+															await addPost()
 														}
 													}}
 												/>
@@ -405,10 +390,9 @@ const AddPostModal = ({onClose, select, setSelect, isModalFooterOpen, setIsModal
 							{select === 'Goods' && <CreateProducts onClose={onClose} onCreateCB={onCreateProductCB} setSellGoodsCategory={setSellGoodsCategory} />}
 						</Body>
 					</ModalWrapper>
-					{isLoading && <Loader visible={isLoading} />}
+					{isLoading && <Loader visible={isLoading} width="100%" />}
 				</>
 			</Modal>
-			{/* {showImage && <ImageCropModal showImage={showImage} onClose={()=>{setOpenCropModal(false)}}/> } */}
 		</>
 	)
 }
@@ -449,7 +433,7 @@ const Body = styled.div`
 	
 `
 
-const CustomFlex = styled(Flexed)<any>`
+const CustomFlex = styled(Flexed) <any>`
 	width: 100%;
 `
 

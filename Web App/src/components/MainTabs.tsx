@@ -50,15 +50,15 @@ const MainTabs = ({ setSellerId, setSelectedBtn, setSinglePost, setSingleEvent }
 					_dispatch(saveSearchText(''))
 				}}>
 				<div>
-					<SocialIcon active={pathname === '/'} src="/images/icons/home.svg" alt="home" />
+					<SocialIcon active={pathname.includes('products')} src="/images/icons/home.svg" alt="home" />
 				</div>
-				<StyledText active={pathname === '/products' || pathname === '/products/sellers/'} type="normal">
+				<StyledText active={pathname.includes('products')} type="normal">
 					Home
 				</StyledText>
 			</Tab>
 			<Tab
 				className="d-flex align-items-center justify-content-center justify-content-md-start "
-				active={pathname === '/'}
+				active={pathname === '/community'}
 				direction="row"
 				align="center"
 				border
@@ -67,13 +67,13 @@ const MainTabs = ({ setSellerId, setSelectedBtn, setSinglePost, setSingleEvent }
 					setSelectedBtn('social')
 					setSellerId('')
 					setSinglePost(null)
-					_navigate('/')
+					_navigate('/community')
 					_dispatch(saveSearchText(''))
 				}}>
 				<div>
-					<SocialIcon active={pathname === '/products' || pathname === '/products/sellers/'} src="/images/icons/sellers.svg" alt="product" />
+					<SocialIcon active={pathname.includes('community')} src="/images/icons/sellers.svg" alt="product" />
 				</div>
-				<StyledText active={pathname === '/'} type="normal">
+				<StyledText active={pathname.includes('community')} type="normal">
 					Community
 				</StyledText>
 			</Tab>

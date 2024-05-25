@@ -1,10 +1,10 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import {DropMenu, Flexed} from '../styled/shared'
-import {palette} from '../styled/colors'
-import {AiFillBank} from 'react-icons/ai'
+import { DropMenu, Flexed } from '../styled/shared'
+import { palette } from '../styled/colors'
+import { AiFillBank } from 'react-icons/ai'
 
-const MobViewAddPost = ({select, setSelect, isAddPostModalOpen, setIsAddPostModalOpen, setIsModalFooterOpen}: any) => {
+const MobViewAddPost = ({ select, setSelect, isAddPostModalOpen, setIsAddPostModalOpen, setIsModalFooterOpen }: any) => {
 	return (
 		<>
 			<CustomDropContent>
@@ -45,7 +45,7 @@ const MobViewAddPost = ({select, setSelect, isAddPostModalOpen, setIsAddPostModa
 					}}>
 					<Flexed direction="row" align="center" gap={0.5}>
 						<div>
-							<SocialIcon src="/images/icons/product.svg"  />
+							<SocialIcon src="/images/icons/product.svg" />
 						</div>
 						Sell a Product
 					</Flexed>
@@ -63,7 +63,7 @@ const CustomDropContent = styled.div<any>`
 	width: 13rem;
 	max-height: 20rem;
 	overflow-y: scroll;
-	background-color: ${({isDarkTheme}) => (isDarkTheme ? palette.black : palette.white)};
+	background-color: ${({ isDarkTheme }) => (isDarkTheme ? palette.black : palette.white)};
 	z-index: 1;
 	border-radius: 0.5rem;
 	box-shadow: ${palette.shadow};
@@ -75,6 +75,6 @@ const Icon = styled(AiFillBank)`
 
 const SocialIcon = styled.img<any>`
 	width: 1.2rem;
-	color: ${({pathname}) => (pathname === '/' ? palette.Btn_dark_green : palette.text)};
+	color: ${({ pathname }) => (pathname === '/products' ? palette.Btn_dark_green : palette.text)};
 `
 export default MobViewAddPost

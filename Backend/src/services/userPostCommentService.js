@@ -5,7 +5,7 @@ dotenv.config()
 import db from '../models/index.js'
 import { sendNotification } from '../notification/sendNotification.js'
 import { getUserIdFromToken } from '../utilities/authentication.js'
-import { notificationEmail } from './emailService.js'
+import { commentPosterEmail, notificationEmail } from './emailService.js'
 import { blockedUser, facetStage } from './userService.js'
 import { deleteImage, s3SharpImageUpload } from './aws.js'
 
@@ -26,7 +26,7 @@ const addUserPostComment = async (req) => {
         })
 
         if (post) {
-            let image
+            let image;
             if (imageData) {
                 image = await s3SharpImageUpload(imageData)
             }
@@ -48,6 +48,7 @@ const addUserPostComment = async (req) => {
                     },
                     raw: true
                 })
+
                 if (check_email_notification?.email_notification == true) {
                     let user_that_comment_on_post = await db.User.findOne({ where: { id: u_id }, raw: true })
                     let email_of_owner_post = await db.User.findOne({ where: { id: post.u_id }, raw: true })
@@ -77,8 +78,8 @@ const addUserPostComment = async (req) => {
 
             if (addPostComment) {
                 const requestData = { p_id: p_id, page: page, order: order }
-                const allcomments = await viewAllPostComments(req, requestData)
-
+                const allcomments = await viewAllPostComments(req, requestData);
+                await commentPosterEmail(post.user, post.user.email);
                 return {
                     status: true,
                     message: 'Comment added successfully',

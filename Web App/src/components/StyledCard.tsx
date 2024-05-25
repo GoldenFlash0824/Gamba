@@ -230,7 +230,7 @@ const StyledCard = ({ cardIndex, sale, myProducts, content, addToCart, donation,
 							</Flexed>
 
 							{!myProducts && (
-								<Flexed direction={'row'} align={'center'}>
+								<Flexed margin={"0.3rem 0rem 0rem 0rem"} direction={'row'} align={'center'} justify={'space-between'}>
 									<TextBelowUser
 										onClick={() => {
 											setIsProductDetailsModalOpen(true)
@@ -242,42 +242,26 @@ const StyledCard = ({ cardIndex, sale, myProducts, content, addToCart, donation,
 										title={content?.user?.first_name + ' ' + content?.user?.last_name}>
 										<span style={{ fontWeight: 'bold' }}>by</span> {content?.user?.first_name} {content?.user?.last_name}
 									</TextBelowUser>
-									<LocationIcons src="/images/icons/location.svg" />
-									<Distance>{distanceInMiles ? `${distanceInMiles}` : '0 mile.'}</Distance>
+									<TextBelowImg color="black">
+										{donation ? "Giveaway: " : trade ? "Trade:" : "Sold:"} {content?.totalSold}
+									</TextBelowImg>
 								</Flexed>
 							)}
 
-							{/* <TextBelowUser
-								onClick={() => {
-									setIsProductDetailsModalOpen(true)
-								}}
-								type="small"
-								textTransform="capitalize"
-								color="text_description">
-								<span style={{fontWeight: 'bold'}}>by</span> {content?.user?.first_name} {content?.user?.last_name}
-							</TextBelowUser>
-
-							<Flexed margin="0rem 0rem 0.375rem 0rem" direction="row" align="center" gap={0.2} style={{height: '18px'}}>
-								{content?.user?.lat &&
-									content?.user?.log(
-								<>
-									<LocationIcons src="/images/icons/location.svg" />
-									<Distance>{distanceInMiles ? `${distanceInMiles?.toFixed(2)} milles.` : '0 mille.'}</Distance>
-								</>
-								 )}
-							</Flexed> */}
 							{myProducts && content?.is_block && (
 								<div>
 									status: <span style={{ color: 'red' }}>Blocked</span>
 								</div>
 							)}
-							<TextBelowImg color="black" margin="0.3rem 0rem 0rem 0rem">
-								{donation ? "Giveaway: " : trade ? "Trade:" : "Sold:"} {content?.totalSold}
-							</TextBelowImg>
+
+							<Flexed margin="0.6rem 0rem 0rem 0rem" direction="row" align="center">
+								<LocationIcons src="/images/icons/location.svg" />
+								<Distance>{distanceInMiles ? `${distanceInMiles}` : '0 mile.'}</Distance>
+							</Flexed>
+
 							<Flexed margin="0rem 0rem 0.625rem 0rem" direction="row" align="center" style={{ minHeight: '1.813rem' }}>
 								<Text type="xsmall" fontWeight={500} color="gray">
 									<TextWithSeeMore text={content?.caption} maxLength={45} />
-									{/* {content?.caption} */}
 								</Text>
 							</Flexed>
 						</div>
@@ -313,13 +297,6 @@ const StyledCard = ({ cardIndex, sale, myProducts, content, addToCart, donation,
 													Delete
 												</DropMenu>
 											)}
-											{/* <DropMenu
-										onClick={() => {
-											isUserLogIn !== null ? _navigate('/') : setLoginPopup(true)
-										}}>
-										Hide
-									</DropMenu> */}
-											{/* <DropMenu>See Image</DropMenu> */}
 										</DropContent>
 									</Drop>
 								</StyledFlexed>
@@ -401,12 +378,12 @@ const StyledCard = ({ cardIndex, sale, myProducts, content, addToCart, donation,
 							{donation && <span></span>}
 							{sale && (
 								<Text fontWeight={700} type="large" status="sale">
-									$ {(content?.price - (content?.discount / 100) * content?.price)?.toFixed()}
+									$ {((content?.price ?? 0) - (content?.discount ?? 0) / 100 * (content?.price ?? 0)).toFixed(2)}
 								</Text>
 							)}
 							{!sale && !donation && (
 								<Text fontWeight={700} type="large" status="product">
-									${content.price.toFixed()}
+									${content.price.toFixed(2)}
 								</Text>
 							)}
 							{!donation && userId !== content?.u_id && (
@@ -419,10 +396,7 @@ const StyledCard = ({ cardIndex, sale, myProducts, content, addToCart, donation,
 											<div>
 												<Icons
 													onClick={() => {
-														// if (content?.quantity > 0 && content?.quantity > quantity) {
-														// if (content?.quantity > 0) {
 														setQuantity(quantity + 1)
-														// }
 													}}>
 													<img src="/images/icons/arrow_up.svg" alt="arrow_qty" />
 												</Icons>
@@ -495,6 +469,7 @@ const StyledCard = ({ cardIndex, sale, myProducts, content, addToCart, donation,
 					}}
 				/>
 			)}
+
 			{isDonationDetailsModalOpen && (
 				<DonateDetailsModal
 					content={content}
@@ -508,6 +483,7 @@ const StyledCard = ({ cardIndex, sale, myProducts, content, addToCart, donation,
 					}}
 				/>
 			)}
+
 			{openProductEditModal && (
 				<EditPostModal
 					productContent={content}
@@ -549,6 +525,7 @@ const StyledCard = ({ cardIndex, sale, myProducts, content, addToCart, donation,
 					}}
 				/>
 			)}
+
 			{loginPopup && <LoginPopupModel onClose={() => setLoginPopup(false)} />}
 
 			{lightBoxOpen && (

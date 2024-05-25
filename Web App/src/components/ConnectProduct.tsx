@@ -59,9 +59,8 @@ const ConnectProduct = ({ data, onClose, category }: any) => {
 		if (category === 'trade') {
 			if (data?.user?.email) {
 				setLoading(true)
-				const trade_info = data.trade[0].title;
 				let full_name = firstName + lastName;
-				let res = await connectTradeProduct(full_name, email, contactNumber, topic, tradeWith, caption, data?.user?.email, data?.name, data?.user?.first_name + ' ' + data?.user?.last_name, trade_info);
+				let res = await connectTradeProduct(full_name, email, contactNumber, topic, tradeWith, caption, data?.user?.email, data?.name, data?.user?.first_name + ' ' + data?.user?.last_name);
 				if (res?.success === true) {
 					onClose()
 					toastSuccess('Information is send')
@@ -75,8 +74,13 @@ const ConnectProduct = ({ data, onClose, category }: any) => {
 		} else {
 			if (data?.user?.email) {
 				setLoading(true);
-				let full_name = firstName + ' ' + lastName;
-				let res = await connectGiveAwayProduct(full_name, email, contactNumber, topic, caption, data?.user?.email, data?.name, data?.user?.first_name + ' ' + data?.user?.last_name)
+				let full_name = firstName + ' ' + lastName, subject;
+				if (data?.allow_per_person > 1) {
+					subject = data?.allow_per_person + ' ' + data?.unit + 's of ' + data?.name;
+				} else {
+					subject = data?.allow_per_person + ' ' + data?.unit + ' of ' + data?.name;
+				}
+				let res = await connectGiveAwayProduct(full_name, email, contactNumber, topic, caption, data?.user?.email, subject, data?.user?.first_name + ' ' + data?.user?.last_name)
 				if (res?.success === true) {
 					onClose()
 					toastSuccess('Information is send')

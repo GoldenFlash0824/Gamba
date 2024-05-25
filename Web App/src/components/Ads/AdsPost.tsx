@@ -1,7 +1,7 @@
-import {useEffect, useState} from 'react'
-import {palette} from '../../styled/colors'
+import { useEffect, useState } from 'react'
+import { palette } from '../../styled/colors'
 import styled from 'styled-components'
-import {Text, Flexed} from '../../styled/shared'
+import { Text, Flexed } from '../../styled/shared'
 import PostAction from '../productPost/PostAction'
 import AdsProfile from './AdsProfile'
 import AdsCarosel from './AdsCarosel'
@@ -33,10 +33,6 @@ const AdsPost = () => {
 	]
 	return (
 		<CardWrapper>
-			{/* <CustomFlex direction="row" align="center" justify="space-between">
-				<AdsProfile />
-			</CustomFlex> */}
-
 			<DiscriptionContent>
 				<Discription type="small" showFullText={readMore}>
 					Grow · Sell · Share · Trade
@@ -52,8 +48,6 @@ const AdsPost = () => {
 					pointer></SeeMore>
 			</DiscriptionContent>
 			<AdsCarosel loop={loop} />
-
-			{/* <PostAction /> */}
 		</CardWrapper>
 	)
 }
@@ -67,7 +61,7 @@ const CardWrapper = styled.div<any>`
 	margin-bottom: 1.5rem;
 `
 
-const CustomFlex = styled(Flexed)<any>`
+const CustomFlex = styled(Flexed) <any>`
 	padding: 1rem 1rem 0.5rem 1rem;
 `
 
@@ -76,17 +70,17 @@ const DiscriptionContent = styled(Text)`
 	padding: 1rem 1rem 0;
 `
 
-const Discription = styled(Text)<any>`
+const Discription = styled(Text) <any>`
 	color: ${palette.text_description};
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	white-space: pre-wrap;
-	overflow: ${({showFullText}) => (showFullText ? '' : 'hidden')};
-	-webkit-line-clamp: ${({showFullText}) => (showFullText ? '' : '3')};
+	overflow: ${({ showFullText }) => (showFullText ? '' : 'hidden')};
+	-webkit-line-clamp: ${({ showFullText }) => (showFullText ? '' : '3')};
 `
 
-const SeeMore = styled(Text)<any>`
-	position: ${({showFullText}) => (showFullText ? '' : 'absolute')};
+const SeeMore = styled(Text) <any>`
+	position: ${({ showFullText }) => (showFullText ? '' : 'absolute')};
 	bottom: 0;
 	right: 0;
 	background: ${palette.card_bg};

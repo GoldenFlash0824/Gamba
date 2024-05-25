@@ -71,7 +71,7 @@ const Notification = ({ getAllNotificationCount }) => {
 									fontWeight="500"
 									color="gray"
 									onClick={() => {
-										_navigate('/')
+										_navigate('/products')
 										// setSinglePost(null)
 										// setSelectProfileSettingsCategory('')
 										// setSelectCategory('profile')

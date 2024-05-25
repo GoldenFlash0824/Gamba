@@ -1,19 +1,19 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {Row, Col, Container, media} from 'styled-bootstrap-grid'
-import {Heading, Spacer, Text} from '../styled/shared'
-import {palette} from '../styled/colors'
-import {Flexed} from '../styled/shared'
+import { Row, Col, Container, media } from 'styled-bootstrap-grid'
+import { Heading, Spacer, Text } from '../styled/shared'
+import { palette } from '../styled/colors'
+import { Flexed } from '../styled/shared'
 import StyledCard from './StyledCard'
 import ProductsCard from './ProductCard'
-import {useDispatch} from 'react-redux'
-import {setIsLoading} from '../actions/authActions'
-import {getAllProductsApi, getUserAllProductsApi} from '../apis/apis'
-import {useSelector} from 'react-redux'
-import {IoIosArrowForward} from 'react-icons/io'
-import {useNavigate} from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { setIsLoading } from '../actions/authActions'
+import { getAllProductsApi, getUserAllProductsApi } from '../apis/apis'
+import { useSelector } from 'react-redux'
+import { IoIosArrowForward } from 'react-icons/io'
+import { useNavigate } from 'react-router-dom'
 
-const MyProducts = ({addToCart, setUserId}) => {
+const MyProducts = ({ addToCart, setUserId }) => {
 	const userId = useSelector<any>((state: any) => state.auth.userId)
 	const isLoading = useSelector<any>((state: any) => state.auth.isLoading)
 	const [isDataProgress, setIsDataProgress]: any = useState(true)
@@ -46,20 +46,20 @@ const MyProducts = ({addToCart, setUserId}) => {
 			<Spacer height={1.25} />
 			<Flexed direction="row" align="center" gap="0.5">
 				<Text
-				pointer
+					pointer
 					fontWeight={500}
 					type="normal"
 					color="gray"
 					onClick={() => {
-						_navigate('/')
+						_navigate('/products')
 						// setSinglePost(null)
 						// setSelectProfileSettingsCategory('')
 						// setSelectCategory('profile')
 					}}>
 					Home
 				</Text>
-				
-				<img src='/images/icons/arrow.svg' alt='arrow'/>
+
+				<img src='/images/icons/arrow.svg' alt='arrow' />
 
 				<Text fontWeight={500} type="normal" color="black_100">
 					My Products
@@ -86,7 +86,7 @@ const MyProducts = ({addToCart, setUserId}) => {
 					{products?.length === 0 && (
 						<Col>
 							<Text type="small" margin="4rem 0rem" isCentered>
-							{isDataProgress ? '' : 'No data found' }
+								{isDataProgress ? '' : 'No data found'}
 							</Text>
 						</Col>
 					)}

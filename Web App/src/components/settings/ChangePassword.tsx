@@ -1,17 +1,17 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import {palette} from '../../styled/colors'
-import {Flexed, Spacer, Text} from '../../styled/shared'
-import {Row, Col, media} from 'styled-bootstrap-grid'
-import {IoIosArrowForward} from 'react-icons/io'
+import { palette } from '../../styled/colors'
+import { Flexed, Spacer, Text } from '../../styled/shared'
+import { Row, Col, media } from 'styled-bootstrap-grid'
+import { IoIosArrowForward } from 'react-icons/io'
 import CustomInputField from '../common/CustomInputField'
-import {updatePassword} from '../../apis/apis'
-import {toastError, toastSuccess} from '../../styled/toastStyle'
-import {useDispatch} from 'react-redux'
-import {setIsLoading} from '../../actions/authActions'
-import {useNavigate} from 'react-router-dom'
+import { updatePassword } from '../../apis/apis'
+import { toastError, toastSuccess } from '../../styled/toastStyle'
+import { useDispatch } from 'react-redux'
+import { setIsLoading } from '../../actions/authActions'
+import { useNavigate } from 'react-router-dom'
 
-const ChangePassword = ({setSelectCategory, setSelectProfileSettingsCategory}) => {
+const ChangePassword = ({ setSelectCategory, setSelectProfileSettingsCategory }) => {
 	const [oldPassword, setOldPassword] = useState('')
 	const [newPassword, setNewPassword] = useState('')
 	const [forgotPassword, setForgotPassword] = useState<any>('')
@@ -57,7 +57,7 @@ const ChangePassword = ({setSelectCategory, setSelectProfileSettingsCategory}) =
 								<CustomInputField
 									bgTransparent
 									label="Current Password"
-									type="text"
+									type="password"
 									placeholder="Current Password"
 									handleChange={(e: any) => {
 										setOldPassword(e)
@@ -70,7 +70,7 @@ const ChangePassword = ({setSelectCategory, setSelectProfileSettingsCategory}) =
 							<CustomInputField
 								bgTransparent
 								label="New Password"
-								type="text"
+								type="password"
 								placeholder="New Password"
 								handleChange={(e: any) => {
 									setNewPassword(e)
@@ -82,7 +82,7 @@ const ChangePassword = ({setSelectCategory, setSelectProfileSettingsCategory}) =
 							<CustomInputField
 								bgTransparent
 								label="Confirm Password"
-								type="text"
+								type="password"
 								placeholder="Confirm Password"
 								handleChange={(e: any) => {
 									setConfirmNewPassword(e)
@@ -102,7 +102,7 @@ const ChangePassword = ({setSelectCategory, setSelectProfileSettingsCategory}) =
 								Save Changes
 							</Button>
 							<Button
-								style={{width: 'max-content'}}
+								style={{ width: 'max-content' }}
 								active={forgotPassword}
 								onClick={() => {
 									setForgotPassword(true)
@@ -134,7 +134,7 @@ const Button = styled.div<any>`
 	justify-content: center;
 	border-radius: 1.875rem;
 	height: 3.125rem;
-	color: ${({active}) => (active ? palette.green_200 : palette.white)};
+	color: ${({ active }) => (active ? palette.green_200 : palette.white)};
 	font-weight: 700;
 	font-family: 'Lato-Regular', sans-serif;
 	font-size: 1rem;
@@ -142,18 +142,18 @@ const Button = styled.div<any>`
 	opacity: 1;
 	width: 150px;
 	border: 1px solid ${palette.green_200};
-	background-color: ${({disabled, active}) => (disabled ? palette.white : active ? palette.white : palette.green_200)};
-	cursor: ${({disabled}) => (disabled ? 'no-drop' : 'pointer')};
+	background-color: ${({ disabled, active }) => (disabled ? palette.white : active ? palette.white : palette.green_200)};
+	cursor: ${({ disabled }) => (disabled ? 'no-drop' : 'pointer')};
 	&:hover {
 		// background-color: ${palette.white};
-		// color: ${({active}) => (active ? palette.green_200 : palette.green_200)};
+		// color: ${({ active }) => (active ? palette.green_200 : palette.green_200)};
 		background-color: ${palette.green};
 		color: ${palette.white};
 		border-color: ${palette.green}
 	}
 `
 
-const Flex = styled(Flexed)<any>`
+const Flex = styled(Flexed) <any>`
 	max-width: 100%;
 `
 

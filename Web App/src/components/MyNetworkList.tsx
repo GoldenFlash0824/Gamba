@@ -1,17 +1,17 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import {Flexed, Text} from '../styled/shared'
-import {palette} from '../styled/colors'
-import {useDispatch} from 'react-redux'
-import {useNavigate} from 'react-router-dom'
-import {colorPicker} from '../components/utils'
-import {setIsLoading, randerGambaNetworkList, addFav} from '../actions/authActions'
-import {addFavSeller} from '../apis/apis'
-import {toastError} from '../styled/toastStyle'
+import { Flexed, Text } from '../styled/shared'
+import { palette } from '../styled/colors'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { colorPicker } from '../components/utils'
+import { setIsLoading, randerGambaNetworkList, addFav } from '../actions/authActions'
+import { addFavSeller } from '../apis/apis'
+import { toastError } from '../styled/toastStyle'
 import HideModal from './modals/HideModal'
 import LoginPopupModel from './modals/LoginPopupModel'
 
-const MyNetworkList = ({data, setSellerId, getFevSellerData}: any) => {
+const MyNetworkList = ({ data, setSellerId, getFevSellerData }: any) => {
 	const _dispatch = useDispatch()
 	const [name, setName] = useState(data?.first_name)
 	const [lName, setLName] = useState(data?.last_name)
@@ -62,7 +62,7 @@ const MyNetworkList = ({data, setSellerId, getFevSellerData}: any) => {
 				<div>
 					<Profile
 						onClick={() => {
-							_navigate('/')
+							_navigate('/products')
 							setSellerId(data?.id)
 						}}
 						styledColor={color}>
@@ -81,7 +81,7 @@ const MyNetworkList = ({data, setSellerId, getFevSellerData}: any) => {
 					color="black"
 					textTransform="capitalize"
 					onClick={() => {
-						_navigate('/')
+						_navigate('/products')
 						setSellerId(data?.id)
 					}}>
 					{data?.first_name ? name + ' ' + lName : ''}
@@ -150,7 +150,7 @@ const MyNetworkList = ({data, setSellerId, getFevSellerData}: any) => {
 	)
 }
 
-const Wrapper = styled(Flexed)<any>`
+const Wrapper = styled(Flexed) <any>`
 	border-radius: 1.25rem;
 	padding: 1rem;
 	border: 1px solid ${palette.stroke};
@@ -161,7 +161,7 @@ const Profile = styled.div<any>`
 	height: 2.5rem;
 	border-radius: 100%;
 	overflow: hidden;
-	background: ${({styledColor}) => (styledColor ? `${styledColor}` : palette.Btn_dark_green)};
+	background: ${({ styledColor }) => (styledColor ? `${styledColor}` : palette.Btn_dark_green)};
 	position: relative;
 	color: ${palette.black};
 	display: flex;
@@ -177,7 +177,7 @@ const Profile = styled.div<any>`
 `
 
 const CustomText = styled(Text)`
-	color: ${({styledColor}) => (styledColor ? `${styledColor}` : palette.red)};
+	color: ${({ styledColor }) => (styledColor ? `${styledColor}` : palette.red)};
 `
 
 const Heart = styled.img`
@@ -191,7 +191,7 @@ const DropContent = styled.div<any>`
 	margin-top: 0rem;
 	position: absolute;
 	right: 0;
-	background-color: ${({isDarkTheme}) => (isDarkTheme ? palette.black : palette.white)};
+	background-color: ${({ isDarkTheme }) => (isDarkTheme ? palette.black : palette.white)};
 	min-width: max-content;
 	box-shadow: ${palette.shadow};
 	z-index: 1;

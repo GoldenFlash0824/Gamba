@@ -11,6 +11,7 @@ import { useLocation } from 'react-router-dom'
 import GambaNetworkList from './GambaNetworkList'
 import { palette } from '../styled/colors'
 import { media } from 'styled-bootstrap-grid'
+import TextWithSeeMore from './common/SeeMoreText'
 
 const PopularSellers = ({ setUserId, setSellerId, product, setSelectCategory, social, selectCategory }: any) => {
 	const { pathname } = useLocation()
@@ -88,7 +89,27 @@ const PopularSellers = ({ setUserId, setSellerId, product, setSelectCategory, so
 				{pathname.includes('/products') && seller?.data?.data?.topSeller?.length > 0 && <Spacer id="1" height={1.5} />}
 				{!pathname.includes('/products') && topUsers?.length > 0 && <Spacer id="2" height={1.5} />}
 			</div>
-			<div>
+			{pathname.includes('/products') && <div>
+				<Spacer height={3} />
+				<HappeningAroundYou />
+				<AdsImg src="/images/Products_Image.png" alt="sidebar_ads_img" />
+				{/* <Text type="normal" fontWeight={700} color="black_100" textTransform="capitalize">
+					Lorem ipsum dolor sit amet
+				</Text> */}
+				<Text type="small" color="gray" textTransform="">
+					<TextWithSeeMore text="Are you the proud owner of a farm, winery, or any health-conscious venue? If so, we invite you
+						to join our vibrant community at Gamba by creating a health-conscious event. Whether it's a
+						farm-to-table feast showcasing your fresh produce, a vineyard wellness retreat offering
+						rejuvenating experiences, or a venue dedicated to promoting healthy living, your event has a
+						place here. Our health-conscious community is eagerly seeking unique and enriching
+						experiences that prioritize well-being and sustainability. By hosting an event with us, you'll not
+						only connect with like-minded individuals but also contribute to a healthier and more mindful
+						world. Join us in inspiring others to embrace a lifestyle of wellness and vitality. Let's create
+						memorable experiences together on Gamba!" maxLength={100} />
+				</Text>
+				<Spacer height={1} />
+			</div>}
+			{pathname.includes('/community') && <div>
 				<Spacer height={3} />
 				<HappeningAroundYou />
 				<AdsImg src="/images/ImageForGamba.png" alt="sidebar_ads_img" />
@@ -99,7 +120,27 @@ const PopularSellers = ({ setUserId, setSellerId, product, setSelectCategory, so
 					<p className="side-img-text">Welcome to Gamba, a vibrant community where passion for good food, a commitment to the environment, and the joy of growing, selling, and sharing homegrown or handmade products more... <a href='/about-us' >read more..</a></p>
 				</Text>
 				<Spacer height={1} />
-			</div>
+			</div>}
+			{pathname.includes('/calendar') && <div>
+				<Spacer height={3} />
+				<HappeningAroundYou />
+				<AdsImg src="/images/Calendar_Image.png" alt="sidebar_ads_img" />
+				{/* <Text type="normal" fontWeight={700} color="black_100" textTransform="capitalize">
+					Lorem ipsum dolor sit amet
+				</Text> */}
+				<Text type="small" color="gray" textTransform="">
+					<TextWithSeeMore text="Are you the proud owner of a farm, winery, or any health-conscious venue? If so, we invite you
+						to join our vibrant community at Gamba by creating a health-conscious event. Whether it's a
+						farm-to-table feast showcasing your fresh produce, a vineyard wellness retreat offering
+						rejuvenating experiences, or a venue dedicated to promoting healthy living, your event has a
+						place here. Our health-conscious community is eagerly seeking unique and enriching
+						experiences that prioritize well-being and sustainability. By hosting an event with us, you'll not
+						only connect with like-minded individuals but also contribute to a healthier and more mindful
+						world. Join us in inspiring others to embrace a lifestyle of wellness and vitality. Let's create
+						memorable experiences together on Gamba!" maxLength={100} />
+				</Text>
+				<Spacer height={1} />
+			</div>}
 		</Wrapper>
 	)
 }

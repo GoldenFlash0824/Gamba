@@ -1,19 +1,19 @@
-import React, {useState} from 'react'
-import {Col} from 'styled-bootstrap-grid'
+import React, { useEffect, useState } from 'react'
+import { Col } from 'styled-bootstrap-grid'
 import DropDown from '../DropDown'
-import {Flexed, Spacer, Text} from '../../styled/shared'
+import { Flexed, Spacer, Text } from '../../styled/shared'
 import styled from 'styled-components'
-import {palette} from '../../styled/colors'
+import { palette } from '../../styled/colors'
 import DateTimePicker from 'react-datetime-picker'
 import Checkbox from '../common/CheckBox'
 import CustomInputField from '../common/CustomInputField'
 import Toggle from '../common/Toggle'
 import ChemicalsErrorModal from '../modals/ChemicalsErrorModal'
 import AllowToOrderModal from '../modals/AllowToOrderModal'
-import {BiCalendarAlt} from 'react-icons/bi'
-import {media} from 'styled-bootstrap-grid'
-import {toastSuccess} from '../../styled/toastStyle'
-import {toast} from 'react-toastify'
+import { BiCalendarAlt } from 'react-icons/bi'
+import { media } from 'styled-bootstrap-grid'
+import { toastSuccess } from '../../styled/toastStyle'
+import { toast } from 'react-toastify'
 
 const ProductStepperTwo = ({
 	isTrade,
@@ -75,6 +75,14 @@ const ProductStepperTwo = ({
 	const [isChemicalsErrorModalOpen, setIsChemicalsErrorModalOpen] = useState(false)
 
 	const [isAllowToOrderModalOpen, setIsAllowToOrderModalOpen] = useState(false)
+
+	const [showModal, setShowModal] = useState(false);
+
+	useEffect(() => {
+		toast.success('If you choose organic, it means that no chemicals were used on your crops. But if you use other natural products to treat your crops, please list it in the product description', {
+			autoClose: 10000
+		})
+	}, [showModal])
 
 	return (
 		<>
@@ -212,7 +220,7 @@ const ProductStepperTwo = ({
 				</Col>
 			)}
 			{isDelivery && (
-				<div style={{position: 'relative'}}>
+				<div style={{ position: 'relative' }}>
 					<RadiusText align="center" direction="row">
 						<Text type="small" color="gray">
 							Miles
@@ -236,18 +244,21 @@ const ProductStepperTwo = ({
 			<Col lg={6}>
 				<OrganicFlexed direction="row" gap={0.5} align="flex-end" justify="flex-end">
 					<Flexed direction="row" gap="0.5" align={'center'}>
+						<div style={{ cursor: 'pointer', fontWeight: 'bold' }} onClick={() => {
+							setShowModal(!showModal);
+						}}>
+							[ ! ]
+						</div>
 						<Text type="medium" color="black">
 							Organic
 						</Text>
 						<div
 							onClick={() => {
-								if (toggle === false) {
+								if (showModal === true) {
 									if (chemicals?.length > 0) {
 										setIsChemicalsErrorModalOpen(true)
 									} else {
-										toast.success('If you choose organic, it means that no chemicals were used on your crops. But if you use other natural products to treat your crops, please list it in the product description', {
-											autoClose: 10000
-										})
+
 										setIsAddChemicalsModalOpen(toggle)
 									}
 								} else {
@@ -330,7 +341,7 @@ const StyledWrapper = styled.div`
 	z-index: 1;
 `
 
-const CalenderDiv = styled(DateTimePicker)<any>`
+const CalenderDiv = styled(DateTimePicker) <any>`
 	font-family: 'Lato-Regular', sans-serif;
 	width: 100%;
 	line-height: 1.25rem;
@@ -340,16 +351,16 @@ const CalenderDiv = styled(DateTimePicker)<any>`
 	font-size: 0.875rem;
 	border-radius: 0.5rem;
 	padding: 0.6rem 1.25rem;
-	border: 1px solid ${({error, disabled, isDarkTheme}) => (disabled ? `${palette.green}` : error ? `${palette.danger}` : isDarkTheme ? `${palette.stroke}` : `${palette.stroke}`)};
-	color: ${({disabled, isDarkTheme}) => (disabled || isDarkTheme ? `${palette.text_black}` : `${palette.text_black}`)};
-	// cursor: ${({disabled}) => (disabled ? `no-drop` : `pointer`)};
-	background: ${({disabled, bgTransparent, isDarkTheme}) => (bgTransparent ? 'transparent' : disabled ? `${palette.silver}` : isDarkTheme ? `${palette.black}` : `${palette.white}`)};
+	border: 1px solid ${({ error, disabled, isDarkTheme }) => (disabled ? `${palette.green}` : error ? `${palette.danger}` : isDarkTheme ? `${palette.stroke}` : `${palette.stroke}`)};
+	color: ${({ disabled, isDarkTheme }) => (disabled || isDarkTheme ? `${palette.text_black}` : `${palette.text_black}`)};
+	// cursor: ${({ disabled }) => (disabled ? `no-drop` : `pointer`)};
+	background: ${({ disabled, bgTransparent, isDarkTheme }) => (bgTransparent ? 'transparent' : disabled ? `${palette.silver}` : isDarkTheme ? `${palette.black}` : `${palette.white}`)};
 
 	// &:hover {
-	// 	box-shadow: 0 0 0.31rem ${({error, disabled}) => (disabled ? 'none' : error ? `${palette.danger}` : 'rgba(0, 0, 0, 0.25)')};
+	// 	box-shadow: 0 0 0.31rem ${({ error, disabled }) => (disabled ? 'none' : error ? `${palette.danger}` : 'rgba(0, 0, 0, 0.25)')};
 	// }
 	&:focus {
-		border: 1px solid ${({error, disabled}) => (disabled ? 'none' : error ? `${palette.danger}` : `${palette.Btn_dark_green}`)};
+		border: 1px solid ${({ error, disabled }) => (disabled ? 'none' : error ? `${palette.danger}` : `${palette.Btn_dark_green}`)};
 	}
 	&::placeholder {
 		color: ${palette.gray_100};
@@ -357,7 +368,7 @@ const CalenderDiv = styled(DateTimePicker)<any>`
 
 	&:-ms-input-placeholder {
 		/* Internet Explorer 10-11 */
-		color: ${({disabled, isDarkTheme}) => (disabled || isDarkTheme ? `${palette.silver}` : `${palette.gray_100}`)};
+		color: ${({ disabled, isDarkTheme }) => (disabled || isDarkTheme ? `${palette.silver}` : `${palette.gray_100}`)};
 	}
 
 	&::-ms-input-placeholder {

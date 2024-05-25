@@ -4,7 +4,7 @@ import db from '../models/index.js'
 import { getUserIdFromToken } from '../utilities/authentication.js'
 import { viewAllPostComments } from './userPostCommentService.js'
 import { deleteImage, s3SharpImageUpload } from './aws.js'
-import { notificationEmail } from './emailService.js'
+import { notificationEmail, replyCommentEmail } from './emailService.js'
 import { sendNotification } from '../notification/sendNotification.js'
 import NotificationMessage from '../enums/notification-message.js'
 import NotificationEnum from '../enums/notification-type-enum.js'
@@ -23,6 +23,7 @@ const addUserPostReply = async (req) => {
                 }
             ]
         })
+
         if (existPost) {
             if (imageData) {
                 imageData = await s3SharpImageUpload(imageData)
@@ -45,6 +46,7 @@ const addUserPostReply = async (req) => {
                         },
                         raw: true
                     })
+
                     if (check_email_notification?.email_notification == true) {
                         let user_that_comment_on_post = await db.User.findOne({ where: { id: u_id }, raw: true })
                         let email_of_owner_post = await db.User.findOne({ where: { id: existPost.u_id }, raw: true })
@@ -71,6 +73,18 @@ const addUserPostReply = async (req) => {
                         await sendNotification(message)
                     }
                 }
+
+                const user = await db.User.findOne({ id: u_id });
+
+                const existComment = await db.UserPostComment.findOne({
+                    where: { id: c_id },
+                });
+
+                const commentUser = await db.User.findOne({
+                    where: { id: existComment.u_id }
+                })
+
+                await replyCommentEmail(commentUser, commentUser.email);
 
                 const requestData = { p_id: p_id, page: page, order: order }
                 const allcomments = await viewAllPostComments(req, requestData)

@@ -66,7 +66,7 @@ const MainCategorySideBar = ({ sellerId, setSinglePost, isContactUsOpen, setIsCo
 
 		let response = await getPostById(id)
 		setSinglePost(response?.viewAllPosts)
-		_navigate('/')
+		_navigate('/products')
 		setIsContactUsOpen(false)
 		setIsAboutOpen(false)
 		_dispatch(setIsLoading(false))
@@ -76,7 +76,7 @@ const MainCategorySideBar = ({ sellerId, setSinglePost, isContactUsOpen, setIsCo
 	return (
 
 		<StyledWrapper scroll={scrollPosition} position={isAboutOpen || isContactUsOpen}>
-			<MdHide scroll={scrollPosition} isHome={pathname === '/'}>
+			<MdHide scroll={scrollPosition} isHome={pathname === '/community'}>
 				<MainTabs setSelectedBtn={setSelectedBtn} setSinglePost={setSinglePost} setSellerId={setSellerId} setSingleEvent={setSingleEvent} />
 				<OnlyForWeb className="most-viewed mt-md-5  p-2">
 
@@ -120,7 +120,7 @@ const MainCategorySideBar = ({ sellerId, setSinglePost, isContactUsOpen, setIsCo
 					))}
 				</OnlyForWeb>
 			</MdHide>
-			<FooterWrapper scroll={scrollPosition} isHome={pathname === '/'}>
+			<FooterWrapper scroll={scrollPosition} isHome={pathname === '/community'}>
 				<Spacer height={2} />
 				<Flexed flexWrap="wrap" gap={0.2} direction="row" align="center" justify="center">
 					<div

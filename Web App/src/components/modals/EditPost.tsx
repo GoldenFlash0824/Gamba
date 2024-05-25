@@ -102,7 +102,7 @@ const EditPost = ({ onClose, postData, onEdit }: any) => {
 			// toastSuccess(response.message)
 			setImageData([])
 			setDescription('')
-			_dispatch(saveRoute('/'))
+			_dispatch(saveRoute('/products'))
 			// _navigate(-1)
 		} else {
 			toastError(response.message)

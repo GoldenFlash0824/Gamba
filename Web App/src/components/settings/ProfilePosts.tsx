@@ -1,16 +1,16 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {Row, Col, Container, media} from 'styled-bootstrap-grid'
-import {Heading, Spacer, Text} from '../../styled/shared'
-import {palette} from '../../styled/colors'
-import {getUserPosts} from '../../apis/apis'
-import {Flexed} from '../../styled/shared'
+import { Row, Col, Container, media } from 'styled-bootstrap-grid'
+import { Heading, Spacer, Text } from '../../styled/shared'
+import { palette } from '../../styled/colors'
+import { getUserPosts } from '../../apis/apis'
+import { Flexed } from '../../styled/shared'
 import ProductPost from '../productPost/ProductPost'
 import Loader from '../common/Loader'
-import {IoIosArrowForward} from 'react-icons/io'
-import {useNavigate} from 'react-router-dom'
+import { IoIosArrowForward } from 'react-icons/io'
+import { useNavigate } from 'react-router-dom'
 
-const ProfilePosts = ({setUserId}) => {
+const ProfilePosts = ({ setUserId }) => {
 	const [posts, setPosts] = useState([])
 	const [loading, setLoading] = useState(true)
 
@@ -33,19 +33,19 @@ const ProfilePosts = ({setUserId}) => {
 			<Spacer height={1.25} />
 			<Flexed direction="row" align="center" gap="0.5">
 				<Text
-				pointer
+					pointer
 					fontWeight={500}
 					type="normal"
 					color="gray"
 					onClick={() => {
-						_navigate('/')
+						_navigate('/products')
 						// setSinglePost(null)
 						// setSelectProfileSettingsCategory('')
 						// setSelectCategory('profile')
 					}}>
 					Home
 				</Text>
-				
+
 				<img src='/images/icons/arrow.svg' alt='arrow' />
 
 				<Text fontWeight={500} type="normal" color="black_100">
@@ -60,18 +60,18 @@ const ProfilePosts = ({setUserId}) => {
 
 					{posts.length
 						? posts?.map((d: any) => (
-								<Col className='h' lg={6}>
-									{' '}
-									<ProductPost  data={d} index={d.id} userData={d.user} setUserId={setUserId} community="community" onEdit={() => getPosts()} parent={'myPost'} />
-								</Col>
-						  ))
+							<Col className='h' lg={6}>
+								{' '}
+								<ProductPost data={d} index={d.id} userData={d.user} setUserId={setUserId} community="community" onEdit={() => getPosts()} parent={'myPost'} />
+							</Col>
+						))
 						: posts?.length === 0 && (
-								<Col>
-									<Text type="small" margin="4rem 0rem" isCentered>
-									{loading ? '' : 'No data found' }
-									</Text>
-								</Col>
-						  )}
+							<Col>
+								<Text type="small" margin="4rem 0rem" isCentered>
+									{loading ? '' : 'No data found'}
+								</Text>
+							</Col>
+						)}
 				</Row>
 			</Wrapper>
 			<Spacer height={2} />

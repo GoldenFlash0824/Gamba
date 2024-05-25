@@ -1,15 +1,15 @@
-import React, {useEffect, useState} from 'react'
-import {letterColors, palette} from '../../styled/colors'
+import React, { useEffect, useState } from 'react'
+import { letterColors, palette } from '../../styled/colors'
 import styled from 'styled-components'
-import {Text, Flexed} from '../../styled/shared'
-import {BsThreeDots} from 'react-icons/bs'
+import { Text, Flexed } from '../../styled/shared'
+import { BsThreeDots } from 'react-icons/bs'
 import SocialShareModal from '../modals/SocialShareModal'
-import {useNavigate} from 'react-router-dom'
-import {BiWorld} from 'react-icons/bi'
-import {colorPicker} from '../utils'
+import { useNavigate } from 'react-router-dom'
+import { BiWorld } from 'react-icons/bi'
+import { colorPicker } from '../utils'
 import LoginPopupModel from '../modals/LoginPopupModel'
 
-const AdsProfile = ({data, events, setUserId, userId, postData}: any) => {
+const AdsProfile = ({ data, events, setUserId, userId, postData }: any) => {
 	const [name, setName] = useState('Nuu')
 	// const [city, setCity] = useState()
 	const isUserLogIn = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
@@ -79,7 +79,7 @@ const AdsProfile = ({data, events, setUserId, userId, postData}: any) => {
 					<DropContent>
 						<DropMenu
 							onClick={() => {
-								isUserLogIn !== null ? _navigate('/') : setLoginPopup(true)
+								isUserLogIn !== null ? _navigate('/products') : setLoginPopup(true)
 							}}>
 							Report
 						</DropMenu>
@@ -92,7 +92,7 @@ const AdsProfile = ({data, events, setUserId, userId, postData}: any) => {
 
 						<DropMenu
 							onClick={() => {
-								isUserLogIn !== null ? _navigate('/') : setLoginPopup(true)
+								isUserLogIn !== null ? _navigate('/products') : setLoginPopup(true)
 							}}>
 							Hide
 						</DropMenu>
@@ -119,7 +119,7 @@ const CustomFlex = styled(Flexed)`
 `
 
 const CustomText = styled(Text)`
-	color: ${({styledColor}) => (styledColor ? `${styledColor}` : palette.red)};
+	color: ${({ styledColor }) => (styledColor ? `${styledColor}` : palette.red)};
 `
 
 const Profile = styled.div<any>`
@@ -127,7 +127,7 @@ const Profile = styled.div<any>`
 	height: 3.3rem;
 	border-radius: 3rem;
 	overflow: hidden;
-	background: ${({color}) => (color ? `${color}` : palette.Btn_dark_green)};
+	background: ${({ color }) => (color ? `${color}` : palette.Btn_dark_green)};
 	color: ${palette.black};
 	display: flex;
 	justify-content: center;
@@ -141,7 +141,7 @@ const Profile = styled.div<any>`
 	}
 `
 
-const Dots = styled(BsThreeDots)<any>`
+const Dots = styled(BsThreeDots) <any>`
 	color: ${palette.text};
 	font-size: 1.5rem;
 	cursor: pointer;
@@ -153,7 +153,7 @@ const DropContent = styled.div<any>`
 	margin-top: 0rem;
 	position: absolute;
 	right: 0;
-	background-color: ${({isDarkTheme}) => (isDarkTheme ? palette.black : palette.white)};
+	background-color: ${({ isDarkTheme }) => (isDarkTheme ? palette.black : palette.white)};
 	min-width: 8rem;
 	box-shadow: ${palette.shadow};
 	z-index: 2;

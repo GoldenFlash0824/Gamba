@@ -55,11 +55,10 @@ const ProductDetailsCard = ({ cardIndex, sale, content, addToCart, donation, isT
 							</ImageCover>
 							<ImgaesContent direction="row" justify="space-between" gap={1.25}>
 								<div>
-									<Text color="black" margin="0rem 0rem 0.406rem 0rem" type="normal" fontWeight={700} textTransform="capitalize">
-										{content?.name}
+									<Text color="black" margin="0rem 0rem 0.406rem 0rem" type="normal" fontWeight={700}>
+										{content?.name} by {content?.user?.first_name} {content?.user?.last_name}
 									</Text>
 									<Text color="gray" type="xsmall" fontWeight={500}>
-										{/* {content?.caption} */}
 										<TextWithSeeMore text={content?.caption} maxLength={280} />
 									</Text>
 								</div>
@@ -73,7 +72,7 @@ const ProductDetailsCard = ({ cardIndex, sale, content, addToCart, donation, isT
 									Name
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
-									{content?.name}
+									{content?.name} / {content?.unit}
 								</Text>
 							</Box>
 							<Box>
@@ -155,7 +154,8 @@ const ProductDetailsCard = ({ cardIndex, sale, content, addToCart, donation, isT
 									Seller Distance
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
-									{content?.user?.lat && content?.user?.log && _userLocation.lat && _userLocation.log && <>{distanceInMiles ? `${distanceInMiles}` : '0 milles.'}</>}
+									N / A
+									{/* {content?.user?.lat && content?.user?.log && _userLocation.lat && _userLocation.log && <>{distanceInMiles ? `${distanceInMiles}` : '0 milles.'}</>} */}
 								</Text>
 							</Box>
 							<Box>
@@ -239,7 +239,7 @@ const ProductDetailsCard = ({ cardIndex, sale, content, addToCart, donation, isT
 									Name
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
-									{content?.name}
+									{content?.name} / {content?.unit}
 								</Text>
 							</Box>
 							<Box>
@@ -341,7 +341,7 @@ const ProductDetailsCard = ({ cardIndex, sale, content, addToCart, donation, isT
 									Name
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
-									{content?.name}
+									{content?.name} / {content?.unit}
 								</Text>
 							</Box>
 							<Box>
@@ -438,7 +438,7 @@ const ProductDetailsCard = ({ cardIndex, sale, content, addToCart, donation, isT
 									Name
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
-									{content?.name}
+									{content?.name} '/' {content?.unit}
 								</Text>
 							</Box>
 							<Box>

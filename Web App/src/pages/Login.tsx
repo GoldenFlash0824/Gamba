@@ -1,19 +1,19 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {palette} from '../styled/colors'
-import {Flexed, Heading, Spacer, Text, getCurrentAddress, Divider} from '../styled/shared'
-import {media} from 'styled-bootstrap-grid'
+import { palette } from '../styled/colors'
+import { Flexed, Heading, Spacer, Text, getCurrentAddress, Divider } from '../styled/shared'
+import { media } from 'styled-bootstrap-grid'
 import Button from '../components/common/Button'
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import CustomInputField from '../components/common/CustomInputField'
 import Checkbox from '../components/common/CheckBox'
-import {loginUser, updateUserInChat} from '../apis/apis'
-import {useDispatch} from 'react-redux'
-import {saveUser, setIsLoading, setUserId} from '../actions/authActions'
-import {toastError, toastSuccess} from '../styled/toastStyle'
+import { loginUser, updateUserInChat } from '../apis/apis'
+import { useDispatch } from 'react-redux'
+import { saveUser, setIsLoading, setUserId } from '../actions/authActions'
+import { toastError, toastSuccess } from '../styled/toastStyle'
 import ValidationCode from '../components/ValidationCode'
 import AuthSideCover from '../components/common/AuthSideCover'
-import {DiviverGrid, SocialIconsCover} from './SignUp'
+import { DiviverGrid, SocialIconsCover } from './SignUp'
 import Loader from '../components/common/Loader'
 import EnableAccountModal from '../components/modals/EnableAccountModal'
 
@@ -55,7 +55,7 @@ const LogIn = () => {
 			}
 			if (response?.data?.user?.lat && response?.data?.user?.log) {
 				// let userLocation:any = {lat:30.6682,log:73.1114};
-				let userLocation: any = {lat: response.data.user.lat, log: response.data.user.log}
+				let userLocation: any = { lat: response.data.user.lat, log: response.data.user.log }
 				localStorage.setItem('userLocation', JSON.stringify(userLocation))
 			}
 			setEmail('')
@@ -64,7 +64,7 @@ const LogIn = () => {
 			if (response?.data?.user?.disable) {
 				setEnableAccount(true)
 			} else {
-				_navigate('/')
+				_navigate('/products')
 			}
 		} else {
 			toastError(response.message)
@@ -90,7 +90,8 @@ const LogIn = () => {
 	}
 
 	useEffect(() => {
-		getLatLong()
+		getLatLong();
+		toastSuccess("Location is necessary for GPS tracking to detect activities near you or nearby");
 	}, [])
 
 	const [location, setLocation] = useState('')
@@ -113,7 +114,7 @@ const LogIn = () => {
 		}
 	}
 	return (
-		<Grid className='align-items-center'>  
+		<Grid className='align-items-center'>
 			{loading && <Loader visible={loading} />}
 			<AuthSideCover />
 			<div>
@@ -128,7 +129,7 @@ const LogIn = () => {
 								<Heading level={sessionStorage.getItem('isAccountDisabled') ? 6 : 2} fontWeight={700} isCentered color="dark_black">
 									{sessionStorage.getItem('isAccountDisabled') ? 'Your account is now disabled! When you are ready to use Gamba again, simply login and enable your account. Hope to see you soon' : 'Login'}
 								</Heading>
-								
+
 								<Spacer height={2.125} />
 
 								<div>
@@ -176,10 +177,10 @@ const LogIn = () => {
 									<Spacer height={0.625} />
 									<Flexed direction="row" justify="flex-end" align="center">
 										<Text
-											className ="hover-link"
+											className="hover-link"
 											textTransform="capitalize"
 											type="small"
-											
+
 											color="green_200"
 											textDecoration="none"
 											fontWeight={700}
@@ -243,7 +244,7 @@ const LogIn = () => {
 											</Text>
 
 											<Text
-												className ="hover-link"
+												className="hover-link"
 												pointer
 												type="normal"
 												textDecoration="none"

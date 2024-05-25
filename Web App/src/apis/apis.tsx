@@ -38,7 +38,7 @@ export const loginUser: any = async (email: any, password: any, lat: any, log: a
 		.then((res) => {
 			response = res?.data
 			response = res?.data
-			if (res?.data?.success == true) {
+			if (res?.data?.success === true) {
 				// sessionStorage.setItem('authorization', res?.data?.data?.user?.auth_token)
 			}
 		})
@@ -458,6 +458,7 @@ export const addPostLikesApi: any = async (post_id: any) => {
 	const config = {
 		headers: { authorization: `bearer ${token}` }
 	}
+
 	await axios
 		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/posts/add_like`, { post_id: post_id }, config)
 		.then((res) => {
@@ -855,7 +856,7 @@ export const doAddPostReply = async (p_id: any, c_id: any, reply: any, page: any
 		.catch((error) => {
 			console.error(error)
 		})
-	return response
+	return response;
 }
 
 // remove like
@@ -1964,7 +1965,7 @@ export const updateUserInChat = async (id: any, user: any) => {
 	}
 }
 
-export const connectTradeProduct = async (full_name: any, email: any, phone_number: any, topic: any, trade_with: any, more_info: any, user_email: any, title: any, seller_name: any, trade_info: any) => {
+export const connectTradeProduct = async (full_name: any, email: any, phone_number: any, topic: any, tradeWith: any, more_info: any, user_email: any, title: any, seller_name: any) => {
 	let response: any = []
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
@@ -1972,7 +1973,7 @@ export const connectTradeProduct = async (full_name: any, email: any, phone_numb
 		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/connect_trade_product`, { full_name, email, phone_number, topic, trade_with, more_info, user_email, title, seller_name, trade_info }, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/connect_trade_product`, { full_name, email, phone_number, topic, tradeWith, more_info, user_email, title, seller_name }, config)
 		.then((res) => {
 			response = res?.data
 		})
@@ -1982,7 +1983,7 @@ export const connectTradeProduct = async (full_name: any, email: any, phone_numb
 	return response
 }
 
-export const connectGiveAwayProduct = async (full_name: any, email: any, phone_number: any, interested_in: any, more_info: any, user_email: any, title: any, seller_name: any) => {
+export const connectGiveAwayProduct = async (full_name: any, email: any, phone_number: any, interested_in: any, more_info: any, user_email: any, subject: any, seller_name: any) => {
 	let response: any = []
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
@@ -1990,7 +1991,7 @@ export const connectGiveAwayProduct = async (full_name: any, email: any, phone_n
 		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/connect_giveaway_product`, { full_name, email, phone_number, interested_in, more_info, user_email, title, seller_name }, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/connect_giveaway_product`, { full_name, email, phone_number, interested_in, more_info, user_email, subject, seller_name }, config)
 		.then((res) => {
 			response = res?.data
 		})

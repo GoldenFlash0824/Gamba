@@ -225,17 +225,25 @@ export const useWindowSize = () => {
 }
 
 export const getCurrentAddress = async (lat: any, lng: any) => {
-	const res = await axios
-		.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${parseFloat(lat)},${parseFloat(lng)}&sensor=true&key=`)
-		.then((response) => {
-			return response?.data?.results[6]?.formatted_address
-		})
-		.catch((error) => {
-			return ''
-		})
+	try {
+		const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json`, {
+			params: {
+				key: `${process.env.REACT_APP_GOOGLE_API_KEY}`,
+				latlng: `${parseFloat(lat)},${parseFloat(lng)}`,
+				sensor: true
+			}
+		});
 
-	return res
-}
+		if (response?.data?.results && response.data.results.length > 0) {
+			return response.data.results[6]?.formatted_address || 'Address not found';
+		} else {
+			return 'Address not found';
+		}
+	} catch (error) {
+		console.error('Error getting address:', error);
+		return 'Error retrieving address';
+	}
+};
 // const R = 6371 // Radius of the earth in miles
 // export const getDistanceFromLatLonInMiles = async (lat1, lon1, lat2, lon2) => {
 // 	let dLat = deg2rad(lat1 - lat2)
@@ -261,9 +269,8 @@ export const getDistanceFromLatLonInMiles = async (lat1, lon1, lat2, lon2) => {
 	const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
 	const distanceInKm = R * c
 
-	// Convert distance to miles
 	const distanceInMiles = distanceInKm * 0.621371
-	// Determine the appropriate unit (miles or feet) based on the magnitude
+
 	const distance = distanceInMiles < 0.1 ? `${(distanceInMiles * 5280).toFixed(2)} ft.` : `${distanceInMiles.toFixed(2)} miles.`
 
 	return distance

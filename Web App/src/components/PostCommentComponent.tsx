@@ -1,106 +1,94 @@
 import React from 'react'
-import {Flexed, Text} from '../styled/shared'
-import {media} from 'styled-bootstrap-grid'
+import { Flexed, Text } from '../styled/shared'
+import { media } from 'styled-bootstrap-grid'
 import styled from 'styled-components'
-import {palette} from '../styled/colors'
+import { palette } from '../styled/colors'
 
-const PostCommentComponent = ({openComment, isLike, isUserLogIn, addPostLikes, setIsLike, unLikePost, data, likes, setOpenAllLikesModal, setOpenComment, allComment, setOpenSocialModal, sharePost, setIsAllCommentsModalOpen, commentsModal}: any) => {
+const PostCommentComponent = ({ openComment, isLike, isUserLogIn, addPostLikes, setIsLike, unLikePost, data, likes, setOpenAllLikesModal, setOpenComment, allComment, setOpenSocialModal, sharePost, setIsAllCommentsModalOpen, commentsModal }: any) => {
 	var images = [
-		{id: 'like', img: 'http://i.imgur.com/LwCYmcM.gif'},
-		{id: 'love', img: 'http://i.imgur.com/k5jMsaH.gif'},
-		{id: 'haha', img: 'http://i.imgur.com/f93vCxM.gif'},
-		{id: 'yay', img: 'http://i.imgur.com/a44ke8c.gif'},
-		{id: 'wow', img: 'http://i.imgur.com/9xTkN93.gif'},
-		{id: 'sad', img: 'http://i.imgur.com/tFOrN5d.gif'},
-		{id: 'angry', img: 'http://i.imgur.com/1MgcQg0.gif'}
+		{ id: 'like', img: 'http://i.imgur.com/LwCYmcM.gif' },
+		{ id: 'love', img: 'http://i.imgur.com/k5jMsaH.gif' },
+		{ id: 'haha', img: 'http://i.imgur.com/f93vCxM.gif' },
+		{ id: 'yay', img: 'http://i.imgur.com/a44ke8c.gif' },
+		{ id: 'wow', img: 'http://i.imgur.com/9xTkN93.gif' },
+		{ id: 'sad', img: 'http://i.imgur.com/tFOrN5d.gif' },
+		{ id: 'angry', img: 'http://i.imgur.com/1MgcQg0.gif' }
 	]
 
 	return (
 		<CustomFlex className="row m-0 d-flex flex-row flex-wrap  post-actions-lcs p-125" openComment={openComment} >
 			<div className="m-0 p-0 col-4 d-flex align-items-center justify-content-center " >
-			<a className="p-2 w-100 justify-content-center gap-2 d-flex">
-				{/* <EmojiWrapper>
-					{images.map((list) => {
-						return (
-							<Cover onClick={()=>{alert(list.id)}}>
-								<Emoji src={list.img} alt={list.id} />
-								<Title>
-									{list.id}
-								</Title>
-							</Cover>
-						)
-					})}
-				</EmojiWrapper> */}
-				{!isLike ? (
-					<Img
-						src="/images/icons/empty_heart.svg"
-						alt="empty_heart"
+				<a className="p-2 w-100 justify-content-center gap-2 d-flex">
+					{!isLike ? (
+						<Img
+							src="/images/icons/empty_heart.svg"
+							alt="empty_heart"
+							onClick={() => {
+								if (isUserLogIn) {
+									addPostLikes()
+									setIsLike(true)
+								}
+							}}
+						/>
+					) : (
+						<Img
+							src="/images/icons/filled_heart.svg"
+							alt="filled_heart"
+							onClick={() => {
+								if (isUserLogIn) {
+									unLikePost()
+									setIsLike(false)
+								}
+							}}
+						/>
+					)}
+					<CustomText
+						color="gray"
+						type="small"
+						fontWeight={600}
+						pointer
 						onClick={() => {
-							if (isUserLogIn) {
-								addPostLikes()
-								setIsLike(true)
+							// data?.total_likes_count
+							if (likes > 0) {
+								setOpenAllLikesModal(true)
 							}
-						}}
-					/>
-				) : (
-					<Img
-						src="/images/icons/filled_heart.svg"
-						alt="filled_heart"
-						onClick={() => {
-							if (isUserLogIn) {
-								unLikePost()
-								setIsLike(false)
-							}
-						}}
-					/>
-				)}
-				<CustomText
-					color="gray"
-					type="small"
-					fontWeight={600}
-					pointer
-					onClick={() => {
-						// data?.total_likes_count
-						if (likes > 0) {
-							setOpenAllLikesModal(true)
-						}
-					}}>
-					<span>{likes}&nbsp;</span>
-					Like
-				</CustomText>
-			</a>
+						}}>
+						<span>{likes}&nbsp;</span>
+						Like
+					</CustomText>
+				</a>
 			</div>
 			<div className="col-4 p-0 m-0 d-flex align-items-center justify-content-center ">
-			<a
-				className="p-2 w-100 justify-content-center gap-2 d-flex"	 
-				
-				onClick={() => {
-					if (isUserLogIn !== null) {
-						setOpenComment(!openComment)
-					}
-					if (!commentsModal) setIsAllCommentsModalOpen(true)
-				}}>
-				<CommentImg src="/images/icons/comment.svg" alt="comment" style={{pointerEvents: 'none'}} />
-				<CustomText type="small" color="gray" fontWeight={600}>
-					{allComment}&nbsp;
-					{allComment > 0 ? 'Comments' : 'Comment'}
-				</CustomText>
-			</a>
+				<a
+					className="p-2 w-100 justify-content-center gap-2 d-flex"
+
+					onClick={() => {
+						if (isUserLogIn !== null) {
+							setOpenComment(!openComment)
+						}
+						if (!commentsModal) setIsAllCommentsModalOpen(true)
+					}}>
+					<CommentImg src="/images/icons/comment.svg" alt="comment" style={{ pointerEvents: 'none' }} />
+					<CustomText type="small" color="gray" fontWeight={600}>
+						{allComment}&nbsp;
+						{allComment > 0 ? 'Comments' : 'Comment'}
+					</CustomText>
+				</a>
 			</div>
-			<div  className="col-4 p-0 m-0 ">
-			<a
-				className="p-2 w-100 justify-content-center gap-2 d-flex"
-				
-				
-				onClick={() => {
-					setOpenSocialModal(true)
-				}}>
-				<Img src="/images/icons/share.svg" alt="share" />
-				<CustomText type="small" color="gray" fontWeight={600} pointer>
-					{/* {data?.total_share_count ? data?.total_share_count : 0} &nbsp; */}
-					Share
-				</CustomText>
-			</a>
+			<div className="col-4 p-0 m-0 ">
+				<a
+					className="p-2 w-100 justify-content-center gap-2 d-flex"
+
+
+					onClick={() => {
+						setOpenSocialModal(true)
+					}}>
+					<Img src="/images/icons/share.svg" alt="share" />
+					<CustomText type="small" color="gray" fontWeight={600} pointer>
+						{/* {data?.total_share_count ? data?.total_share_count : 0} &nbsp; */}
+						Share
+					</CustomText>
+				</a>
 			</div>
 		</CustomFlex>
 	)
@@ -171,7 +159,7 @@ const CommentImg = styled.img`
 	width: 17px;
 `
 
-const CustomFlex = styled(Flexed)<any>`
+const CustomFlex = styled(Flexed) <any>`
 	width: 100%;
 	 padding: 0.55rem 0.875rem;
 	 ${media.xs`padding: 0.25rem 0rem;`}

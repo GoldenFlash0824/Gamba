@@ -94,7 +94,7 @@ const Grid = styled.div`
 
 const SocialIcon = styled.img<any>`
 	width: 1.5rem;
-	color: ${({ pathname }) => (pathname === '/' ? palette.Btn_dark_green : palette.text)};
+	color: ${({ pathname }) => (pathname === '/products' ? palette.Btn_dark_green : palette.text)};
 `
 const ProductsIcon = styled.img<any>`
 	width: 1.3rem;

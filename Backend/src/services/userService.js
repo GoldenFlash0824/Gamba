@@ -4,7 +4,7 @@ import { hashPassword, comparePassword } from '../utilities/passwordUtils.js'
 import { sendNotification } from '../notification/sendNotification.js'
 import { deleteImage, deleteMultipleImage, s3SharpImageUpload } from './aws.js'
 import NotificationEnum from '../enums/notification-type-enum.js'
-import { connectTradeProductEmail, connectGiveAwayProductBuyerEmail, connectGiveAwayProductSellerEmail, contactUsEmail, newPasswordEmail, passwordUpdated, resetPasswordEmail, verificationCodeEmail, welcomeEmail, connectGiveAwayProductEmail, connectTradeProductBuyerEmail, connectTradeProductSellerEmail } from './emailService.js'
+import { connectGiveAwayProductBuyerEmail, connectGiveAwayProductSellerEmail, contactUsEmail, newPasswordEmail, passwordUpdated, resetPasswordEmail, verificationCodeEmail, welcomeEmail, connectTradeProductBuyerEmail, connectTradeProductSellerEmail } from './emailService.js'
 import moment from 'moment'
 import axios from 'axios'
 
@@ -815,15 +815,6 @@ const resetPassword = async (req) => {
         const { email } = req.body
         const user = await db.User.findOne({ where: { email: email } })
         if (user) {
-            // let randomPassword = Math.floor(10000000 + Math.random() * 9000000)
-            // // let randomPassword = 87654321
-            // const id = user.id
-            // const bcryptPassword = await hashPassword(JSON.stringify(randomPassword))
-            // let update_user = await db.User.update({ password: bcryptPassword }, { where: { id: id } })
-
-            // if (user?.phone) {
-            //     await resetAccountPassword(user?.phone, randomPassword)
-            // }
             await resetPasswordEmail(user)
             if (user) {
                 return {
@@ -860,8 +851,6 @@ const updatePassword = async (req) => {
                     }
                 }
             )
-
-            await passwordUpdated(user)
             if (update_user) {
                 return {
                     status: true,
@@ -1614,6 +1603,15 @@ const updateUserPassword = async (req) => {
                         }
                     }
                 )
+
+                const updatedUser = await db.User.findOne({
+                    where: {
+                        id: user.id
+                    }
+                });
+
+                await passwordUpdated(updatedUser);
+
                 return {
                     status: true,
                     message: 'Password is Updated'
@@ -1636,6 +1634,15 @@ const updateUserPassword = async (req) => {
                         }
                     }
                 )
+
+                const updatedUser = await db.User.findOne({
+                    where: {
+                        id: user.id
+                    }
+                });
+
+                await passwordUpdated(updatedUser);
+
                 return {
                     status: true,
                     message: 'Password is Updated'
@@ -2629,13 +2636,13 @@ const getuserPrivacySetting = async (req) => {
 
 const connectTradeProduct = async (req) => {
     try {
-        const { full_name, email, phone_number, topic, tradeWith, more_info, user_email, title, seller_name, trade_info } = req.body;
+        const { full_name, email, phone_number, topic, tradeWith, more_info, user_email, title, seller_name } = req.body;
         const user = { full_name, email, phone: phone_number, topic, tradeWith, info: more_info };
-        let res1 = await connectTradeProductBuyerEmail(email, full_name, trade_info);
-        let res2 = await connectTradeProductSellerEmail(user_email, seller_name, title, full_name);
-        let res3 = await connectTradeProductEmail(user_email, user);
+        let res1 = await connectTradeProductBuyerEmail(email, full_name, topic, tradeWith);
+        let res2 = await connectTradeProductSellerEmail(user_email, seller_name, title, full_name, topic, tradeWith);
+        // let res3 = await connectTradeProductEmail(user_email, user);
 
-        if (res1 && res2 && res3) {
+        if (res1 && res2) {
             return {
                 data: true,
                 status: true,
@@ -2658,12 +2665,12 @@ const connectTradeProduct = async (req) => {
 
 const connectGiveAwayProduct = async (req) => {
     try {
-        const { email, full_name, user_email, phone_number, interested_in, more_info, title, seller_name } = req.body;
+        const { email, full_name, user_email, phone_number, interested_in, more_info, subject, seller_name } = req.body;
         const user = { full_name, email, phone: phone_number, interested: interested_in, info: more_info };
-        let res1 = await connectGiveAwayProductBuyerEmail(email, full_name, title);
-        let res2 = await connectGiveAwayProductSellerEmail(user_email, seller_name, title, full_name);
-        let res3 = await connectGiveAwayProductEmail(user_email, user);
-        if (res1 && res2 && res3) {
+        let res1 = await connectGiveAwayProductBuyerEmail(email, full_name, subject);
+        let res2 = await connectGiveAwayProductSellerEmail(user_email, seller_name, subject, full_name);
+        // let res3 = await connectGiveAwayProductEmail(user_email, user);
+        if (res1 && res2) {
             return {
                 data: true,
                 status: true,

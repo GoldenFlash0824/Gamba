@@ -5,12 +5,10 @@ import db from '../models/index.js'
 import { sendNotification } from '../notification/sendNotification.js'
 import { getUserIdFromToken } from '../utilities/authentication.js'
 import { deleteMultipleImage, s3ImageUpload } from './aws.js'
-import { notificationEmail } from './emailService.js'
+import { notificationEmail, postLikeEmail } from './emailService.js'
 import { facetStage } from './userService.js'
 
 const createPost = async (req) => {
-    console.log("===")
-
     const { description, images, title, privacy, future_post_date } = req.body
     const u_id = await getUserIdFromToken(req)
 
@@ -433,6 +431,9 @@ const addPostLike = async (req) => {
                         },
                         raw: true
                     })
+
+                    await postLikeEmail(getPost.user, getPost.user.email);
+
                     if (check_email_notification?.email_notification == true) {
                         let user_that_like_post = await db.User.findOne({ where: { id: u_id }, raw: true })
                         let email_of_owner_post = await db.User.findOne({ where: { id: getPost.u_id }, raw: true })

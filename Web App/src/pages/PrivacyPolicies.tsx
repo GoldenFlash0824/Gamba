@@ -1,17 +1,17 @@
-import React, {useState} from 'react'
-import {Flexed, Spacer, Text} from '../styled/shared'
-import {useDispatch} from 'react-redux'
-import {saveSearchText} from '../actions/authActions'
-import {Document, Page, pdfjs} from 'react-pdf'
+import React, { useState } from 'react'
+import { Flexed, Spacer, Text } from '../styled/shared'
+import { useDispatch } from 'react-redux'
+import { saveSearchText } from '../actions/authActions'
+import { Document, Page, pdfjs } from 'react-pdf'
 import Loader from '../components/common/Loader'
 import styled from 'styled-components'
-import {palette} from '../styled/colors'
-import {useNavigate} from 'react-router-dom'
+import { palette } from '../styled/colors'
+import { useNavigate } from 'react-router-dom'
 import 'react-pdf/dist/Page/TextLayer.css'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
-import {Worker, Viewer} from '@react-pdf-viewer/core'
+import { Worker, Viewer } from '@react-pdf-viewer/core'
 import '@react-pdf-viewer/core/lib/styles/index.css'
-import {defaultLayoutPlugin} from '@react-pdf-viewer/default-layout'
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`
 
@@ -22,8 +22,8 @@ const PrivacyPolicies = () => {
 	const Layout = defaultLayoutPlugin()
 
 	return (
-		<div style={{overflow: 'hidden'}}>
-			<Flexed className= "mt-4" direction="row" align="center" gap="0.5">
+		<div style={{ overflow: 'hidden' }}>
+			<Flexed className="mt-4" direction="row" align="center" gap="0.5">
 				<Text
 					pointer
 					fontWeight={500}
@@ -31,7 +31,7 @@ const PrivacyPolicies = () => {
 					color="gray"
 					onClick={() => {
 						_dispatch(saveSearchText(''))
-						_navigate('/')
+						_navigate('/products')
 					}}>
 					Home
 				</Text>
@@ -43,7 +43,7 @@ const PrivacyPolicies = () => {
 
 			<Spacer height={2} />
 			<Wrapper>
-				<div style={{width: '100%', maxWidth: '1000px'}}>
+				<div style={{ width: '100%', maxWidth: '1000px' }}>
 					<Worker workerUrl={`//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`}>
 						<Viewer fileUrl="/assets/Gamba_Privacy_Policy.pdf" />
 					</Worker>

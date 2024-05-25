@@ -57,7 +57,6 @@ const ProductPost = ({ cardIndex, data, setSellerId, getAllUserAndPosts, comment
 		const response: any = await deletePost(data?.id)
 		if (response?.success) {
 			toastSuccess(response?.message)
-			onEdit()
 		} else {
 			toastError(response?.message)
 		}

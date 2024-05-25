@@ -83,14 +83,14 @@ const MobViewMenu = ({ setIsMenuOpen, myRef, allItemsCount, setUserDetails, sele
 					My Network ({allItemsCount?.data?.myfevSeller ? allItemsCount?.data?.myfevSeller : 0})
 				</DropMenu>
 
-				<DropMenu
+				{/* <DropMenu
 					onClick={() => {
 						_navigate('/soldproducts')
 						setIsMenuOpen(false)
 						setNavBarListOpen(false)
 					}}>
 					Sold Products ({allItemsCount?.data?.soldProducts ? allItemsCount?.data?.soldProducts : 0})
-				</DropMenu>
+				</DropMenu> */}
 			</>
 
 			<Divider className='mt-1' />

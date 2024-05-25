@@ -1,11 +1,11 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import {Row, Container, media} from 'styled-bootstrap-grid'
-import {Text, Flexed, Spacer} from '../../styled/shared'
-import {palette} from '../../styled/colors'
-import {useNavigate} from 'react-router-dom'
+import { Row, Container, media } from 'styled-bootstrap-grid'
+import { Text, Flexed, Spacer } from '../../styled/shared'
+import { palette } from '../../styled/colors'
+import { useNavigate } from 'react-router-dom'
 
-const ProductPurchase = ({addToCart}) => {
+const ProductPurchase = ({ addToCart }) => {
 	let _navigate = useNavigate()
 	return (
 		<>
@@ -13,17 +13,17 @@ const ProductPurchase = ({addToCart}) => {
 				<Spacer height={1.25} />
 				<Flexed direction="row" align="center" gap="0.5">
 					<Text
-					pointer
+						pointer
 						fontWeight={500}
 						type="normal"
 						color='gray'
 						onClick={() => {
-							_navigate('/')
+							_navigate('/products')
 						}}>
 						Home
 					</Text>
-				
-				<img src='/images/icons/arrow.svg' alt='arrow'/>
+
+					<img src='/images/icons/arrow.svg' alt='arrow' />
 
 					<Text type="normal" fontWeight={500} color="black_100">
 						Purchase Product

@@ -3,19 +3,19 @@ import styled from 'styled-components'
 import { media } from 'styled-bootstrap-grid'
 import { palette } from '../../styled/colors'
 import { Flexed, Text } from '../../styled/shared'
-import { useLocation,useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 
 const AuthSideCover = () => {
-	const {pathname} = useLocation()
+	const { pathname } = useLocation()
 	let _navigate = useNavigate()
 
 	return (
-			<ImageWrapper>
-				<Overlay />
-                <LogoSection direction='row' align='center'>
-					<Flexed direction='row' align='center' gap={3.125}>
-					<Logo src='/images/gamba_logo_white.svg' alt='gamba_logo_white' onClick={()=>{_navigate('/')}} />
+		<ImageWrapper>
+			<Overlay />
+			<LogoSection direction='row' align='center'>
+				<Flexed direction='row' align='center' gap={3.125}>
+					<Logo src='/images/gamba_logo_white.svg' alt='gamba_logo_white' onClick={() => { _navigate('/products') }} />
 					<Flexed direction='row' align='center' gap={1.25}>
 						<Text color='white' type='normal' fontWeight={500}>Grow</Text>
 						<Dots />
@@ -25,13 +25,13 @@ const AuthSideCover = () => {
 						<Dots />
 						<Text color='white' type='normal' fontWeight={500}>Trade</Text>
 					</Flexed>
-					</Flexed>
-				</LogoSection>
-				<ImageOverlayText direction='row' align='center'>
-					<GambaText lineHeight='150%' color='white' fontWeight={700}>Welcome,  Gamba connects you with local growers and fresh sustainable products.</GambaText>
-				</ImageOverlayText>
-				<CoverImg signUp={pathname === '/sign-up'} src="/images/auth_side_img.png" />
-			</ImageWrapper>
+				</Flexed>
+			</LogoSection>
+			<ImageOverlayText direction='row' align='center'>
+				<GambaText lineHeight='150%' color='white' fontWeight={700}>Welcome,  Gamba connects you with local growers and fresh sustainable products.</GambaText>
+			</ImageOverlayText>
+			<CoverImg signUp={pathname === '/sign-up'} src="/images/auth_side_img.png" />
+		</ImageWrapper>
 	)
 }
 

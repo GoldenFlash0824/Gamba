@@ -1,19 +1,19 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import 'react-responsive-modal/styles.css'
-import {Text, Flexed, Spacer, Heading} from '../styled/shared'
+import { Text, Flexed, Spacer, Heading } from '../styled/shared'
 import Button from './common/Button'
-import {media} from 'styled-bootstrap-grid'
-import {loginUser, reSendApi, verifyUserRegisterCodeApi} from '../apis/apis'
+import { media } from 'styled-bootstrap-grid'
+import { loginUser, reSendApi, verifyUserRegisterCodeApi } from '../apis/apis'
 import VerificationInput from 'react-verification-input'
-import {useNavigate} from 'react-router-dom'
-import {useDispatch} from 'react-redux'
-import {saveUser, setAuthToken, setUserId} from '../actions/authActions'
-import {toastError, toastSuccess} from '../styled/toastStyle'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { saveUser, setAuthToken, setUserId } from '../actions/authActions'
+import { toastError, toastSuccess } from '../styled/toastStyle'
 import Loader from './common/Loader'
 import EnableAccountModal from './modals/EnableAccountModal'
 
-const ValidationCode = ({isRemmber, email, setEmail, password, is2Fa, isModel, onClose}: any) => {
+const ValidationCode = ({ isRemmber, email, setEmail, password, is2Fa, isModel, onClose }: any) => {
 	const [verified, setVerified] = useState('')
 	const [errorMsg, setErrorMsg] = useState('')
 	const [loading, setLoading] = useState(false)
@@ -43,7 +43,7 @@ const ValidationCode = ({isRemmber, email, setEmail, password, is2Fa, isModel, o
 					_dispatch(setAuthToken(response?.data))
 					onClose()
 				} else {
-					_navigate('/')
+					_navigate('/products')
 				}
 			}
 		} else if (response.message === 'User verified successfully') {
@@ -58,11 +58,11 @@ const ValidationCode = ({isRemmber, email, setEmail, password, is2Fa, isModel, o
 			if (isModel) {
 				onClose()
 			} else {
-				_navigate('/')
+				_navigate('/products')
 			}
 		} else if (response.message === 'User already verified, Please login') {
 			toastError(response.message)
-			_navigate('/')
+			_navigate('/products')
 			setLoading(false)
 		} else {
 			toastError(response.message)

@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import 'react-calendar/dist/Calendar.css'
-import {media} from 'styled-bootstrap-grid'
-import {Flexed, Text} from '../styled/shared'
-import {palette} from '../styled/colors'
-import {useNavigate} from 'react-router-dom'
-const CurrentActivities = ({data, handleItemClick, setSingleEvent}: any) => {
+import { media } from 'styled-bootstrap-grid'
+import { Flexed, Text } from '../styled/shared'
+import { palette } from '../styled/colors'
+import { useNavigate } from 'react-router-dom'
+const CurrentActivities = ({ data, handleItemClick, setSingleEvent }: any) => {
 	const _navigate = useNavigate()
 	return (
 		<MdHide>
@@ -67,7 +67,7 @@ const List = styled.ul`
 	}
 `
 const CustomText = styled(Text)`
-	color: ${({styledColor}) => (styledColor ? `${styledColor}` : palette.red)};
+	color: ${({ styledColor }) => (styledColor ? `${styledColor}` : palette.red)};
 `
 const Profile = styled.div<any>`
 	height: 2.5rem;
@@ -75,7 +75,7 @@ const Profile = styled.div<any>`
 	border-radius: 100%;
 	// overflow: hidden;
 	/* background: ${palette.Btn_dark_green}; */
-	background: ${({styledColor}) => (styledColor ? `${styledColor} !important` : palette.Btn_dark_green)};
+	background: ${({ styledColor }) => (styledColor ? `${styledColor} !important` : palette.Btn_dark_green)};
 	color: ${palette.black};
 	display: flex;
 	justify-content: center;
@@ -90,7 +90,7 @@ const Divider = styled.div`
 	background: ${palette.silver};
 `
 
-const Name = styled(Text)<any>`
+const Name = styled(Text) <any>`
 	text-overflow: ellipsis;
 	overflow: hidden;
 	// width: 10rem;

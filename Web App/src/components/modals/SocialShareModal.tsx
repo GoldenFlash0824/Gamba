@@ -1,21 +1,21 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {Modal} from 'react-responsive-modal'
+import { Modal } from 'react-responsive-modal'
 import 'react-responsive-modal/styles.css'
-import {Text, Spacer, Flexed} from '../../styled/shared'
-import {palette} from '../../styled/colors'
-import {FaFacebookF, FaLinkedinIn, FaRegCopy} from 'react-icons/fa'
-import {FiMail} from 'react-icons/fi'
-import {BsTwitter} from 'react-icons/bs'
-import {BsWhatsapp} from 'react-icons/bs'
-import {media} from 'styled-bootstrap-grid'
-import {toastSuccess} from '../../styled/toastStyle'
-import {useLocation} from 'react-router-dom'
+import { Text, Spacer, Flexed } from '../../styled/shared'
+import { palette } from '../../styled/colors'
+import { FaFacebookF, FaLinkedinIn, FaRegCopy } from 'react-icons/fa'
+import { FiMail } from 'react-icons/fi'
+import { BsTwitter } from 'react-icons/bs'
+import { BsWhatsapp } from 'react-icons/bs'
+import { media } from 'styled-bootstrap-grid'
+import { toastSuccess } from '../../styled/toastStyle'
+import { useLocation } from 'react-router-dom'
 import copy from 'copy-to-clipboard'
-import {WhatsappShareButton, FacebookShareButton, EmailShareButton, LinkedinShareButton, TwitterShareButton} from 'react-share'
-import {shareModelApi} from '../../apis/apis'
-import {useDispatch} from 'react-redux'
-import {commentCount} from '../../actions/authActions'
+import { WhatsappShareButton, FacebookShareButton, EmailShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share'
+import { shareModelApi } from '../../apis/apis'
+import { useDispatch } from 'react-redux'
+import { commentCount } from '../../actions/authActions'
 const closeIcon = (
 	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
 		<path
@@ -25,13 +25,13 @@ const closeIcon = (
 	</svg>
 )
 
-const SocialShareModal = ({onClose, productData, product, event, eventData, postProfile, data, sellersProfile, sellersProfileData}: any) => {
+const SocialShareModal = ({ onClose, productData, product, event, eventData, postProfile, data, sellersProfile, sellersProfileData }: any) => {
 	const [copied, setCopied] = useState(false)
 	const router = useLocation()
 	const dispatch = useDispatch()
 	let basePath = window?.location?.href
 
-	if (!basePath.endsWith('/')) {
+	if (!basePath.endsWith('/products')) {
 		basePath = basePath + '/'
 	}
 
@@ -114,7 +114,7 @@ const SocialShareModal = ({onClose, productData, product, event, eventData, post
 
 							<EmailShareButton url={reqUrl}>
 								<Cover background="Btn_dark_green">
-									<FiMail style={{color: 'white'}} />
+									<FiMail style={{ color: 'white' }} />
 								</Cover>
 							</EmailShareButton>
 							<LinkedinShareButton url={reqUrl}>
@@ -136,7 +136,7 @@ const SocialShareModal = ({onClose, productData, product, event, eventData, post
 									onClose(false)
 									toastSuccess('Link Coppied')
 								}}>
-								<FaRegCopy style={{color: copied ? 'white' : 'text'}} />
+								<FaRegCopy style={{ color: copied ? 'white' : 'text' }} />
 							</Cover>
 						</Flex>
 						<Spacer height="1" />
@@ -176,8 +176,8 @@ const Cover = styled.div<any>`
 	width: 3rem;
 	height: 3rem;
 	border-radius: 5rem;
-	background: ${({background}) => `${palette[background]}`};
-	border: 1px solid ${({hasBorder}) => (hasBorder ? palette.silver : palette.white)};
+	background: ${({ background }) => `${palette[background]}`};
+	border: 1px solid ${({ hasBorder }) => (hasBorder ? palette.silver : palette.white)};
 	cursor: pointer;
 	font-size: 1.5rem;
 `

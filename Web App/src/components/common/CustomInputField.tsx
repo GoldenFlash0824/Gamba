@@ -14,6 +14,8 @@ const CustomInputField = ({
 	value,
 	required,
 	type,
+	onFocus,
+	onBlur,
 	maxLength,
 	placeholder,
 	styledType,
@@ -111,6 +113,8 @@ const CustomInputField = ({
 							placeholder={placeholder}
 							error={error}
 							onChange={(event: any) => onChange(event)}
+							onFocus={onFocus}
+							onBlur={onBlur}
 							bgTransparent={bgTransparent}
 							isDarkTheme={_isDarkTheme}
 							onKeyDown={(e: any) => {

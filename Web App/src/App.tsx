@@ -6,7 +6,7 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import ForgotPassword from './pages/ForgotPassword'
 import SignUp from './pages/SignUp'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, Navigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { palette } from './styled/colors'
 import useFlyImg from './hooks/useFlyImg'
@@ -90,13 +90,13 @@ const App = () => {
 	}
 
 	const showStoriesCards = () => {
-		if (pathname === '/' && singlePost === null) {
+		if (pathname === '/products' && singlePost === null) {
 			setShowStories(!showStories)
 		} else {
 			setShowStories(true)
 		}
 		setSinglePost(null)
-		_navigate('/')
+		_navigate('/products')
 	}
 
 	const getAllNotificationCount = async () => {
@@ -149,7 +149,7 @@ const App = () => {
 					<CustomCol isAuth={pathname === '/sign-in' || pathname === '/sign-up' || pathname === '/forgot-password'}>
 						<Main>
 							<Routes>
-								{/* <Route path="/" element={<Home addToCart={addToCart} />}></Route> */}
+								<Route index element={<Navigate to="/products" />} />
 								<Route
 									path="/products/*"
 									element={
@@ -219,7 +219,7 @@ const App = () => {
 								<Route path="/productpurchase" element={<ProductPurchase addToCart={addToCart} />}></Route>
 								<Route path="/my-network" element={<ProfileFavorites setSellerId={setSellerId} />}></Route>
 								<Route
-									path="/*"
+									path="/community*"
 									element={
 										<Social
 											setSellerId={setSellerId}
@@ -237,6 +237,7 @@ const App = () => {
 											setSingleEvent={setSingleEvent}
 										/>
 									}></Route>
+								<Route path="*" element={<Navigate to="/products" />} />
 							</Routes>
 						</Main>
 					</CustomCol>

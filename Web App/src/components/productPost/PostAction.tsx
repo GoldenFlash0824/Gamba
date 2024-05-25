@@ -61,7 +61,6 @@ const PostAction = ({ data, sellersData, setUserId, userData, commentsModal, sel
 	const countComment: any = useSelector<any>((state: any) => state.auth.countComment)
 
 	const [openAllLikesModal, setOpenAllLikesModal] = useState(false)
-	// alert(commentOpen)
 	const [sharePost, setSharePost] = useState(data?.sharePosts)
 	const [myComment, setMyComment] = useState('')
 	const [isAllCommentsModalOpen, setIsAllCommentsModalOpen] = useState(false)
@@ -310,13 +309,6 @@ const PostAction = ({ data, sellersData, setUserId, userData, commentsModal, sel
 		}
 	}
 
-	// const deleteSelectImage = (index: any) => {
-	// 	const deleteImage = imageData.filter((value, ind) => {
-	// 		return ind !== index
-	// 	})
-	// 	setImageData(deleteImage)
-	// }
-
 	const sendCommentCaseFirst = () => {
 		if (myComment?.length > 0 || imageData !== null) {
 			if (isUserLogIn) {
@@ -327,7 +319,6 @@ const PostAction = ({ data, sellersData, setUserId, userData, commentsModal, sel
 				}
 			} else {
 				setLoginPopup(true)
-				// _navigate('/sign-in')
 			}
 		}
 	}
@@ -338,7 +329,6 @@ const PostAction = ({ data, sellersData, setUserId, userData, commentsModal, sel
 				addPostComments(1)
 			} else {
 				setLoginPopup(true)
-				// _navigate('/sign-in')
 			}
 		}
 	}
@@ -528,8 +518,6 @@ const PostAction = ({ data, sellersData, setUserId, userData, commentsModal, sel
 									<Icon direction="row" align="center" gap={3.65}>
 										<Label>
 											<FileInput
-												// multiple
-												// multiple
 												id="faceImage"
 												accept="image/jpeg/png"
 												type="file"
@@ -537,13 +525,10 @@ const PostAction = ({ data, sellersData, setUserId, userData, commentsModal, sel
 													handleCapture(e)
 												}}
 											/>
-											{/* <MiniIcons src="/images/icons/attach_fille.svg" alt="attach_fille.svg" /> */}
 										</Label>
 										<Flexed direction="row" align="center" gap={0.75}>
 											<Label>
 												<FileInput
-													// multiple
-													// multiple
 													id="faceImage"
 													accept="image/jpeg/png"
 													type="file"
@@ -574,8 +559,6 @@ const PostAction = ({ data, sellersData, setUserId, userData, commentsModal, sel
 							)}
 						</>
 						<ImageSection direction="row" gap={0.3} flexWrap="wrap">
-							{/* {imageData.map((value: any, index: any) => {
-								return ( */}
 							{imageData && (
 								<ImgWrapper>
 									<Img src={imageData} />
@@ -587,8 +570,6 @@ const PostAction = ({ data, sellersData, setUserId, userData, commentsModal, sel
 									</IconWrapper>
 								</ImgWrapper>
 							)}
-							{/* )
-							})} */}
 						</ImageSection>
 					</Wrapper>
 				)}
@@ -654,8 +635,6 @@ const PostAction = ({ data, sellersData, setUserId, userData, commentsModal, sel
 									<Flexed direction="row" align="center" className="img-icon-gap">
 										<Label>
 											<FileInput
-												// multiple
-												// multiple
 												id="faceImage"
 												accept="image/jpeg/png"
 												type="file"

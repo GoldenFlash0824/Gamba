@@ -39,7 +39,7 @@ const ProfileFavorites = ({ setSellerId }: any) => {
 								type="normal"
 								color='gray'
 								onClick={() => {
-									_navigate('/')
+									_navigate('/products')
 								}}>
 								Home
 							</Text>
@@ -67,8 +67,8 @@ const ProfileFavorites = ({ setSellerId }: any) => {
 									)}
 									{seller?.map((data: any, index) => {
 										return (<>
-											<MyNetworkList data={data} setSellerId={setSellerId} getFevSellerData={getFevSellerData}/>
-											<Spacer height={0.5}/>
+											<MyNetworkList data={data} setSellerId={setSellerId} getFevSellerData={getFevSellerData} />
+											<Spacer height={0.5} />
 										</>
 										)
 									})}

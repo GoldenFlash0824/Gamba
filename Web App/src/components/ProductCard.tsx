@@ -109,7 +109,6 @@ const ProductsCard = ({ cardIndex, productPurchase, soldProducts, sale, myProduc
 					</IconWrapper>
 				</TopIcon>
 				<ImgWrapper direction={'row'} align={'center'} justify={'center'}>
-
 					{content?.images?.length ? (
 						<Img
 							src={process.env.REACT_APP_PUBLIC_IMAGE_URL + content.images[0]}
@@ -122,10 +121,9 @@ const ProductsCard = ({ cardIndex, productPurchase, soldProducts, sale, myProduc
 					) : (
 						<ImgPlaceHolder />
 					)}
-
 				</ImgWrapper>
 				<CardBody direction={'column'} gap={0.688} className='position-relative'>
-					<Flexed align="flex-end" justify="flex-end" className='position-absolute top-0  end-0 mr-4'>
+					<Flexed align="flex-end" justify="flex-end" className='position-absolute top-0 end-0 mr-4'>
 						{myProducts ? (
 							<Flexed align="flex-start" justify="flex-start">
 								<Drop className='dots-v-hover'>
@@ -176,9 +174,18 @@ const ProductsCard = ({ cardIndex, productPurchase, soldProducts, sale, myProduc
 						)}
 					</Flexed>
 					<div>
-						<div >
-							<TextBelowImg onClick={() => setIsDetailsModalOpen(true)} type="normal" textTransform="capitalize" fontWeight={700} color="black" title={content?.name + '/' + content?.category?.title}>
-								{content?.name} / {content?.category?.title}
+						<div>
+							<TextBelowImg
+								onClick={() => {
+									setIsProductDetailsModalOpen(true)
+								}}
+								type="normal"
+								textTransform="capitalize"
+								fontWeight={700}
+								color="black"
+								margin="0rem 0rem 0.3rem 0rem"
+								title={content?.name + '/' + content?.category?.title}>
+								{content?.name} <span style={{ fontWeight: 'normal' }}> / {content?.category?.title}</span>
 							</TextBelowImg>
 							{content?.trade[0]?.title?.length ? (
 								<Text fontWeight={700} type="normal" color="gray" fontSize={0.6} whiteSpaces={'nowrap'} style={{ fontStyle: 'oblique' }}>
@@ -214,7 +221,7 @@ const ProductsCard = ({ cardIndex, productPurchase, soldProducts, sale, myProduc
 							</CardContent>
 						</div>
 						{!myProducts && (
-							<Flexed className="" direction={'row'} align={'center'} gap={0.25}>
+							<Flexed className="" margin="0.6rem 0rem 0rem 0rem" direction={'row'} align={'center'} gap={0.25}>
 								<TextBelowUser
 									onClick={() => {
 										setIsProductDetailsModalOpen(true)
@@ -245,8 +252,6 @@ const ProductsCard = ({ cardIndex, productPurchase, soldProducts, sale, myProduc
 							</Flexed>
 						)}
 					</div>
-
-
 				</CardBody>
 			</CardWrapper>
 			{openProductEditModal && (
@@ -307,7 +312,6 @@ const ProductsCard = ({ cardIndex, productPurchase, soldProducts, sale, myProduc
 				/>
 			)}
 			{loginPopup && <LoginPopupModel onClose={() => setLoginPopup(false)} />}
-
 			{lightBoxOpen && (
 				<Lightbox
 					mainSrc={`https://imagescontent.s3.us-east-1.amazonaws.com/${content?.images[photoIndex]}`}
@@ -427,7 +431,6 @@ const CardWrapper = styled.div<any>`
 	// overflow: hidden;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
 	min-height: ${({ soldProducts, productPurchase }) => (soldProducts || productPurchase ? '7rem' : '9.65rem')};
 	background-color: ${palette.white};
 	border: 0.063rem solid ${palette.stroke};

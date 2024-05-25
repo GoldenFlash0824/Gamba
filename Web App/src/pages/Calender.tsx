@@ -1,29 +1,29 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import 'react-calendar/dist/Calendar.css'
-import {Container, Row, Col, media} from 'styled-bootstrap-grid'
-import {Flexed, Spacer, Text, RsponsiveSpacer, MiddleLayout} from '../styled/shared'
-import {palette} from '../styled/colors'
+import { Container, Row, Col, media } from 'styled-bootstrap-grid'
+import { Flexed, Spacer, Text, RsponsiveSpacer, MiddleLayout } from '../styled/shared'
+import { palette } from '../styled/colors'
 import Events from '../components/events/Events'
-import {getAllEventsApi, getUserEvents, searchEventsApi, searchMyEventsApi, getEventById} from '../apis/apis'
-import {useDispatch} from 'react-redux'
-import {saveRoute, saveSearchText, setIsLoading} from '../actions/authActions'
+import { getAllEventsApi, getUserEvents, searchEventsApi, searchMyEventsApi, getEventById } from '../apis/apis'
+import { useDispatch } from 'react-redux'
+import { saveRoute, saveSearchText, setIsLoading } from '../actions/authActions'
 import CurrentActivities from '../components/CurrentActivities'
 import AddPostModal from '../components/modals/AddPostModal'
 import InputField from '../components/common/InputField'
-import {Router, useLocation, useNavigate} from 'react-router-dom'
-import {getPopularEvent} from '../apis/apis'
-import {IoIosArrowForward} from 'react-icons/io'
-import {useSelector} from 'react-redux'
+import { Router, useLocation, useNavigate } from 'react-router-dom'
+import { getPopularEvent } from '../apis/apis'
+import { IoIosArrowForward } from 'react-icons/io'
+import { useSelector } from 'react-redux'
 import MapModal from '../components/modals/MapModal'
 import PopularSellers from '../components/PopularSellers'
 import MainTabs from '../components/MainTabs'
 import useRouter from '../components/useRouterHook'
 import LoginPopupModel from '../components/modals/LoginPopupModel'
 
-const Calender = ({setSelectedBtn, setSingleEvent, singleEvent, setUserId, setSellerId, singlePost, setSinglePost}: any) => {
+const Calender = ({ setSelectedBtn, setSingleEvent, singleEvent, setUserId, setSellerId, singlePost, setSinglePost }: any) => {
 	const _navigate = useNavigate()
-	const {pathname, query}: any = useLocation()
+	const { pathname, query }: any = useLocation()
 	const router = useRouter()
 	const _dispatch = useDispatch()
 
@@ -56,7 +56,7 @@ const Calender = ({setSelectedBtn, setSingleEvent, singleEvent, setUserId, setSe
 				setSize([window.innerHeight, window.innerWidth])
 			}
 			window.addEventListener('resize', handleResize)
-			window.addEventListener('scroll', handleScroll, {passive: true})
+			window.addEventListener('scroll', handleScroll, { passive: true })
 		}, [])
 		return size
 	}
@@ -415,11 +415,11 @@ const Wrapper = styled.div`
 `
 
 const SocialIcon = styled.img<any>`
-	filter: ${({active}) => (active ? 'invert(49%) sepia(36%) saturate(2429%) hue-rotate(66deg) brightness(96%) contrast(101%);' : '')};
+	filter: ${({ active }) => (active ? 'invert(49%) sepia(36%) saturate(2429%) hue-rotate(66deg) brightness(96%) contrast(101%);' : '')};
 	width: 20px;
 `
 
-const CustomHeading = styled(Text)<any>`
+const CustomHeading = styled(Text) <any>`
 	position: relative;
 	padding: 0.344rem 1rem;
 	cursor: pointer;
@@ -427,11 +427,11 @@ const CustomHeading = styled(Text)<any>`
 	align-items: center;
 	gap: 0.625rem;
 	white-space: nowrap;
-	font-weight: ${({active}) => (active ? 700 : 400)};
-	background: ${({active}) => (active ? palette.green_300 : palette.white)};
+	font-weight: ${({ active }) => (active ? 700 : 400)};
+	background: ${({ active }) => (active ? palette.green_300 : palette.white)};
 	text-align: center;
 	border-radius: 1.25rem;
-	color: ${({active}) => (active ? palette.green_200 : palette.gray_400)};
+	color: ${({ active }) => (active ? palette.green_200 : palette.gray_400)};
 	margin-bottom: 0.5rem;
 
 	&:hover {
@@ -481,7 +481,7 @@ const WrapperSide = styled.div<any>`
 	display: flex;
 
 	flex-directo
-	justify-content: ${({scroll}) => (scroll > 750 ? 'flex-end' : 'space-between')};
+	justify-content: ${({ scroll }) => (scroll > 750 ? 'flex-end' : 'space-between')};
 	::-webkit-scrollbar {
 		display: none !important;
 	}

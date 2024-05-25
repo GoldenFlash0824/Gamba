@@ -64,7 +64,7 @@ const ContactUs = () => {
 				setPhoneNumber('')
 				setSubject('')
 				setCaption('')
-				_navigate('/')
+				_navigate('/products')
 			} else {
 				toastError('Information sending failed ')
 			}
@@ -88,7 +88,7 @@ const ContactUs = () => {
 					type="normal"
 					fontWeight={500}
 					onClick={() => {
-						_navigate('/')
+						_navigate('/products')
 					}}>
 					Home
 				</Text>

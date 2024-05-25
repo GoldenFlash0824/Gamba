@@ -1,15 +1,16 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
+import PlacesAutocomplete, { geocodeByAddress, geocodeByPlaceId, getLatLng } from 'react-places-autocomplete'
 import styled from 'styled-components'
-import {palette} from '../styled/colors'
-import {Flexed, Heading, Spacer, Text, getCurrentAddress, Divider} from '../styled/shared'
-import {media} from 'styled-bootstrap-grid'
+import { palette } from '../styled/colors'
+import { Flexed, Heading, Spacer, Text, getCurrentAddress, Divider } from '../styled/shared'
+import { media } from 'styled-bootstrap-grid'
 import Button from '../components/common/Button'
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import CustomInputField from '../components/common/CustomInputField'
-import {addUserInChat, registerUser} from '../apis/apis'
-import {useDispatch} from 'react-redux'
-import {setIsLoading} from '../actions/authActions'
-import {toastError, toastSuccess} from '../styled/toastStyle'
+import { addUserInChat, registerUser } from '../apis/apis'
+import { useDispatch } from 'react-redux'
+import { setIsLoading } from '../actions/authActions'
+import { toastError, toastSuccess } from '../styled/toastStyle'
 import AuthSideCover from '../components/common/AuthSideCover'
 import ValidationCode from '../components/ValidationCode'
 
@@ -19,10 +20,7 @@ const SignUp = () => {
 	const [firstName, setFirstName] = useState<string>('')
 	const [lastName, setLastName] = useState('')
 	const [email, setEmail] = useState('')
-	const [termsAndPrivacy, setTermsAndPrivacy] = useState(false)
-	const [concent, setConcent] = useState(false)
 	const [password, setPassword] = useState('')
-	const [cpassword, setCPassword] = useState('')
 	const [phoneNumber, setPhoneNumber] = useState('')
 	const [clat, setCLat] = useState<any>('')
 	const [clng, setCLng] = useState<any>('')
@@ -33,6 +31,9 @@ const SignUp = () => {
 	const [passwordError, setPasswordError] = useState('')
 	const [registrationCode, setRegistrationCode] = useState(false)
 	const [phoneNumberError, setPhoneNumberError] = useState('')
+	const [latitude, setLatitude]: any = useState(null)
+	const [longitude, setLongitude]: any = useState(null)
+	const [location, setLocation] = useState('')
 
 	const signUpuser = async () => {
 		_dispatch(setIsLoading(true))
@@ -43,8 +44,6 @@ const SignUp = () => {
 			await addUserInChat(response?.data?.user?.id, response?.data?.user)
 			setFirstName('')
 			setLastName('')
-			// setPassword('')
-			// setCPassword('')
 			setRegistrationCode(true)
 		} else {
 			toastError(response.message)
@@ -75,50 +74,41 @@ const SignUp = () => {
 			setPasswordError('Password  must be greater than 8 letters')
 			isValid = false
 		}
-		// if (cpassword !== password) {
-		// 	setCPasswordError('Password did not match')
-		// 	isValid = false
-		// }
+
 		if (phoneNumber === '') {
 			setPhoneNumberError('Phone Number is required')
 			isValid = false
 		}
-		// if (termsAndPrivacy === false) {
-		// 	toastError('Terms and Privacy not selected')
-		// 	isValid = false
-		// }
-		// if (concent === false) {
-		// 	toastError('concent not selected')
-		// 	isValid = false
-		// }
 
 		return isValid
 	}
-	const [latitude, setLatitude]: any = useState(null)
-	const [longitude, setLongitude]: any = useState(null)
-	const [location, setLocation] = useState('')
 
 	useEffect(() => {
-		getLatLong()
+		getLatLong();
+		toastSuccess("Location is necessary for GPS tracking to detect activities near you or nearby");
 	}, [])
 
-	const getLatLong = () => {
+	const getLatLong = async () => {
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(
 				async (position) => {
-					setLatitude(position.coords.latitude)
-					setLongitude(position.coords.longitude)
-					const address = await getCurrentAddress(position.coords.latitude, position.coords.longitude)
-					setLocation(address)
+					try {
+						setLatitude(position.coords.latitude);
+						setLongitude(position.coords.longitude);
+						const address = await getCurrentAddress(position.coords.latitude, position.coords.longitude);
+						setLocation(address);
+					} catch (error) {
+						console.error('Error getting location:', error);
+					}
 				},
 				(error) => {
-					console.error('Error getting geolocation:', error)
+					console.error('Error getting geolocation:', error);
 				}
-			)
+			);
 		} else {
-			console.error('Geolocation is not supported by this browser.')
+			console.error('Geolocation is not supported by this browser.');
 		}
-	}
+	};
 
 	return (
 		<Grid>
@@ -137,9 +127,9 @@ const SignUp = () => {
 								<Spacer height={3.125} />
 								<div>
 									<CustomInputField
-										label="Name"
+										label="First Name"
 										type="text"
-										placeholder="Enter your full name"
+										placeholder="Enter your first name"
 										handleChange={(e: any) => {
 											setFirstNameError('')
 											if (e === '') {
@@ -159,7 +149,7 @@ const SignUp = () => {
 									<CustomInputField
 										label="Last Name"
 										type="text"
-										placeholder="Enter"
+										placeholder="Enter your last name"
 										handleChange={(e: any) => {
 											setLastNameError('')
 											if (e === '') {
@@ -219,6 +209,27 @@ const SignUp = () => {
 									<Spacer height={1.25} />
 								</div>
 
+								{/* <div>
+									<CustomInputField
+										label="Location."
+										type="tel"
+										placeholder="Enter your phone number"
+										handleChange={(e: any) => {
+											setPhoneNumberError('')
+											if (e === '') {
+												setPhoneNumberError('Phone Number is required')
+											}
+											setPhoneNumber(e)
+										}}
+										value={phoneNumber}
+										error={phoneNumberError}
+										errorMsg={phoneNumberError}
+										required
+										allowOnlyNumbers={true}
+									/>
+									<Spacer height={1.25} />
+								</div> */}
+
 								<div>
 									<CustomInputField
 										label="Password"
@@ -249,7 +260,7 @@ const SignUp = () => {
 										label="Register"
 										width="100%"
 										type="primary"
-										
+
 										ifClicked={() => {
 											if (checkValidationOnClick()) {
 												signUpuser()
@@ -337,13 +348,13 @@ export const DiviverGrid = styled.div`
 	align-items: center;
 `
 
-export const SocialIconsCover = styled(Flexed)<any>`
+export const SocialIconsCover = styled(Flexed) <any>`
 	width: 2.5rem;
 	height: 2.5rem;
 	border-radius: 0.75rem;
-	border: ${({hasShadow}) => (hasShadow ? 'none' : `1px solid ${palette.stroke}`)};
+	border: ${({ hasShadow }) => (hasShadow ? 'none' : `1px solid ${palette.stroke}`)};
 	background: ${palette.white};
-	box-shadow: ${({hasShadow}) => (hasShadow ? '0px 6px 24px 0px rgba(0, 0, 0, 0.10)' : 'none')};
+	box-shadow: ${({ hasShadow }) => (hasShadow ? '0px 6px 24px 0px rgba(0, 0, 0, 0.10)' : 'none')};
 	cursor: pointer;
 `
 

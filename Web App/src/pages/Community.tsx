@@ -14,7 +14,6 @@ import { getPopularPost } from '../apis/apis'
 import { useSelector } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
 import SellerSelfProfile from '../components/SellerSelfProfile'
-import NewPostWrapper from '../components/NewPostWrapper'
 import MainCategorySideBar from '../components/MainCategorySideBar'
 
 const Community = ({ setUserId, setSellerId, sellerId, singlePost, setSelectCategory, setSinglePost, isContactUsOpen, setIsContactUsOpen, setIsAboutOpen, isAboutOpen, showStories, setSelectedBtn, setSingleEvent }: any) => {
@@ -84,10 +83,6 @@ const Community = ({ setUserId, setSellerId, sellerId, singlePost, setSelectCate
 				postData = uniqueObjects
 			}
 
-			// postData = postData.sort((a, b) => {
-			// 	return a.created_at - b.created_at
-			// })
-
 			setPosts(postData)
 			setCopyPostsData(postData)
 			_dispatch(commentCount(0))
@@ -98,7 +93,7 @@ const Community = ({ setUserId, setSellerId, sellerId, singlePost, setSelectCate
 	}
 
 	useEffect(() => {
-		if (currentRoute === '/') {
+		if (currentRoute === '/products') {
 			if (authToken !== null) {
 				getAllUserAndPosts(page, true)
 				_dispatch(saveRoute(''))
@@ -121,7 +116,7 @@ const Community = ({ setUserId, setSellerId, sellerId, singlePost, setSelectCate
 		setIsDataProgress(true)
 
 		if (pathname.includes('/post/')) {
-			const postIdExtraction = pathname.split('/')
+			const postIdExtraction = pathname.split('/products')
 			const id = postIdExtraction[2]
 
 			if (id) {
@@ -135,7 +130,7 @@ const Community = ({ setUserId, setSellerId, sellerId, singlePost, setSelectCate
 
 	useEffect(() => {
 		let timer: any = null
-		if (searchPosts.trim().length >= 2 && pathname === '/') {
+		if (searchPosts.trim().length >= 2 && pathname === '/products') {
 			timer = setTimeout(async () => {
 				_dispatch(setIsLoading(true))
 				setIsDataProgress(true)
@@ -239,23 +234,6 @@ const Community = ({ setUserId, setSellerId, sellerId, singlePost, setSelectCate
 					<>
 						{sellerId === '' ? (
 							<MiddleLayout xxl={7} xl={6} lg={10}>
-								{/* <>
-									{singlePost === null && (
-										<>
-											<InputField
-												handleChange={(val: any) => {
-													setSearchPosts(val)
-												}}
-												type="search"
-												placeholder="Search"
-											/>
-											<Spacer height={1} />
-										</>
-									)}
-								</> */}
-
-								{/* <NewPostWrapper /> */}
-
 								{singlePost !== null ? (
 									<>
 										<ProductPost
@@ -312,13 +290,11 @@ const Community = ({ setUserId, setSellerId, sellerId, singlePost, setSelectCate
 
 				<SideCol xxl={2.5} xl={3}>
 					<Wrapper scroll={scrollPosition} position={isAboutOpen || isContactUsOpen}>
-						{/* {singlePost === null ? ( */}
 						<MdHide scroll={scrollPosition}>
 							<PopularSellers setSellerId={setSellerId} setSelectCategory={setSelectCategory} setUserId={setUserId} social={true} />
 							<Spacer height={1} />
 						</MdHide>
-						{/* ) : null} */}
-						<SponcerWrapper scroll={scrollPosition}>
+						{/* <SponcerWrapper scroll={scrollPosition}>
 							<Spacer height={1} />
 							<StyledFlex gap={0.5}>
 								<div onClick={() => { }}>
@@ -334,7 +310,7 @@ const Community = ({ setUserId, setSellerId, sellerId, singlePost, setSelectCate
 								</div>
 							</StyledFlex>
 							<Spacer height={0.7} />
-						</SponcerWrapper>
+						</SponcerWrapper> */}
 					</Wrapper>
 				</SideCol>
 			</Row>

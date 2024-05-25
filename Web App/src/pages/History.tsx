@@ -1,9 +1,9 @@
 import React from 'react'
-import {Flexed, Spacer, Text} from '../styled/shared'
-import {Container, Row, Col, media} from 'styled-bootstrap-grid'
+import { Flexed, Spacer, Text } from '../styled/shared'
+import { Container, Row, Col, media } from 'styled-bootstrap-grid'
 import OrderHistory from '../components/OrderHistory'
 import styled from 'styled-components'
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const History = () => {
 	let _navigate = useNavigate()
@@ -18,7 +18,7 @@ const History = () => {
 					type="normal"
 					color="gray"
 					onClick={() => {
-						_navigate('/')
+						_navigate('/products')
 						// setSinglePost(null)
 						// setSelectProfileSettingsCategory('')
 						// setSelectCategory('profile')

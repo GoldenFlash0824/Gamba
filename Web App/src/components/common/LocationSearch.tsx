@@ -3,9 +3,7 @@ import styled from 'styled-components'
 import { palette } from '../../styled/colors'
 import PlacesAutocomplete, {
 	geocodeByAddress,
-	geocodeByPlaceId,
 	getLatLng
-	// @ts-ignore
 } from 'react-places-autocomplete'
 import { Text } from '../../styled/shared'
 

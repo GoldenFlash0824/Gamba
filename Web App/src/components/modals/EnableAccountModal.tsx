@@ -1,18 +1,18 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import {Modal} from 'react-responsive-modal'
+import { Modal } from 'react-responsive-modal'
 import 'react-responsive-modal/styles.css'
-import {Text, Spacer, Flexed} from '../../styled/shared'
-import {palette} from '../../styled/colors'
-import {media} from 'styled-bootstrap-grid'
+import { Text, Spacer, Flexed } from '../../styled/shared'
+import { palette } from '../../styled/colors'
+import { media } from 'styled-bootstrap-grid'
 import Button from '../common/Button'
-import {dsiableAccountApi} from '../../apis/apis'
-import {useNavigate} from 'react-router-dom'
-import {useDispatch} from 'react-redux'
-import {setUserId} from '../../actions/authActions'
-import {clearCart} from '../../actions/cartActions'
-import {useSelector} from 'react-redux'
-import {toastSuccess} from '../../styled/toastStyle'
+import { dsiableAccountApi } from '../../apis/apis'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { setUserId } from '../../actions/authActions'
+import { clearCart } from '../../actions/cartActions'
+import { useSelector } from 'react-redux'
+import { toastSuccess } from '../../styled/toastStyle'
 const closeIcon = (
 	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
 		<path
@@ -22,7 +22,7 @@ const closeIcon = (
 	</svg>
 )
 
-const EnableAccountModal = ({onClose, enabled}: any) => {
+const EnableAccountModal = ({ onClose, enabled }: any) => {
 	const user: any = useSelector<any>((state: any) => state.auth.userDetails)
 	let _navigate = useNavigate()
 	const dispatch = useDispatch()
@@ -75,7 +75,7 @@ const EnableAccountModal = ({onClose, enabled}: any) => {
 									onClose()
 								}}
 							/>
-							<div style={{display: 'flex', justifyContent: 'space-between', gap: '0.5rem'}}>
+							<div style={{ display: 'flex', justifyContent: 'space-between', gap: '0.5rem' }}>
 								<Button
 									type="primary"
 									label="Enable"
@@ -86,7 +86,7 @@ const EnableAccountModal = ({onClose, enabled}: any) => {
 											sessionStorage.removeItem('isAccountDisabled')
 											enabled()
 											toastSuccess('User account enabled')
-											_navigate('/')
+											_navigate('/products')
 										}
 									}}
 								/>
@@ -94,7 +94,7 @@ const EnableAccountModal = ({onClose, enabled}: any) => {
 						</Flexed>
 					</Body>
 				</ModalWrapper>
-				
+
 			</Modal>
 		</>
 	)

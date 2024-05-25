@@ -243,7 +243,7 @@ const resetPasswordEmail = async (user) => {
                 .image-key {
                     background: url(${process.env.S3_URL + 'keyImage.png'}) no-repeat left top;
 
-                    height: 100px; /* Adjust the height as needed */
+                    height: 100px;
                 }
 
                 .paragraph {
@@ -253,9 +253,8 @@ const resetPasswordEmail = async (user) => {
         </head>
         <body>
             <div class="container">
-                <img src="https://imagescontent.s3.us-east-1.amazonaws.com/1716209083707.png" alt="Logo" width={100}>
                 <div class="container image-top"></div> <!-- Top Image -->
-                    <div class="image-key"></div> <!-- Key Image -->
+                    <div class="image-key"></div>
                     <div class="content">
                         <h1 style="opacity: 0.8;">Reset Your Password</h1>
                         <p style="opacity: 0.8;"><strong>FORGOT YOUR PASSWORD?</strong><br>NO PROBLEM!</p>
@@ -544,7 +543,9 @@ const passwordUpdated = async (user) => {
                     color: #333;
                 }
                 p {
-                    color: #555;
+                    font-size: 16px;
+                    line-height: 1.5;
+                    color: #666;
                 }
             </style>
         </head>
@@ -557,8 +558,8 @@ const passwordUpdated = async (user) => {
                 ? user.first_name + ' ' + user.last_name
                 : 'User'
             },</p>
-                    <p>It seems that you've reset your password for your account at Gamba. You updated your password successfully.</p>
-                    <p>If you can't do this, contact the support center.</p>
+                    <p>It appears that you've successfully reset your password for your Gamba account. Your password has been updated successfully.</p>
+                    <p>If you did not initiate this change, please contact our support center immediately.</p>
                     <p>Thank you for being a valued member of Gamba's community.</p>
                     <p>Healthy regards,</p>
                     <p>Gamba Community Team</p>
@@ -580,6 +581,298 @@ const passwordUpdated = async (user) => {
         console.error('Error sending email:', error);
         throw error;
     }
+};
+
+const commentPosterEmail = async (user, email) => {
+    let defaultClient = Brevo.ApiClient.instance
+    let apiKey = defaultClient.authentications['api-key']
+    apiKey.apiKey = process.env.BREVO_API_KEY
+    let apiInstance = new Brevo.TransactionalEmailsApi()
+
+    let sendSmtpEmail = new Brevo.SendSmtpEmail()
+    const link = `${process.env.FRONTEND_URL}/community`;
+
+    sendSmtpEmail = {
+        to: [
+            {
+                email: email
+            }
+        ],
+        sender: { email: process.env.SENDER_EMAIL },
+        subject: 'New Comment on Your Post',
+
+        htmlContent: `<html>
+        <head>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f7f7f7;
+                }
+
+                .container {
+                    max-width: 600px;
+                    margin: 0 auto;
+                    padding: 20px;
+                    background-color: #ffffff;
+                    border-radius: 5px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                }
+
+                h3 {
+                    color: #333;
+                }
+
+                p {
+                    font-size: 16px;
+                    line-height: 1.5;
+                    color: #666;
+                }
+
+                ul {
+                    list-style-type: disc;
+                    padding-left: 20px;
+                }
+
+                li {
+                    margin-bottom: 10px;
+                }
+
+                .cta-button {
+                    display: inline-block;
+                    background-color: #007BFF;
+                    color: #fff;
+                    padding: 10px 20px;
+                    text-decoration: none;
+                    border-radius: 5px;
+                    margin-top: 20px;
+                }
+
+                .cta-button:hover {
+                    background-color: #0056b3;
+                }
+
+                .signature {
+                    font-weight: bold;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <img src="https://imagescontent.s3.us-east-1.amazonaws.com/1716209083707.png" alt="Logo" width={100}>
+                <p>Hi ${user?.first_name && user?.last_name ? user?.first_name + ' ' + user?.last_name : ''}</p>
+                <p>Just a quick heads up – you've got a <a href=${link}>new comment</a> on your post. Thought you'd like to know!</p>
+                <p>Warm Regards,<br/><b>Gamba Team</b></p>
+            </div>
+        </body>
+        </html>`,
+        headers: {
+            'X-Mailin-custom': 'custom_header_1:custom_value_1|custom_header_2:custom_value_2'
+        }
+    }
+    return await apiInstance.sendTransacEmail(sendSmtpEmail).then(
+        function (data) {
+            console.log('API called successfully. Returned data: ' + data)
+            return data
+        },
+        function (error) {
+            console.error(error)
+        }
+    )
+}
+
+const postLikeEmail = async (user, email) => {
+    let defaultClient = Brevo.ApiClient.instance
+    let apiKey = defaultClient.authentications['api-key']
+    apiKey.apiKey = process.env.BREVO_API_KEY
+    let apiInstance = new Brevo.TransactionalEmailsApi()
+
+    let sendSmtpEmail = new Brevo.SendSmtpEmail()
+    const link = `${process.env.FRONTEND_URL}/community`;
+
+    sendSmtpEmail = {
+        to: [
+            {
+                email: email
+            }
+        ],
+        sender: { email: process.env.SENDER_EMAIL },
+        subject: `You've Got a New Like!`,
+
+        htmlContent: `<html>
+        <head>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f7f7f7;
+                }
+
+                .container {
+                    max-width: 600px;
+                    margin: 0 auto;
+                    padding: 20px;
+                    background-color: #ffffff;
+                    border-radius: 5px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                }
+
+                h3 {
+                    color: #333;
+                }
+
+                p {
+                    font-size: 16px;
+                    line-height: 1.5;
+                    color: #666;
+                }
+
+                ul {
+                    list-style-type: disc;
+                    padding-left: 20px;
+                }
+
+                li {
+                    margin-bottom: 10px;
+                }
+
+                .cta-button {
+                    display: inline-block;
+                    background-color: #007BFF;
+                    color: #fff;
+                    padding: 10px 20px;
+                    text-decoration: none;
+                    border-radius: 5px;
+                    margin-top: 20px;
+                }
+
+                .cta-button:hover {
+                    background-color: #0056b3;
+                }
+
+                .signature {
+                    font-weight: bold;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <img src="https://imagescontent.s3.us-east-1.amazonaws.com/1716209083707.png" alt="Logo" width={100}>
+                <p>Hi ${user?.first_name && user?.last_name ? user?.first_name + ' ' + user?.last_name : ''}</p>
+                <p>Quick update - your post just a got a like!</p>
+                <p>Thought you'd want to know.</p>
+                <p>Cheers</p>
+                <p><b>Gamba Team</b></p>
+            </div>
+        </body>
+        </html>`,
+        headers: {
+            'X-Mailin-custom': 'custom_header_1:custom_value_1|custom_header_2:custom_value_2'
+        }
+    }
+    return await apiInstance.sendTransacEmail(sendSmtpEmail).then(
+        function (data) {
+            console.log('API called successfully. Returned data: ' + data)
+            return data
+        },
+        function (error) {
+            console.error(error)
+        }
+    )
+}
+
+const replyCommentEmail = async (user, email) => {
+    let defaultClient = Brevo.ApiClient.instance;
+    let apiKey = defaultClient.authentications['api-key'];
+    apiKey.apiKey = process.env.BREVO_API_KEY;
+    let apiInstance = new Brevo.TransactionalEmailsApi();
+
+    let sendSmtpEmail = new Brevo.SendSmtpEmail();
+    const link = `${process.env.FRONTEND_URL}/community`;
+
+    sendSmtpEmail = {
+        to: [
+            {
+                email: email
+            }
+        ],
+        sender: { email: process.env.SENDER_EMAIL },
+        subject: 'Replied on Your Comment', // Updated the subject to be plain text
+        htmlContent: `<html>
+        <head>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f7f7f7;
+                }
+
+                .container {
+                    max-width: 600px;
+                    margin: 0 auto;
+                    padding: 20px;
+                    background-color: #ffffff;
+                    border-radius: 5px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                }
+
+                h3 {
+                    color: #333;
+                }
+
+                p {
+                    font-size: 16px;
+                    line-height: 1.5;
+                    color: #666;
+                }
+
+                ul {
+                    list-style-type: disc;
+                    padding-left: 20px;
+                }
+
+                li {
+                    margin-bottom: 10px;
+                }
+
+                .cta-button {
+                    display: inline-block;
+                    background-color: #007BFF;
+                    color: #fff;
+                    padding: 10px 20px;
+                    text-decoration: none;
+                    border-radius: 5px;
+                    margin-top: 20px;
+                }
+
+                .cta-button:hover {
+                    background-color: #0056b3;
+                }
+
+                .signature {
+                    font-weight: bold;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <img src="https://imagescontent.s3.us-east-1.amazonaws.com/1716209083707.png" alt="Logo" width="100">
+                <p>Hi ${user?.first_name && user?.last_name ? user?.first_name + ' ' + user?.last_name : ''}</p>
+                <p>You've got a <a href="${link}">reply</a> on your comment. Thought you'd like to know!</p>
+                <p>Warm Regards,<br/><b>Gamba Team</b></p>
+            </div>
+        </body>
+        </html>`,
+        headers: {
+            'X-Mailin-custom': 'custom_header_1:custom_value_1|custom_header_2:custom_value_2'
+        }
+    };
+    return await apiInstance.sendTransacEmail(sendSmtpEmail).then(
+        function (data) {
+            console.log('API called successfully. Returned data: ' + data);
+            return data;
+        },
+        function (error) {
+            console.error(error);
+        }
+    );
 };
 
 const notificationEmail = async (email, user, message) => {
@@ -758,15 +1051,11 @@ const orderBuyerNotificationEmail = async (email, customer, order_id, order_date
     } catch (e) { console.log(e) }
 };
 
-const connectTradeProductBuyerEmail = async (email, full_name, trade_info) => {
+const connectTradeProductBuyerEmail = async (email, full_name, topic, tradeWith) => {
     let defaultClient = Brevo.ApiClient.instance;
     let apiKey = defaultClient.authentications['api-key'];
     apiKey.apiKey = process.env.BREVO_API_KEY;
     let apiInstance = new Brevo.TransactionalEmailsApi();
-    const tradeDetails = JSON.parse(trade_info);
-    const tradeDetailsHtml = tradeDetails.map(item => `
-        <p><b>${item.trade_quantity}&nbsp;${item.trade_unit}&nbsp;${item.trade_title}</b></p>
-    `).join('');
 
     const sendSmtpEmail = {
         to: [{ email: email, },],
@@ -811,7 +1100,7 @@ const connectTradeProductBuyerEmail = async (email, full_name, trade_info) => {
                     <p>Dear ${full_name},</p>
                     <p>Thank you for expressing your interest in Gamba Seller's product giveaways!</p>
                     <p>We've received your trading request, and here are the details:</p>
-                    ${tradeDetailsHtml}
+                    <p>${topic} with ${tradeWith}</p>
                     <p>Please note that our sellers may experience high volumes of inquiries, which might result in delays. If you don't hear back from the seller within a reasonable time frame, please don't hesitate to reach out to us directly for assistance.</p>
                     <p>In the meantime, feel free to explore our website and follow us on social media to discover more products and stay updated on our latest events.</p>
                     <p>Thank you once again for choosing Gamba for your trading needs. We're excited about the opportunity to facilitate your product exchanges!</p>
@@ -837,7 +1126,7 @@ const connectTradeProductBuyerEmail = async (email, full_name, trade_info) => {
     }
 };
 
-const connectTradeProductSellerEmail = async (email, full_name, title, customer_name) => {
+const connectTradeProductSellerEmail = async (email, full_name, title, customer_name, topic, tradeWith) => {
     let defaultClient = Brevo.ApiClient.instance;
     let apiKey = defaultClient.authentications['api-key'];
     apiKey.apiKey = process.env.BREVO_API_KEY;
@@ -885,6 +1174,7 @@ const connectTradeProductSellerEmail = async (email, full_name, title, customer_
                 <div class="content">
                     <p>Dear ${full_name},</p>
                     <p>We hope this email finds you well. You have a pending request from ${customer_name} for <b>${title}</b>.</p>
+                    <p>${topic} in exchange for ${tradeWith}</p>
                     <p>Please promptly respond to the customer's request. In case of high volumes of inquiries, we advise informing the customer in advance to ensure a smooth process and avoid any inconvenience.</p>
                     <p>Thank you for choosing Gamba and your generous contribution.</p>
                     <p>Best Regards,<br/>Gamba Team</p>
@@ -909,86 +1199,85 @@ const connectTradeProductSellerEmail = async (email, full_name, title, customer_
     }
 };
 
-const connectTradeProductEmail = async (email, user) => {
-    let defaultClient = Brevo.ApiClient.instance;
-    let apiKey = defaultClient.authentications['api-key'];
-    apiKey.apiKey = process.env.BREVO_API_KEY;
-    let apiInstance = new Brevo.TransactionalEmailsApi();
+// const connectTradeProductEmail = async (email, user) => {
+//     let defaultClient = Brevo.ApiClient.instance;
+//     let apiKey = defaultClient.authentications['api-key'];
+//     apiKey.apiKey = process.env.BREVO_API_KEY;
+//     let apiInstance = new Brevo.TransactionalEmailsApi();
 
-    const sendSmtpEmail = {
-        to: [
-            {
-                email: email,
-            },
-        ],
-        sender: { email: process.env.SENDER_EMAIL },
-        subject: 'Trade Connection',
+//     const sendSmtpEmail = {
+//         to: [
+//             {
+//                 email: email,
+//             },
+//         ],
+//         sender: { email: process.env.SENDER_EMAIL },
+//         subject: 'Trade Connection',
 
-        htmlContent: `
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <style>
-                body {
-                    font-family: Arial, sans-serif;
-                    background-color: #f4f4f4;
-                    margin: 0;
-                    padding: 0;
-                }
-                .container {
-                    max-width: 600px;
-                    margin: 0 auto;
-                    padding: 20px;
-                    background-color: #fff;
-                    border-radius: 5px;
-                }
-                .content {
-                    padding: 20px;
-                }
-                h1 {
-                    color: #333;
-                }
-                p {
-                    font-size: 16px;
-                    line-height: 1.5;
-                    color: #666;
-                }
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <img src="https://imagescontent.s3.us-east-1.amazonaws.com/1716209083707.png" alt="Logo" width={100}>
-                <div class="content">
-                    <h1>Trade Connection</h1>
-                    <p>User ${user?.full_name} wants to connect with you for trade products. Below are the details of the user:</p>
-                    <p><strong>Name:</strong> ${user?.full_name}</p>
-                    <p><strong>Email:</strong> ${user?.email}</p>
-                    <p><strong>Phone No.:</strong> ${user?.phone}</p>
-                    <p><strong>Interested:</strong> ${user?.interested}</p>
-                    <p><strong>Info:</strong> ${user?.info}</p>
-                    <p>Healthy regards,</p>
-                    <p>Gamba Community Team</p>
-                </div>
-            </div>
-        </body>
-        </html>
-        `,
-        headers: {
-            'X-Mailin-custom': 'custom_header_1:custom_value_1|custom_header_2:custom_value_2',
-        },
-    };
+//         htmlContent: `
+//         <!DOCTYPE html>
+//         <html>
+//         <head>
+//             <style>
+//                 body {
+//                     font-family: Arial, sans-serif;
+//                     background-color: #f4f4f4;
+//                     margin: 0;
+//                     padding: 0;
+//                 }
+//                 .container {
+//                     max-width: 600px;
+//                     margin: 0 auto;
+//                     padding: 20px;
+//                     background-color: #fff;
+//                     border-radius: 5px;
+//                 }
+//                 .content {
+//                     padding: 20px;
+//                 }
+//                 h1 {
+//                     color: #333;
+//                 }
+//                 p {
+//                     font-size: 16px;
+//                     line-height: 1.5;
+//                     color: #666;
+//                 }
+//             </style>
+//         </head>
+//         <body>
+//             <div class="container">
+//                 <img src="https://imagescontent.s3.us-east-1.amazonaws.com/1716209083707.png" alt="Logo" width={100}>
+//                 <div class="content">
+//                     <h1>Trade Connection</h1>
+//                     <p>User ${user?.full_name} wants to connect with you for trade products. Below are the details of the user:</p>
+//                     <p><strong>Name:</strong> ${user?.full_name}</p>
+//                     <p><strong>Email:</strong> ${user?.email}</p>
+//                     <p><strong>Phone No.:</strong> ${user?.phone}</p>
+//                     <p><strong>Info:</strong> ${user?.info}</p>
+//                     <p>Healthy regards,</p>
+//                     <p>Gamba Community Team</p>
+//                 </div>
+//             </div>
+//         </body>
+//         </html>
+//         `,
+//         headers: {
+//             'X-Mailin-custom': 'custom_header_1:custom_value_1|custom_header_2:custom_value_2',
+//         },
+//     };
 
-    try {
-        const response = await apiInstance.sendTransacEmail(sendSmtpEmail);
-        console.log('Email sent successfully:', response);
-        return response;
-    } catch (error) {
-        console.error('Error sending email:', error);
-        throw error;
-    }
-};
+//     try {
+//         const response = await apiInstance.sendTransacEmail(sendSmtpEmail);
+//         console.log('Email sent successfully:', response);
+//         return response;
+//     } catch (error) {
+//         console.error('Error sending email:', error);
+//         throw error;
+//     }
+// };
 
-const connectGiveAwayProductBuyerEmail = async (email, full_name, title) => {
+const connectGiveAwayProductBuyerEmail = async (email, full_name, subject) => {
     let defaultClient = Brevo.ApiClient.instance;
     let apiKey = defaultClient.authentications['api-key'];
     apiKey.apiKey = process.env.BREVO_API_KEY;
@@ -1036,7 +1325,7 @@ const connectGiveAwayProductBuyerEmail = async (email, full_name, title) => {
                 <div class="content">
                     <p>Dear ${full_name},</p>
                     <p>Thank you for expressing your interest in Gamba Seller's product giveaways!</p>
-                    <p>Your request for <b>${title}</b> have been received</p>
+                    <p>Your request for <b>${subject}</b> have been received</p>
                     <p>Please be aware that our sellers may encounter high volumes of inquiries, potentially leading to delays in response times. If you haven't heard back from the seller within a reasonable period, please feel free to contact us directly for further assistance.</p>
                     <p>While you await a response, we encourage you to explore our website and follow us on social media to discover more products and stay updated on our latest events.</p>
                     <p>Once again, thank you for choosing Gamba. We're excited about the opportunity to potentially provide you with one of our sellers' products through our giveaways!</p>
@@ -1062,16 +1351,16 @@ const connectGiveAwayProductBuyerEmail = async (email, full_name, title) => {
     }
 };
 
-const connectGiveAwayProductSellerEmail = async (email, full_name, title, customer_name) => {
+const connectGiveAwayProductSellerEmail = async (email, full_name, subject, customer_name) => {
     let defaultClient = Brevo.ApiClient.instance;
     let apiKey = defaultClient.authentications['api-key'];
     apiKey.apiKey = process.env.BREVO_API_KEY;
     let apiInstance = new Brevo.TransactionalEmailsApi();
 
     const sendSmtpEmail = {
-        to: [{ email: email, },],
+        to: [{ email: email }],
         sender: { email: process.env.SENDER_EMAIL },
-        subject: "Action Required! Giveaway Request for " + title,
+        subject: 'Action Required! Giveaway Request for' + subject,
 
         htmlContent: `
         <!DOCTYPE html>
@@ -1106,10 +1395,10 @@ const connectGiveAwayProductSellerEmail = async (email, full_name, title, custom
         </head>
         <body>
             <div class="container">
-                <img src="https://imagescontent.s3.us-east-1.amazonaws.com/1716209083707.png" alt="Logo" width={100}>
+                <img src="https://imagescontent.s3.us-east-1.amazonaws.com/1716209083707.png" alt="Logo" width="100">
                 <div class="content">
                     <p>Dear ${full_name},</p>
-                    <p>We hope this email finds you well. You have a pending request from ${customer_name} for <b>${title}</b>.</p>
+                    <p>We hope this email finds you well. You have a pending request from ${customer_name} for <b>${subject}</b>.</p>
                     <p>Please promptly respond to the customer's request. In case of high volumes of inquiries, we advise informing the customer in advance to ensure a smooth process and avoid any inconvenience.</p>
                     <p>Thank you for choosing Gamba and your generous contribution.</p>
                     <p>Healthy Regards,<br/>Gamba Team</p>
@@ -1134,84 +1423,84 @@ const connectGiveAwayProductSellerEmail = async (email, full_name, title, custom
     }
 };
 
-const connectGiveAwayProductEmail = async (email, user) => {
-    let defaultClient = Brevo.ApiClient.instance;
-    let apiKey = defaultClient.authentications['api-key'];
-    apiKey.apiKey = process.env.BREVO_API_KEY;
-    let apiInstance = new Brevo.TransactionalEmailsApi();
+// const connectGiveAwayProductEmail = async (email, user) => {
+//     let defaultClient = Brevo.ApiClient.instance;
+//     let apiKey = defaultClient.authentications['api-key'];
+//     apiKey.apiKey = process.env.BREVO_API_KEY;
+//     let apiInstance = new Brevo.TransactionalEmailsApi();
 
-    const sendSmtpEmail = {
-        to: [
-            {
-                email: email,
-            },
-        ],
-        sender: { email: process.env.SENDER_EMAIL },
-        subject: 'Giveaway Connection',
+//     const sendSmtpEmail = {
+//         to: [
+//             {
+//                 email: email,
+//             },
+//         ],
+//         sender: { email: process.env.SENDER_EMAIL },
+//         subject: 'Giveaway Connection',
 
-        htmlContent: `
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <style>
-                body {
-                    font-family: Arial, sans-serif;
-                    background-color: #f4f4f4;
-                    margin: 0;
-                    padding: 0;
-                }
-                .container {
-                    max-width: 600px;
-                    margin: 0 auto;
-                    padding: 20px;
-                    background-color: #fff;
-                    border-radius: 5px;
-                }
-                .content {
-                    padding: 20px;
-                }
-                h1 {
-                    color: #333;
-                }
-                p {
-                    font-size: 16px;
-                    line-height: 1.5;
-                    color: #666;
-                }
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <img src="https://imagescontent.s3.us-east-1.amazonaws.com/1716209083707.png" alt="Logo" width={100}>
-                <div class="content">
-                    <h1>Giveaway Connection</h1>
-                    <p>User ${user?.full_name} wants to connect with you for giveaway products. Below are the details of the user:</p>
-                    <p><strong>Name:</strong> ${user?.full_name}</p>
-                    <p><strong>Email:</strong> ${user?.email}</p>
-                    <p><strong>Phone No.:</strong> ${user?.phone}</p>
-                    <p><strong>Interested:</strong> ${user?.interested}</p>
-                    <p><strong>Info:</strong> ${user?.info}</p>
-                    <p>Healthy regards,</p>
-                    <p>Gamba Community Team</p>
-                </div>
-            </div>
-        </body>
-        </html>
-        `,
-        headers: {
-            'X-Mailin-custom': 'custom_header_1:custom_value_1|custom_header_2:custom_value_2',
-        },
-    };
+//         htmlContent: `
+//         <!DOCTYPE html>
+//         <html>
+//         <head>
+//             <style>
+//                 body {
+//                     font-family: Arial, sans-serif;
+//                     background-color: #f4f4f4;
+//                     margin: 0;
+//                     padding: 0;
+//                 }
+//                 .container {
+//                     max-width: 600px;
+//                     margin: 0 auto;
+//                     padding: 20px;
+//                     background-color: #fff;
+//                     border-radius: 5px;
+//                 }
+//                 .content {
+//                     padding: 20px;
+//                 }
+//                 h1 {
+//                     color: #333;
+//                 }
+//                 p {
+//                     font-size: 16px;
+//                     line-height: 1.5;
+//                     color: #666;
+//                 }
+//             </style>
+//         </head>
+//         <body>
+//             <div class="container">
+//                 <img src="https://imagescontent.s3.us-east-1.amazonaws.com/1716209083707.png" alt="Logo" width={100}>
+//                 <div class="content">
+//                     <h1>Giveaway Connection</h1>
+//                     <p>User ${user?.full_name} wants to connect with you for giveaway products. Below are the details of the user:</p>
+//                     <p><strong>Name:</strong> ${user?.full_name}</p>
+//                     <p><strong>Email:</strong> ${user?.email}</p>
+//                     <p><strong>Phone No.:</strong> ${user?.phone}</p>
+//                     <p><strong>Interested:</strong> ${user?.interested}</p>
+//                     <p><strong>Info:</strong> ${user?.info}</p>
+//                     <p>Healthy regards,</p>
+//                     <p>Gamba Community Team</p>
+//                 </div>
+//             </div>
+//         </body>
+//         </html>
+//         `,
+//         headers: {
+//             'X-Mailin-custom': 'custom_header_1:custom_value_1|custom_header_2:custom_value_2',
+//         },
+//     };
 
-    try {
-        const response = await apiInstance.sendTransacEmail(sendSmtpEmail);
-        console.log('Email sent successfully:', response);
-        return response;
-    } catch (error) {
-        console.error('Error sending email:', error);
-        throw error;
-    }
-};
+//     try {
+//         const response = await apiInstance.sendTransacEmail(sendSmtpEmail);
+//         console.log('Email sent successfully:', response);
+//         return response;
+//     } catch (error) {
+//         console.error('Error sending email:', error);
+//         throw error;
+//     }
+// };
 
 const contactUsEmail = async (user) => {
     let defaultClient = Brevo.ApiClient.instance;
@@ -1545,5 +1834,5 @@ const orderTemplate = `
 export {
     adminResetPasswordEmail, verificationCodeEmail, resetPasswordEmail, newPasswordEmail, orderSellerNotificationEmail, orderBuyerNotificationEmail,
     notificationEmail, contactUsEmail, welcomeEmail, passwordUpdated, adminPasswordUpdated, connectGiveAwayProductBuyerEmail,
-    connectGiveAwayProductSellerEmail, connectGiveAwayProductEmail, connectTradeProductBuyerEmail, connectTradeProductSellerEmail, connectTradeProductEmail, createEventEmail, joinedEventEmail
+    connectGiveAwayProductSellerEmail, connectTradeProductBuyerEmail, connectTradeProductSellerEmail, createEventEmail, joinedEventEmail, commentPosterEmail, replyCommentEmail, postLikeEmail
 }

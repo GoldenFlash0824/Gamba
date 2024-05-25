@@ -1,14 +1,14 @@
-import React, {useState} from 'react'
-import {palette} from '../styled/colors'
+import React, { useState } from 'react'
+import { palette } from '../styled/colors'
 import styled from 'styled-components'
-import {Text, Flexed, Spacer} from '../styled/shared'
-import {media} from 'styled-bootstrap-grid'
+import { Text, Flexed, Spacer } from '../styled/shared'
+import { media } from 'styled-bootstrap-grid'
 import moment from 'moment-timezone'
 import TradeDetailsCardsCarousel from './TradeDetailsCardsCarousel'
 import UsedChemicalsModal from './modals/UsedChemicalsModal'
 import TextWithSeeMore from './common/SeeMoreText'
 
-const TradeDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTrade, productPurchase, soldProducts}: any) => {
+const TradeDetailsCard = ({ cardIndex, sale, content, addToCart, donation, isTrade, productPurchase, soldProducts }: any) => {
 	const [isUsedChemicalsOpen, setIsUsedChemicalsOpen] = useState(false)
 
 	const [showImg, setShowImg] = useState(false)
@@ -27,7 +27,7 @@ const TradeDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTrad
 						{isTrade && (
 							<CustomFlexed direction="row" justify="space-between">
 								<InfoWrapper>
-									<ProductCategory color="text_description" onClick={() => {}}>
+									<ProductCategory color="text_description" onClick={() => { }}>
 										<strong>Name: </strong>
 										{content?.name}
 									</ProductCategory>
@@ -48,24 +48,11 @@ const TradeDetailsCard = ({cardIndex, sale, content, addToCart, donation, isTrad
 										)
 									})}
 
-									{/* {tradeWith?.map((data: any, index: any) => {
-										return (
-											<>
-												<Text color="text_description">
-													<strong>Trade With: </strong> {data?.trade_quantity} {data?.trade_unit} {data?.trade_title}
-												</Text>
-											</>
-										)
-									})} */}
-
 									<Spacer height={0.1} />
 									<Text color="text_description">
 										<strong>Category: </strong> {content?.category?.title}
 									</Text>
 									<Spacer height={0.1} />
-									{/* <Text color="text_description">
-										<strong>Quantity: </strong> {content?.quantity}
-									</Text> */}
 									<Spacer height={0.1} />
 									<Text color="text_description">
 										<strong>Sold By: </strong>
@@ -166,13 +153,13 @@ const CustomFlexed = styled(Flexed)`
 	${media.xs`flex-direction: column;`}
 `
 
-const CustomFlex = styled(Flexed)<any>`
+const CustomFlex = styled(Flexed) <any>`
 	width: 100%;
 
 	${media.xs`flex-direction: column;`}
 `
 
-const ProductName = styled(Text)<any>`
+const ProductName = styled(Text) <any>`
 	overflow: hidden;
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
@@ -184,16 +171,16 @@ const ProductName = styled(Text)<any>`
 		transition: color 0.3s ease 0.5s;
 	}
 `
-const ProductCategory = styled(ProductName)<any>``
+const ProductCategory = styled(ProductName) <any>``
 
-const Sale = styled(Flexed)<any>`
+const Sale = styled(Flexed) <any>`
 	width: 2rem;
 	height: 2rem;
 	border-radius: 100%;
 	background-color: ${palette.Btn_dark_green};
 `
 
-const Discount = styled(Text)<any>`
+const Discount = styled(Text) <any>`
 	cursor: pointer;
 `
 
@@ -344,7 +331,7 @@ const Input = styled.input`
 	}
 `
 
-export const MobileCartBtn = styled(SwapButton)<any>`
+export const MobileCartBtn = styled(SwapButton) <any>`
 	${media.xs`display:flex`}
 	${media.sm`display:none`};
 `

@@ -357,7 +357,7 @@ const StyledCard = ({ cardIndex, sale, myProducts, content, addToCart, donation,
 													)}
 													{/* <DropMenu
 										onClick={() => {
-											isUserLogIn !== null ? _navigate('/') : setLoginPopup(true)
+											isUserLogIn !== null ? _navigate('/products') : setLoginPopup(true)
 										}}>
 										Hide
 									</DropMenu> */}

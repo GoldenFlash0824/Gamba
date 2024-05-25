@@ -105,7 +105,7 @@ const PlaceOrder = () => {
 				}).then(() => {
 					dispatch(clearCart('0'))
 					//_navigate('/order-details', {state: {data: res.data}})
-					_navigate('/')
+					_navigate('/products')
 				})
 			}
 		}

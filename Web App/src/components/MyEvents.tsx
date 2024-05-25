@@ -1,15 +1,15 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {Row, Col, Container, media} from 'styled-bootstrap-grid'
-import {Spacer, Text} from '../styled/shared'
-import {palette} from '../styled/colors'
-import {getUserEvents} from '../apis/apis'
-import {Flexed} from '../styled/shared'
+import { Row, Col, Container, media } from 'styled-bootstrap-grid'
+import { Spacer, Text } from '../styled/shared'
+import { palette } from '../styled/colors'
+import { getUserEvents } from '../apis/apis'
+import { Flexed } from '../styled/shared'
 import Events from './events/Events'
 import Loader from './common/Loader'
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
-const MyEvents = ({setUserId}) => {
+const MyEvents = ({ setUserId }) => {
 	const [events, setEvents] = useState([])
 	const [loading, setLoading] = useState(true)
 	let _navigate = useNavigate()
@@ -37,7 +37,7 @@ const MyEvents = ({setUserId}) => {
 					color="gray"
 					s
 					onClick={() => {
-						_navigate('/')
+						_navigate('/products')
 						// setSinglePost(null)
 						// setSelectProfileSettingsCategory('')
 						// setSelectCategory('profile')
@@ -56,19 +56,19 @@ const MyEvents = ({setUserId}) => {
 				<Row>
 					{events.length
 						? events.map((data, index) => {
-								return (
-									<Col xxl={6} xl={6} lg={6} key={index}>
-										<Events setUserId={setUserId} data={data} index={index} onEdit={() => getEvents()} parent={true} />
-									</Col>
-								)
-						  })
-						: events?.length === 0 && (
-								<Col>
-									<Text type="small" margin="4rem 0rem" isCentered>
-										{loading ? '' : 'No data found'}
-									</Text>
+							return (
+								<Col xxl={6} xl={6} lg={6} key={index}>
+									<Events setUserId={setUserId} data={data} index={index} onEdit={() => getEvents()} parent={true} />
 								</Col>
-						  )}
+							)
+						})
+						: events?.length === 0 && (
+							<Col>
+								<Text type="small" margin="4rem 0rem" isCentered>
+									{loading ? '' : 'No data found'}
+								</Text>
+							</Col>
+						)}
 				</Row>
 			</Wrapper>
 			<Spacer height={2} />

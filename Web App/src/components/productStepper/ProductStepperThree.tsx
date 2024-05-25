@@ -1,9 +1,9 @@
-import React, {useState} from 'react'
-import {Col, Row} from 'styled-bootstrap-grid'
+import React, { useState } from 'react'
+import { Col, Row } from 'styled-bootstrap-grid'
 import DropDown from '../DropDown'
-import {Flexed, Spacer, Text} from '../../styled/shared'
+import { Flexed, Spacer, Text } from '../../styled/shared'
 import CustomInputField from '../common/CustomInputField'
-import {palette} from '../../styled/colors'
+import { palette } from '../../styled/colors'
 import styled from 'styled-components'
 import AllowToOrderModal from '../modals/AllowToOrderModal'
 
@@ -46,6 +46,7 @@ const ProductStepperThree = ({
 	setImageError
 }) => {
 	const [isAllowPerPersonModalOpen, setIsAllowPerPersonModalOpen] = useState(false)
+
 	return (
 		<>
 			{imageData?.map((value: any, index) => {
@@ -172,13 +173,8 @@ const ProductStepperThree = ({
 						bgTransparent
 						modal={true}
 						setIsAllowToOrderModalOpen={setIsAllowPerPersonModalOpen}
-						// disabled={quantityUnlimited}
 						placeholder="Enter"
 						handleChange={(e: any) => {
-							// setAllowCustomersToGetUpToError('')
-							// if (e == '') {
-							// 	setAllowCustomersToGetUpToError('Allow Per person is required')
-							// }
 							setAllowCustomersToGetUpTo(e)
 						}}
 						// required

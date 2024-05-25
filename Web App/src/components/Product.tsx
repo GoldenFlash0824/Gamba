@@ -195,7 +195,7 @@ const Product = ({ addToCart, setSellerId, sellerId, userId, setSelectedBtn, set
 			setIsDataProgress(true)
 
 			setIsSellerProfileLinkOpen(true)
-			const postIdExtraction = pathname?.split('/')
+			const postIdExtraction = pathname?.split('/products')
 			const id = postIdExtraction[postIdExtraction?.length - 1]
 
 			if (id) {
@@ -220,7 +220,7 @@ const Product = ({ addToCart, setSellerId, sellerId, userId, setSelectedBtn, set
 			setIsDataProgress(false)
 
 		} else {
-			const postIdExtraction = pathname.split('/')
+			const postIdExtraction = pathname.split('/products')
 			const id = postIdExtraction[postIdExtraction.length - 1]
 
 			if (id) {
@@ -378,14 +378,11 @@ const Product = ({ addToCart, setSellerId, sellerId, userId, setSelectedBtn, set
 								<Row mdJustifyContent="start" smJustifyContent="center">
 									{posts?.map((content: any, index) => {
 										return (
-
 											<div className='col-md-6 mx-0 col-12 d-grid  align-items-stretch'>
-
 												<Suspense fallback={''}>
 													{content?.discount > 0 ? (
 														<StyledCard cardIndex={index} sale content={content} addToCart={addToCart} category={selectCategory} />
 													)
-
 														: content?.is_donation ? (
 															<StyledCard cardIndex={index} donation content={content} addToCart={addToCart} category={selectCategory} />
 														)
@@ -395,9 +392,7 @@ const Product = ({ addToCart, setSellerId, sellerId, userId, setSelectedBtn, set
 																<StyledCard cardIndex={index} content={content} addToCart={addToCart} report={true} />
 															)}
 												</Suspense>
-
 											</div>
-
 										)
 									})}
 									<Col>

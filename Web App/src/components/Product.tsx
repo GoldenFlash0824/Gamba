@@ -378,7 +378,7 @@ const Product = ({ addToCart, setSellerId, sellerId, userId, setSelectedBtn, set
 								<Row mdJustifyContent="start" smJustifyContent="center">
 									{posts?.map((content: any, index) => {
 										return (
-											<div className='col-md-6 mx-0 col-12 d-grid  align-items-stretch'>
+											<div className='col-md-6 mx-0 col-12 d-grid align-items-stretch'>
 												<Suspense fallback={''}>
 													{content?.discount > 0 ? (
 														<StyledCard cardIndex={index} sale content={content} addToCart={addToCart} category={selectCategory} />
@@ -479,11 +479,11 @@ const Product = ({ addToCart, setSellerId, sellerId, userId, setSelectedBtn, set
 							<>
 								<Row>
 									<TradeBayCol lg={6} md={6} sm={6} xs={6}>
-										<InputField bgTransparent handleChange={searchTradeProd} value={searchTrade} label="Trade By" />
+										<InputField bgTransparent handleChange={searchTradeProd} value={searchTrade} placeholder="Trade By" />
 										<Spacer height={1} />
 									</TradeBayCol>
 									<TradeWithCol lg={6} md={6} sm={6} xs={6}>
-										<InputField bgTransparent handleChange={searchTradeWithProd} value={searchTradeWith} label="Trade With" />
+										<InputField bgTransparent handleChange={searchTradeWithProd} value={searchTradeWith} placeholder="Trade With" />
 										<Spacer height={1} />
 									</TradeWithCol>
 								</Row>
@@ -593,16 +593,15 @@ const Wrapper = styled.div`
 const Section = styled.div<any>`
 	position: sticky;
 	// top: 132.03px;
-	top: 100px
-
+	top : 100px;
 	height: calc(100vh - 132.03px);
 	overflow-y: auto;
 	display: flex;
 
 	flex-direction: column;
-	justify-content: ${({ scroll }) => (scroll > 750 ? 'flex-end' : 'space-between')};
+	// justify-content: ${({ scroll }) => (scroll > 750 ? 'flex-end' : 'space-between')};
 	::-webkit-scrollbar {
-		display: none;
+		display: none !important;
 	}
 `
 

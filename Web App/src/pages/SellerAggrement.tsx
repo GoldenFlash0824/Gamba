@@ -20,7 +20,6 @@ const SellerAggrement = ({ profile }: any) => {
 	const Layout = defaultLayoutPlugin()
 	return (
 		<div style={{ overflow: 'hidden' }}>
-			{/* {loading && <Loader visible={loading} />} */}
 			{!profile && (
 				<Flexed className="mt-4" direction="row" align="center" gap="0.5">
 					<Text

@@ -219,11 +219,6 @@ const Calender = ({ setSelectedBtn, setSingleEvent, singleEvent, setUserId, setS
 						<Row alignItems="center">
 							<Column>
 								<StyledFlex gap="1" direction="row" alignItems="center">
-									{/* {singleEvent !== null ? null : (
-										<Search>
-											<InputField type="search" value={searchQuery} placeholder="Search" handleChange={(e) => setSearchQueary(e)} />
-										</Search>
-									)} */}
 									{singleEvent !== null ? null : (
 										<Flexed gap={0.5} direction="row" align="center">
 											<CustomHeading

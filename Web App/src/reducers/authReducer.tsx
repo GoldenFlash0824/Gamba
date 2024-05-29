@@ -16,7 +16,9 @@ const initialState = {
 	countComment: 0,
 	userDetails: {},
 	postTitle: '',
-	topSearch: ''
+	topSearch: '',
+	searchLat: null,
+	searchLog: null
 }
 
 export default function authReducer(state = initialState, action: any) {
@@ -116,6 +118,16 @@ export default function authReducer(state = initialState, action: any) {
 			return {
 				...state,
 				topSearch: action.value
+			}
+		case types.SEARCH_LAT:
+			return {
+				...state,
+				searchLat: action.value
+			}
+		case types.SEARCH_LOG:
+			return {
+				...state,
+				searchLog: action.value
 			}
 		default:
 			return state

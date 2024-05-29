@@ -22,3 +22,5 @@ export const USER_DETAILS = 'USER_DETAILS'
 
 export const POST_MESSAGE = 'POST_MESSAGE'
 export const SEARCH_TEXT = 'SEARCH_TEXT'
+export const SEARCH_LAT = 'SEARCH_LAT'
+export const SEARCH_LOG = 'SEARCH_LOG'

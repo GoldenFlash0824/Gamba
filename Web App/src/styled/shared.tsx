@@ -226,18 +226,20 @@ export const useWindowSize = () => {
 
 export const getCurrentAddress = async (lat: any, lng: any) => {
 	try {
-		const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json`, {
-			params: {
-				key: `${process.env.REACT_APP_GOOGLE_API_KEY}`,
-				latlng: `${parseFloat(lat)},${parseFloat(lng)}`,
-				sensor: true
-			}
-		});
+		if (process.env.REACT_APP_GOOGLE_API_KEY) {
+			const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json`, {
+				params: {
+					key: `${process.env.REACT_APP_GOOGLE_API_KEY}`,
+					latlng: `${parseFloat(lat)},${parseFloat(lng)}`,
+					sensor: true
+				}
+			});
 
-		if (response?.data?.results && response.data.results.length > 0) {
-			return response.data.results[6]?.formatted_address || 'Address not found';
-		} else {
-			return 'Address not found';
+			if (response?.data?.results && response.data.results.length > 0) {
+				return response.data.results[6]?.formatted_address || 'Address not found';
+			} else {
+				return 'Address not found';
+			}
 		}
 	} catch (error) {
 		console.error('Error getting address:', error);

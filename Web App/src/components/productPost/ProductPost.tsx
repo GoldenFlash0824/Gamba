@@ -82,7 +82,7 @@ const ProductPost = ({ cardIndex, data, setSellerId, getAllUserAndPosts, comment
 						</div>
 					)}
 					<DiscriptionContent>
-						<TextWithSeeMore text={data.description} maxLength={250} />
+						<TextWithSeeMore text={data.description} maxLength={250} background="" />
 					</DiscriptionContent>
 				</div>
 				{parent && (

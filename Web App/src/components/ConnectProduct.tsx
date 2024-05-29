@@ -59,7 +59,7 @@ const ConnectProduct = ({ data, onClose, category }: any) => {
 		if (category === 'trade') {
 			if (data?.user?.email) {
 				setLoading(true)
-				let full_name = firstName + lastName;
+				let full_name = firstName + ' ' + lastName;
 				let res = await connectTradeProduct(full_name, email, contactNumber, topic, tradeWith, caption, data?.user?.email, data?.name, data?.user?.first_name + ' ' + data?.user?.last_name);
 				if (res?.success === true) {
 					onClose()

@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux'
 import { setUserId } from '../actions/authActions'
 import { addItemInCart, clearCart } from '../actions/cartActions'
 import { BiUser } from 'react-icons/bi'
+import { logoutUser } from '../apis/apis'
 // import NotificationsPanel from './NotificationsPanel'
 
 const MobViewMenu = ({ setIsMenuOpen, myRef, allItemsCount, setUserDetails, selectCategory, setSelectCategory, isnotificationOpen, setNavBarListOpen, setSelectProfileSettingsCategory, authToken }) => {
@@ -83,25 +84,15 @@ const MobViewMenu = ({ setIsMenuOpen, myRef, allItemsCount, setUserDetails, sele
 					My Network ({allItemsCount?.data?.myfevSeller ? allItemsCount?.data?.myfevSeller : 0})
 				</DropMenu>
 
-				{/* <DropMenu
-					onClick={() => {
-						_navigate('/soldproducts')
-						setIsMenuOpen(false)
-						setNavBarListOpen(false)
-					}}>
-					Sold Products ({allItemsCount?.data?.soldProducts ? allItemsCount?.data?.soldProducts : 0})
-				</DropMenu> */}
 			</>
 
 			<Divider className='mt-1' />
 
 			<DropMenu
 				className='d-flex align-items-center gap-2 '
-				onClick={() => {
+				onClick={async () => {
+					await logoutUser();
 					setIsMenuOpen(false)
-					localStorage.removeItem('authorization')
-					sessionStorage.removeItem('authorization')
-					sessionStorage.removeItem('chatToken')
 					dispatch(setUserId(null))
 					setNavBarListOpen(false)
 					setUserDetails('')
@@ -134,14 +125,13 @@ const MenuList = styled.div<any>`
 `
 const CustomDropContent = styled.div<any>`
 	position: absolute;
+	z-index: 10;
 	top: 2.8rem;
 	right: 0rem;
 	padding: 0.625rem;
-	// width: 11.125rem;
 	max-height: fit-content;
 	overflow-y: scroll;
 	background-color: ${({ isDarkTheme }) => (isDarkTheme ? palette.black : palette.white)};
-	z-index: 10;
 	box-shadow: 0px 8px 18px 0px rgba(0, 0, 0, 0.1);
 	border-radius: 0.75rem;
 	overflow: hidden ;

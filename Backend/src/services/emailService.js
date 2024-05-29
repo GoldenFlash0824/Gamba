@@ -109,7 +109,7 @@ const welcomeEmail = async (user, email) => {
     )
 }
 
-const verificationCodeEmail = async (code, email) => {
+const verificationCodeEmail = async (code, email, user) => {
     let defaultClient = Brevo.ApiClient.instance;
     let apiKey = defaultClient.authentications['api-key'];
     apiKey.apiKey = process.env.BREVO_API_KEY;
@@ -149,14 +149,18 @@ const verificationCodeEmail = async (code, email) => {
         </head>
         <body>
             <div class="container">
+                <div>
+                    <h3>Hi ${user?.first_name && user?.last_name ? user?.first_name + ' ' + user?.last_name : ''},</h3>
+                </div>
                 <div class="header">
                     <img src="https://imagescontent.s3.us-east-1.amazonaws.com/1716209083707.png" alt="Logo" width={100}>
                     <h3>Your Gamba account verification code is:</h3>
                     <p class="code">${code}</p>
+                    <p>If this email does not belong to you, please feel free to contact us at gamba.earth@gmail.com.</p>
                 </div>
                 <div class="signature">
-                    <p>Healthy regards,</p>
-                    <p>Gamba Community Team</p>
+                    <p>Best regards,</p>
+                    <p>The Gamba Team</p>
                 </div>
             </div>
         </body>
@@ -590,7 +594,7 @@ const commentPosterEmail = async (user, email) => {
     let apiInstance = new Brevo.TransactionalEmailsApi()
 
     let sendSmtpEmail = new Brevo.SendSmtpEmail()
-    const link = `${process.env.FRONTEND_URL}/community`;
+    const link = `${process.env.FRONTEND_URL}community`;
 
     sendSmtpEmail = {
         to: [
@@ -654,6 +658,12 @@ const commentPosterEmail = async (user, email) => {
                 .signature {
                     font-weight: bold;
                 }
+
+                a {
+                    text-decoration: none;
+                    font-style: italic
+                }
+
             </style>
         </head>
         <body>
@@ -786,7 +796,7 @@ const replyCommentEmail = async (user, email) => {
     let apiInstance = new Brevo.TransactionalEmailsApi();
 
     let sendSmtpEmail = new Brevo.SendSmtpEmail();
-    const link = `${process.env.FRONTEND_URL}/community`;
+    const link = `${process.env.FRONTEND_URL}community`;
 
     sendSmtpEmail = {
         to: [
@@ -795,7 +805,7 @@ const replyCommentEmail = async (user, email) => {
             }
         ],
         sender: { email: process.env.SENDER_EMAIL },
-        subject: 'Replied on Your Comment', // Updated the subject to be plain text
+        subject: 'Replied on Your Comment',
         htmlContent: `<html>
         <head>
             <style>
@@ -1100,7 +1110,7 @@ const connectTradeProductBuyerEmail = async (email, full_name, topic, tradeWith)
                     <p>Dear ${full_name},</p>
                     <p>Thank you for expressing your interest in Gamba Seller's product giveaways!</p>
                     <p>We've received your trading request, and here are the details:</p>
-                    <p>${topic} with ${tradeWith}</p>
+                    <p><b>${topic} with ${tradeWith}</b></p>
                     <p>Please note that our sellers may experience high volumes of inquiries, which might result in delays. If you don't hear back from the seller within a reasonable time frame, please don't hesitate to reach out to us directly for assistance.</p>
                     <p>In the meantime, feel free to explore our website and follow us on social media to discover more products and stay updated on our latest events.</p>
                     <p>Thank you once again for choosing Gamba for your trading needs. We're excited about the opportunity to facilitate your product exchanges!</p>
@@ -1135,8 +1145,7 @@ const connectTradeProductSellerEmail = async (email, full_name, title, customer_
     const sendSmtpEmail = {
         to: [{ email: email, },],
         sender: { email: process.env.SENDER_EMAIL },
-        subject: "Action Required! Giveaway Request for " + title,
-
+        subject: "Action Required! Giveaway Request",
         htmlContent: `
         <!DOCTYPE html>
         <html>
@@ -1173,7 +1182,7 @@ const connectTradeProductSellerEmail = async (email, full_name, title, customer_
                 <img src="https://imagescontent.s3.us-east-1.amazonaws.com/1716209083707.png" alt="Logo" width={100}>
                 <div class="content">
                     <p>Dear ${full_name},</p>
-                    <p>We hope this email finds you well. You have a pending request from ${customer_name} for <b>${title}</b>.</p>
+                    <p>We hope this email finds you well. You have a pending request from ${customer_name}.</p>
                     <p>${topic} in exchange for ${tradeWith}</p>
                     <p>Please promptly respond to the customer's request. In case of high volumes of inquiries, we advise informing the customer in advance to ensure a smooth process and avoid any inconvenience.</p>
                     <p>Thank you for choosing Gamba and your generous contribution.</p>

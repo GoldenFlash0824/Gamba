@@ -14,6 +14,7 @@ import { BiCalendarAlt } from 'react-icons/bi'
 import { media } from 'styled-bootstrap-grid'
 import { toastSuccess } from '../../styled/toastStyle'
 import { toast } from 'react-toastify'
+import AutoComplete from '../common/AutoComplete'
 
 const ProductStepperTwo = ({
 	isTrade,
@@ -33,6 +34,8 @@ const ProductStepperTwo = ({
 	setIsPickUp,
 	allowToOrderError,
 	setAllowToOrderError,
+	chemicalsError,
+	setChemicalsError,
 	distanceError,
 	setDistanceError,
 	setDistance,
@@ -69,19 +72,21 @@ const ProductStepperTwo = ({
 	setIsAddChemicalsModalOpen,
 	toggle,
 	chemicals,
+	chemicalsUsed,
+	setChemicalsUsed,
 	unLimitted,
 	setUnlimited
 }) => {
 	const [isChemicalsErrorModalOpen, setIsChemicalsErrorModalOpen] = useState(false)
-
 	const [isAllowToOrderModalOpen, setIsAllowToOrderModalOpen] = useState(false)
-
 	const [showModal, setShowModal] = useState(false);
 
 	useEffect(() => {
-		toast.success('If you choose organic, it means that no chemicals were used on your crops. But if you use other natural products to treat your crops, please list it in the product description', {
-			autoClose: 10000
-		})
+		if (showModal) {
+			toast.success('If you choose organic, it means that no chemicals were used on your crops. But if you use other natural products to treat your crops, please list it in the product description', {
+				autoClose: 10000
+			})
+		}
 	}, [showModal])
 
 	return (
@@ -232,12 +237,15 @@ const ProductStepperTwo = ({
 			{!isDelivery && <Col lg={6} />}
 
 			<Col lg={6}>
-				<div
-					onClick={() => {
-						if (!toggle) setIsAddChemicalsModalOpen(true)
-					}}>
-					<CustomInputField bgTransparent disabled={toggle === true} label="Chemical Used" value={chemicals.map((data: any) => data?.label + ' ')} />
-				</div>
+				<AutoComplete tags={chemicalsUsed}
+					setTags={setChemicalsUsed}
+					bgTransparent={true}
+					disabled={toggle === true}
+					label="Chemical Used"
+					suggestions={chemicals}
+					error={chemicalsError}
+					errorMsg={chemicalsError}
+					setError={setChemicalsError}></AutoComplete>
 				<Spacer height={1.5} />
 			</Col>
 
@@ -252,21 +260,7 @@ const ProductStepperTwo = ({
 						<Text type="medium" color="black">
 							Organic
 						</Text>
-						<div
-							onClick={() => {
-								if (showModal === true) {
-									if (chemicals?.length > 0) {
-										setIsChemicalsErrorModalOpen(true)
-									} else {
-
-										setIsAddChemicalsModalOpen(toggle)
-									}
-								} else {
-									setIsAddChemicalsModalOpen(toggle)
-								}
-							}}>
-							<Toggle setToggle={setToggle} toggle={toggle} />
-						</div>
+						<Toggle toggle={toggle} setToggle={setToggle} />
 					</Flexed>
 				</OrganicFlexed>
 			</Col>

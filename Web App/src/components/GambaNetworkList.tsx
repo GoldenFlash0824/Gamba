@@ -77,7 +77,7 @@ const GambaNetworkList = ({ social, product, setSellerId, setSelectCategory, set
 								</CustomText>
 							)}
 						</Profile>
-						<ActiveStaus active={false} />
+						<ActiveStaus active={data?.is_logged_in} />
 					</div>
 					<Details direction="row" align="center" justify="space-between">
 						<Flexed gap="0.2">

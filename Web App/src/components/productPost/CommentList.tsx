@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
+import Lightbox from 'react-image-lightbox'
+import { media } from 'styled-bootstrap-grid'
 import { palette } from '../../styled/colors'
 import styled from 'styled-components'
-import { media } from 'styled-bootstrap-grid'
 import { Text, Flexed } from '../../styled/shared'
 
 const CommentList = ({ data, user, onLikeClick, onDisLikeClick }: any) => {
+	const [lightBoxOpen, setLightBoxOpen] = useState(false);
+
 	return (
 		<Flexed className='p-125 py-0 comment-list' direction="row" gap={0.625}>
 			<div>
@@ -21,32 +24,25 @@ const CommentList = ({ data, user, onLikeClick, onDisLikeClick }: any) => {
 					<UserName type="normal" textTransform="capitalize" fontWeight={500} color="black_200">
 						{data?.commentedUser?.first_name && data?.commentedUser?.last_name ? data?.commentedUser?.first_name + ' ' + data?.commentedUser?.last_name : data?.commentedUser?.first_name && data?.commentedUser?.first_name}
 					</UserName>
-					{/* <Flexed direction="row" align="center" justify="flex-end" gap={1.25}>
-						<Flexed direction="row" gap={0.313} align="center">
-							<Icons active={data?.likeComment?.some((like) => like['u_id'] == user?.id)} src="/images/icons/like.svg" alt="like" onClick={() => onLikeClick()} />
-							<Text type="small" color={data?.likeComment?.some((like) => like['u_id'] == user?.id) ? 'green_200' : 'gray'} fontWeight={500}>
-								{data?.likeComment?.length}
-							</Text>
-						</Flexed>
-						<Flexed direction="row" gap={0.313} align="center">
-							<Icons active={data?.dislikeComment?.some((like) => like['u_id'] == user?.id)} src="/images/icons/dislike.svg" alt="dislike" onClick={() => onDisLikeClick()} />
-							<Text type="small" color={data?.dislikeComment?.some((like) => like['u_id'] == user?.id) ? 'green_200' : 'gray'} fontWeight={500}>
-								{data?.dislikeComment?.length}
-							</Text>
-						</Flexed>
-					</Flexed> */}
 				</Box>
 				<CommentText type="normal" color="gray" fontWeight={500} lineHeight={1.5}>
 					{data?.comment}
 					<ImageSection direction="row" gap={0.3} flexWrap="wrap">
 						{data?.image && (
-							<ImgWrapper>
+							<ImgWrapper onClick={() => { setLightBoxOpen(true) }}>
 								<Img src={process.env.REACT_APP_PUBLIC_IMAGE_URL + data?.image} />
 							</ImgWrapper>
 						)}
 					</ImageSection>
 				</CommentText>
 			</InnerContent>
+
+			{lightBoxOpen && (
+				<Lightbox
+					mainSrc={process.env.REACT_APP_PUBLIC_IMAGE_URL + data?.image}
+					onCloseRequest={() => setLightBoxOpen(false)}
+				/>
+			)}
 		</Flexed>
 	)
 }
@@ -69,11 +65,7 @@ export const Img = styled.img`
 export const ImageSection = styled(Flexed) <any>`
 	margin-top: 0.25rem;
 	${media.xs`margin-top: 0.25rem;`}
-`
-
-const Icons = styled.img<any>`
-	cursor: pointer;
-	filter: ${({ active }) => (active ? 'invert(49%) sepia(36%) saturate(2429%) hue-rotate(66deg) brightness(96%) contrast(101%);' : '')};
+	cursor: pointer
 `
 
 const Profile = styled.div<any>`
@@ -89,10 +81,6 @@ const Profile = styled.div<any>`
 	position: relative;
 `
 
-const ProfileText = styled(Text)`
-	color: ${({ styledColor }) => (styledColor ? `${styledColor}` : palette.red)};
-`
-
 const UserProfileImg = styled.img`
 	object-fit: cover;
 	border-radius: 100%;
@@ -101,9 +89,8 @@ const UserProfileImg = styled.img`
 `
 
 const InnerContent = styled(Flexed)`
-	// margin-top: 0.55rem;
 	width: auto;
-	background-color : #f0f2f5;
+	background-color : #fff;
 	border-radius: 8px;
 	padding:4px 10px
 `

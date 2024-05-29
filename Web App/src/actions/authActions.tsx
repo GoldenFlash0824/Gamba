@@ -110,3 +110,17 @@ export const saveSearchText = (payload: any) => {
 		value: payload
 	}
 }
+
+export const saveSearchLat = (payload: any) => {
+	return {
+		type: types.SEARCH_LAT,
+		value: payload
+	}
+}
+
+export const saveSearchLog = (payload: any) => {
+	return {
+		type: types.SEARCH_LOG,
+		value: payload
+	}
+}

@@ -15,6 +15,10 @@ const userModel = (sequelize, DataTypes) => {
             type: DataTypes.BOOLEAN,
             defaultValue: false
         },
+        is_logged_in: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
+        },
         lat: DataTypes.DOUBLE,
         log: DataTypes.DOUBLE,
         is_block: {

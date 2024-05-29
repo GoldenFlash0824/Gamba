@@ -7,9 +7,10 @@ import { palette } from '../styled/colors'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setCommentOpen, setIsLoading } from '../actions/authActions'
-import { notificationApi, readAllNotifications } from '../apis/apis'
+import { deleteNotification, notificationApi, readAllNotifications } from '../apis/apis'
 import NotificationCard from '../components/NotificationCard'
 import moment from 'moment-timezone'
+import { toastError, toastSuccess } from '../styled/toastStyle'
 
 const Notification = ({ getAllNotificationCount }) => {
 	const _isDarkTheme = useSelector<any>((state: any) => state.auth.isDarkTheme)
@@ -57,6 +58,19 @@ const Notification = ({ getAllNotificationCount }) => {
 		getAllNotificationCount()
 	}
 
+	const onDeleteNotification = async (id: any) => {
+		_dispatch(setIsLoading(true))
+		const response: any = await deleteNotification(id)
+		if (response?.success) {
+			getNotification()
+			toastSuccess(response?.message)
+			_dispatch(setIsLoading(false))
+		} else {
+			_dispatch(setIsLoading(false))
+			toastError(response?.message)
+		}
+	}
+
 	return (
 		<Wrapper>
 			<Main fluid>
@@ -72,9 +86,6 @@ const Notification = ({ getAllNotificationCount }) => {
 									color="gray"
 									onClick={() => {
 										_navigate('/products')
-										// setSinglePost(null)
-										// setSelectProfileSettingsCategory('')
-										// setSelectCategory('profile')
 									}}>
 									Home
 								</Text>
@@ -114,8 +125,8 @@ const Notification = ({ getAllNotificationCount }) => {
 												<Text type="normal" style={{ color: '#050505', fontWeight: "500" }} margin="0rem 0rem 0.625rem 0.625rem">
 													{formattedDate}
 												</Text>
-												{data?.data?.map((re, ind) => {
-													return <NotificationCard getAllNotificationCount={getAllNotificationCount} setCommentOpen={setCommentOpen} data={re} key={ind} />
+												{data?.data?.map((re: any, ind: any) => {
+													return <NotificationCard getAllNotificationCount={getAllNotificationCount} setCommentOpen={setCommentOpen} onDeleteNotification={onDeleteNotification} data={re} key={ind} />
 												})}
 											</ListWrapper>
 										)

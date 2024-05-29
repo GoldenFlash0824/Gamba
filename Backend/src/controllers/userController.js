@@ -51,6 +51,15 @@ const loginUser = async (req, res) => {
     }
 }
 
+const logoutUser = async (req, res) => {
+    const response = await userService.logoutUser(req)
+    if (response.status) {
+        return responseUtil.successResponse(res, response.message)
+    } else {
+        return responseUtil.authorizationErrorResponse(res, response.message)
+    }
+}
+
 const autoLogin = async (req, res) => {
     const response = await userService.autoLogin(req)
     if (response.status) {
@@ -492,4 +501,4 @@ const allBlockUsers = async (req, res) => {
     }
 }
 
-export { allBlockUsers, deleteUserAllData, contactWithUs, connectTradeProduct, connectGiveAwayProduct, userMyProfile, sendChatFcm, getAllNotification, registerUser, updateUser, loginUser, autoLogin, viewAllUser, deleteUser, socialLogin, sendVerifictionCode, sendRegisterCode, verfyRegisterCode, resetPassword, updatePassword, viewUser, viewUserAllContacts, searchByName, updateSocialUser, getUserById, getAllSellers, searchSellers, getUserWMaxPosts, topSeller, updateUserPassword, getSellerById, contectUs, getContectUs, notification, hideSellerProfile, SellerOrderData, deleteUserAccount, notificationSetting, getNotificationSetting, addSellerToFevrate, getAllFevrateSeller, disableAccount, getAllDisableAccount, enableAccount, verfyTwoFectorCode, userPrivacySetting, getuserPrivacySetting, markAllReadnotification, readNotification }
+export { allBlockUsers, deleteUserAllData, contactWithUs, connectTradeProduct, connectGiveAwayProduct, userMyProfile, sendChatFcm, getAllNotification, registerUser, updateUser, loginUser, logoutUser, autoLogin, viewAllUser, deleteUser, socialLogin, sendVerifictionCode, sendRegisterCode, verfyRegisterCode, resetPassword, updatePassword, viewUser, viewUserAllContacts, searchByName, updateSocialUser, getUserById, getAllSellers, searchSellers, getUserWMaxPosts, topSeller, updateUserPassword, getSellerById, contectUs, getContectUs, notification, hideSellerProfile, SellerOrderData, deleteUserAccount, notificationSetting, getNotificationSetting, addSellerToFevrate, getAllFevrateSeller, disableAccount, getAllDisableAccount, enableAccount, verfyTwoFectorCode, userPrivacySetting, getuserPrivacySetting, markAllReadnotification, readNotification }

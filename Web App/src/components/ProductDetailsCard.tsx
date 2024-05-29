@@ -54,14 +54,24 @@ const ProductDetailsCard = ({ cardIndex, sale, content, addToCart, donation, isT
 								)}
 							</ImageCover>
 							<ImgaesContent direction="row" justify="space-between" gap={1.25}>
-								<div>
-									<Text color="black" margin="0rem 0rem 0.406rem 0rem" type="normal" fontWeight={700}>
-										{content?.name} by {content?.user?.first_name} {content?.user?.last_name}
-									</Text>
-									<Text color="gray" type="xsmall" fontWeight={500}>
-										<TextWithSeeMore text={content?.caption} maxLength={280} />
-									</Text>
-								</div>
+								<Flexed direction="column" justify="space-between">
+									<div>
+										<Text color="black" margin="0rem 0rem 0.406rem 0rem" type="normal" fontWeight={700}>
+											{content?.name} by {content?.user?.first_name} {content?.user?.last_name}
+										</Text>
+										<Text color="gray" type="xsmall" fontWeight={500}>
+											<TextWithSeeMore text={content?.caption} maxLength={280} background="" />
+										</Text>
+									</div>
+									<div>
+										<Text color="black" margin="0rem 0rem 0.406rem 0rem" type="normal" fontWeight={700}>
+											Location
+										</Text>
+										<Text color="gray" type="xsmall" fontWeight={500}>
+											{content?.user.address ? <TextWithSeeMore text={content?.user?.address} maxLength={280} background="" /> : <TextWithSeeMore text="N / A" maxLength={280} background="" />}
+										</Text>
+									</div>
+								</Flexed>
 							</ImgaesContent>
 						</ImageWrapper>
 					</div>
@@ -113,7 +123,7 @@ const ProductDetailsCard = ({ cardIndex, sale, content, addToCart, donation, isT
 									Regular Price
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
-									${content?.price?.toFixed(2)}
+									$ {((content?.price ?? 0) - (content?.discount ?? 0) / 100 * (content?.price ?? 0)).toFixed(2)}
 								</Text>
 							</Box>
 							<Box>
@@ -151,11 +161,10 @@ const ProductDetailsCard = ({ cardIndex, sale, content, addToCart, donation, isT
 							</Box>
 							<Box>
 								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
-									Seller Distance
+									Seller Distance Radius
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
-									N / A
-									{/* {content?.user?.lat && content?.user?.log && _userLocation.lat && _userLocation.log && <>{distanceInMiles ? `${distanceInMiles}` : '0 milles.'}</>} */}
+									{content?.user?.lat && content?.user?.log && _userLocation.lat && _userLocation.log && <>{distanceInMiles ? `${distanceInMiles}` : '0 milles.'}</>}
 								</Text>
 							</Box>
 							<Box>
@@ -217,7 +226,7 @@ const ProductDetailsCard = ({ cardIndex, sale, content, addToCart, donation, isT
 									)}
 								</Flexed>
 							</Box>
-							{userId !== content?.u_id && (
+							{userId !== content?.u_id ? (
 								<Box>
 									<Flexed direction="row" align="end" justify="space-between" style={{ height: '100%' }}>
 										<ActionButton
@@ -230,7 +239,7 @@ const ProductDetailsCard = ({ cardIndex, sale, content, addToCart, donation, isT
 										</ActionButton>
 									</Flexed>
 								</Box>
-							)}
+							) : (<Box></Box>)}
 						</CustomFlexed>
 					) : donation ? (
 						<CustomFlexed>
@@ -269,7 +278,7 @@ const ProductDetailsCard = ({ cardIndex, sale, content, addToCart, donation, isT
 											)}
 										</>
 									) : (
-										'N/A'
+										'N / A'
 									)}
 								</Text>
 							</Box>
@@ -278,7 +287,7 @@ const ProductDetailsCard = ({ cardIndex, sale, content, addToCart, donation, isT
 									Cost:
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
-									$0.00
+									N / A
 								</Text>
 							</Box>
 
@@ -316,11 +325,10 @@ const ProductDetailsCard = ({ cardIndex, sale, content, addToCart, donation, isT
 							</Box>
 							<Box>
 								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
-									Delivery Distance
+									Delivery Distance Radius
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
-									{content?.distance}
-									{/* {content?.user?.lat && content?.user?.log && _userLocation.lat && _userLocation.log && <>{distanceInMiles ? `${distanceInMiles.toFixed(2)} milles.` : '0 milles.'}</>} */}
+									{content?.user?.lat && content?.user?.log && _userLocation.lat && _userLocation.log && <>{distanceInMiles ? `${distanceInMiles}` : '0 milles.'}</>}
 								</Text>
 							</Box>
 							<Box>
@@ -328,7 +336,7 @@ const ProductDetailsCard = ({ cardIndex, sale, content, addToCart, donation, isT
 									Allow Per Persons
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
-									{content?.allow_per_person}&nbsp;{content?.unit}
+									{content?.allow_per_person === 1 ? <>{content?.allow_per_person} giveaway</> : <>{content?.allow_per_person} giveaways</>}
 								</Text>
 							</Box>
 							<Box></Box>
@@ -423,11 +431,10 @@ const ProductDetailsCard = ({ cardIndex, sale, content, addToCart, donation, isT
 							</Box>
 							<Box>
 								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
-									Delivery Distance
+									Delivery Distance Radius
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
-									{content?.is_delivery && <>{content?.distance}</>}
-									{/* {content?.user?.lat && content?.user?.log && _userLocation.lat && _userLocation.log && <>{distanceInMiles ? `${distanceInMiles.toFixed(2)} milles.` : '0 milles.'}</>} */}
+									{content?.is_delivery ? <>{content?.distance} miles.</> : ((content?.user?.lat && content?.user?.log && _userLocation?.lat && _userLocation?.log) ? <>{distanceInMiles} milles.</> : 'N / A')}
 								</Text>
 							</Box>
 						</CustomFlexed>
@@ -438,7 +445,7 @@ const ProductDetailsCard = ({ cardIndex, sale, content, addToCart, donation, isT
 									Name
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
-									{content?.name} '/' {content?.unit}
+									{content?.name} / {content?.unit}
 								</Text>
 							</Box>
 							<Box>
@@ -514,11 +521,10 @@ const ProductDetailsCard = ({ cardIndex, sale, content, addToCart, donation, isT
 							</Box>
 							<Box>
 								<Text color="gray_500" type="normal" fontSize={0.875} fontWeight={600}>
-									Delivery Distance
+									Delivery Distance Radius
 								</Text>
 								<Text color="black_100" type="normal" fontWeight={500}>
-									{content?.is_delivery && <>{content?.distance} miles</>}
-									{/* {content?.user?.lat && content?.user?.log && _userLocation.lat && _userLocation.log && <>{distanceInMiles ? `${distanceInMiles.toFixed(2)} milles.` : '0 milles.'}</>} */}
+									{content?.is_delivery ? <>{content?.distance} miles</> : ((content?.user?.lat && content?.user?.log && _userLocation?.lat && _userLocation?.log) ? <>{distanceInMiles} milles.</> : 'N / A')}
 								</Text>
 							</Box>
 							<Box>

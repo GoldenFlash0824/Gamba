@@ -1,19 +1,19 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import {palette} from '../styled/colors'
-import {Flexed, Spacer, Text} from '../styled/shared'
-import {useDispatch} from 'react-redux'
-import {saveSearchText} from '../actions/authActions'
-import {Document, Page, pdfjs} from 'react-pdf'
+import { palette } from '../styled/colors'
+import { Flexed, Spacer, Text } from '../styled/shared'
+import { useDispatch } from 'react-redux'
+import { saveSearchText } from '../actions/authActions'
+import { Document, Page, pdfjs } from 'react-pdf'
 import Loader from './common/Loader'
 import 'react-pdf/dist/Page/TextLayer.css'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
-import {Worker, Viewer} from '@react-pdf-viewer/core'
+import { Worker, Viewer } from '@react-pdf-viewer/core'
 import '@react-pdf-viewer/core/lib/styles/index.css'
-import {defaultLayoutPlugin} from '@react-pdf-viewer/default-layout'
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout'
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`
 
-const About = ({setIsAboutOpen}) => {
+const About = ({ setIsAboutOpen }) => {
 	const _dispatch = useDispatch()
 
 	const Layout = defaultLayoutPlugin()

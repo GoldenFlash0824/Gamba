@@ -290,10 +290,8 @@ const Community = ({ setUserId, setSellerId, sellerId, singlePost, setSelectCate
 
 				<SideCol xxl={2.5} xl={3}>
 					<Wrapper scroll={scrollPosition} position={isAboutOpen || isContactUsOpen}>
-						<MdHide scroll={scrollPosition}>
-							<PopularSellers setSellerId={setSellerId} setSelectCategory={setSelectCategory} setUserId={setUserId} social={true} />
-							<Spacer height={1} />
-						</MdHide>
+						<PopularSellers setSellerId={setSellerId} setSelectCategory={setSelectCategory} setUserId={setUserId} social={true} />
+						<Spacer height={1} />
 						{/* <SponcerWrapper scroll={scrollPosition}>
 							<Spacer height={1} />
 							<StyledFlex gap={0.5}>
@@ -326,11 +324,6 @@ const Main = styled(Container)`
 		padding-left: 0.938rem;
 	`}
 	background: #F0F2F5
-`
-
-
-const MdHide = styled.div<any>`
-	display: ${({ scroll }) => (scroll > 750 ? 'none' : 'block')};
 `
 
 const Name = styled(Text) <any>`
@@ -401,7 +394,7 @@ const Wrapper = styled.div<any>`
 	display: flex;
 
 	flex-direction: column;
-	justify-content: ${({ scroll }) => (scroll > 750 ? 'flex-end' : 'space-between')};
+	// justify-content: ${({ scroll }) => (scroll > 750 ? 'flex-end' : 'space-between')};
 	::-webkit-scrollbar {
 		display: none !important;
 	}

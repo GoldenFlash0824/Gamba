@@ -1,22 +1,22 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {Row, Col} from 'styled-bootstrap-grid'
-import {Spacer} from '../../styled/shared'
-import {palette} from '../../styled/colors'
+import { Row, Col } from 'styled-bootstrap-grid'
+import { Spacer } from '../../styled/shared'
+import { palette } from '../../styled/colors'
 import CustomInputField from '../common/CustomInputField'
-import {Text, Flexed} from '../../styled/shared'
+import { Text, Flexed } from '../../styled/shared'
 
-import {doGetUserProfile, updateUserInChat, updateUserInfo} from '../../apis/apis'
-import {useDispatch} from 'react-redux'
-import {setIsLoading} from '../../actions/authActions'
-import {toastError, toastSuccess} from '../../styled/toastStyle'
+import { doGetUserProfile, updateUserInChat, updateUserInfo } from '../../apis/apis'
+import { useDispatch } from 'react-redux'
+import { setIsLoading } from '../../actions/authActions'
+import { toastError, toastSuccess } from '../../styled/toastStyle'
 import DropDown from '../DropDown'
 import DateTimePicker from 'react-datetime-picker'
-import {BiCalendarAlt} from 'react-icons/bi'
+import { BiCalendarAlt } from 'react-icons/bi'
 import moment from 'moment-timezone'
 import LocationSearch from '../common/LocationSearch'
 
-const ProfileUpdate = ({getUserProfile, profileInfoMenu, setSelectCategory, setSelectProfileSettingsCategory}) => {
+const ProfileUpdate = ({ getUserProfile, profileInfoMenu, setSelectCategory, setSelectProfileSettingsCategory }) => {
 	const [email, setEmail] = useState('')
 	const [about, setAbout] = useState('')
 	const [firstName, setFirstName] = useState('')
@@ -38,10 +38,10 @@ const ProfileUpdate = ({getUserProfile, profileInfoMenu, setSelectCategory, setS
 	const [dobError, setDobError] = useState('')
 	const [genderError, setGenderError] = useState('')
 	const [genderOption, setGenderOption] = useState([
-		{value: 'Male', label: 'Male'},
-		{value: 'Female', label: 'Female'},
-		{value: 'Transgender', label: 'Transgender'},
-		{value: 'Other', label: 'Other'}
+		{ value: 'Male', label: 'Male' },
+		{ value: 'Female', label: 'Female' },
+		{ value: 'Transgender', label: 'Transgender' },
+		{ value: 'Other', label: 'Other' }
 	])
 	const [gender, setGender] = useState('')
 	const _dispatch = useDispatch()
@@ -72,7 +72,7 @@ const ProfileUpdate = ({getUserProfile, profileInfoMenu, setSelectCategory, setS
 		if (response?.success) {
 			if (response?.data?.lat && response?.data?.log) {
 				// let userLocation:any = {lat:30.6682,log:73.1114};
-				let userLocation: any = {lat: response.data.lat, log: response.data.log}
+				let userLocation: any = { lat: response.data.lat, log: response.data.log }
 				localStorage.setItem('userLocation', JSON.stringify(userLocation))
 			}
 			await updateUserInChat(response?.data?.id, response?.data)
@@ -85,7 +85,7 @@ const ProfileUpdate = ({getUserProfile, profileInfoMenu, setSelectCategory, setS
 		}
 	}
 
-	const handleCapture = ({target}: any) => {
+	const handleCapture = ({ target }: any) => {
 		const reader = new FileReader()
 		reader.readAsDataURL(target.files[0])
 		reader.onload = () => {
@@ -147,7 +147,7 @@ const ProfileUpdate = ({getUserProfile, profileInfoMenu, setSelectCategory, setS
 							</Upload>
 						</InputWrapper>
 					</Flexed>
-					​
+
 					<Spacer height={1.25} />
 				</Col>
 				<Col lg={6} md={6}>
@@ -232,21 +232,21 @@ const ProfileUpdate = ({getUserProfile, profileInfoMenu, setSelectCategory, setS
 					/>
 					<Spacer height={1.25} />
 				</Col>
-				​
+
 				<Col lg={6} md={6}>
 					<InputWrapper>
 						<Text type="normal" margin="0rem 0rem 0.25rem 0rem" color="black" fontWeight={700}>
 							Date of Birth
 						</Text>
 
-						<CalenderDiv calendarIcon={<CalendarIconCustom />} clearIcon={null} disableClock={true} maxDate={new Date()} format="dd MMM, y" onChange={handleStartDateChange} onKeyDown={(e) => e.preventDefault()} value={dob} />
+						<CalenderDiv calendarIcon={<CalendarIconCustom />} clearIcon={null} disableClock={true} maxDate={new Date()} format="MMM dd, y" onChange={handleStartDateChange} value={dob} />
 						<Text fontSize={0.625} type="small" color="danger" textTransform="lowercase">
 							{dobError}
 						</Text>
 					</InputWrapper>
 					<Spacer height={1.25} />
 				</Col>
-				​
+
 				<Col lg={6} md={6}>
 					<DropDown
 						label="Gender"
@@ -262,17 +262,17 @@ const ProfileUpdate = ({getUserProfile, profileInfoMenu, setSelectCategory, setS
 						error={genderError}
 						errorMsg={genderError}
 						options={genderOption}
-						// selectedOption={gender}
+					// selectedOption={gender}
 					/>
 					<Spacer height={1.25} />
 				</Col>
-				​
+
 				<Col lg={12} md={12}>
 					<LocationSearch setLongitude={setLongitude} setLatitude={setLatitude} location={location} setLocationError={setLocationError} setLocation={setLocation} isProfile={true} />
 					<Text fontSize={0.625} type="small" color="danger" textTransform="lowercase"></Text>
 					<Spacer height={1.25} />
 				</Col>
-				​
+
 				<Col>
 					<CustomInputField
 						bgTransparent
@@ -319,7 +319,7 @@ const CalendarIconCustom = styled(BiCalendarAlt)`
 	color: ${palette.gray};
 	font-size: 1.5rem;
 `
-const CalenderDiv = styled(DateTimePicker)<any>`
+const CalenderDiv = styled(DateTimePicker) <any>`
 	font-family: 'Lato-Regular', sans-serif;
 	width: 100%;
 	line-height: 1.25rem;
@@ -329,35 +329,31 @@ const CalenderDiv = styled(DateTimePicker)<any>`
 	font-size: 1rem;
 	border-radius: 0.5rem;
 	padding: 0.8rem 1.25rem;
-	border: 1px solid ${({error, disabled, isDarkTheme}) => (disabled ? `${palette.green}` : error ? `${palette.danger}` : isDarkTheme ? `${palette.stroke}` : `${palette.stroke}`)};
-	color: ${({disabled, isDarkTheme}) => (disabled || isDarkTheme ? `${palette.text_black}` : `${palette.text_black}`)};
+	border: 1px solid ${({ error, disabled, isDarkTheme }) => (disabled ? `${palette.green}` : error ? `${palette.danger}` : isDarkTheme ? `${palette.stroke}` : `${palette.stroke}`)};
+	color: ${({ disabled, isDarkTheme }) => (disabled || isDarkTheme ? `${palette.text_black}` : `${palette.text_black}`)};
 	width: 100%;
-	// cursor: ${({disabled}) => (disabled ? `no-drop` : `pointer`)};
-	background: ${({disabled, bgTransparent, isDarkTheme}) => (bgTransparent ? 'transparent' : disabled ? `${palette.silver}` : isDarkTheme ? `${palette.black}` : `${palette.white}`)};
+	background: ${({ disabled, bgTransparent, isDarkTheme }) => (bgTransparent ? 'transparent' : disabled ? `${palette.silver}` : isDarkTheme ? `${palette.black}` : `${palette.white}`)};
 	​
-	// &:hover {
-	// 	box-shadow: 0 0 0.31rem ${({error, disabled}) => (disabled ? 'none' : error ? `${palette.danger}` : 'rgba(0, 0, 0, 0.25)')};
-	// }
 	&:focus {
-		border: 1px solid ${({error, disabled}) => (disabled ? 'none' : error ? `${palette.danger}` : `${palette.Btn_dark_green}`)};
+		border: 1px solid ${({ error, disabled }) => (disabled ? 'none' : error ? `${palette.danger}` : `${palette.Btn_dark_green}`)};
 	}
 	&::placeholder {
 		color: ${palette.gray_100};
 	}
 	​ &:-ms-input-placeholder {
 		/* Internet Explorer 10-11 */
-		color: ${({disabled, isDarkTheme}) => (disabled || isDarkTheme ? `${palette.silver}` : `${palette.gray_100}`)};
+		color: ${({ disabled, isDarkTheme }) => (disabled || isDarkTheme ? `${palette.silver}` : `${palette.gray_100}`)};
 	}
 	​ &::-ms-input-placeholder {
 		/* Microsoft Edge */
 		// color: ${palette.gray_100};
 	}
 `
-export const StyledHeading = styled(Text)<any>`
+export const StyledHeading = styled(Text) <any>`
 	position: relative;
 	cursor: pointer;
-	opacity: ${({opacity}) => (opacity ? `${opacity}` : '1')};
-	/* color: ${({active}) => (active ? palette.Btn_dark_green : palette.text_black)}; */
+	opacity: ${({ opacity }) => (opacity ? `${opacity}` : '1')};
+	/* color: ${({ active }) => (active ? palette.Btn_dark_green : palette.text_black)}; */
 `
 const UploadIcon = styled.img<any>`
 	height: 4.25rem;
@@ -402,8 +398,8 @@ export const Button = styled.div<any>`
 	opacity: 1;
 	width: 150px;
 	border: 1px solid ${palette.green_200};
-	background-color: ${({disabled}) => (disabled ? palette.white : palette.green_200)};
-	cursor: ${({disabled}) => (disabled ? 'no-drop' : 'pointer')};
+	background-color: ${({ disabled }) => (disabled ? palette.white : palette.green_200)};
+	cursor: ${({ disabled }) => (disabled ? 'no-drop' : 'pointer')};
 	&:hover {
 		background-color: ${palette.green};
 		color: ${palette.white};

@@ -104,7 +104,6 @@ const createProductGood = async (req) => {
         let tradeproduct = [...trade_withh]
         const result = trade_with.map((trade) => `${trade.trade_title},${trade.trade_quantity}`).join(', ')
         await db.userTrades.create({ product_id: _createPoste.id, title: trade_with })
-        // })
     } else {
         _createPoste = await db.UserProducts.create({
             name: name,
@@ -143,12 +142,18 @@ const createProductGood = async (req) => {
         //     )
         // }
     }
-    let chemical
     if (is_organic == false) {
-        for (const info of chemical_id) {
-            chemical = await db.ChemicalDetail.create({
-                chemical_id: info,
-                product_id: _createPoste.id
+        const existAllChemicals = await db.Chemicals.findAll({
+            raw: true
+        })
+        const existAllChemicalTitles = existAllChemicals.map(chemical => chemical.title.toLowerCase())
+
+        const newChemcialTitles = chemical_id.filter(chemical => !existAllChemicalTitles.includes(chemical.toLowerCase()))
+
+        let newChemicals;
+        for (const title of newChemcialTitles) {
+            await db.Chemicals.create({
+                title: title
             })
         }
     }
@@ -439,6 +444,7 @@ const getAllProductGood = async (req) => {
         const u_id = await getUserIdFromToken(req)
         const currentDate = moment().format('MM/DD/YY')
 
+
         //block user product
 
         let block_user_data = await db.User.findAll({
@@ -486,7 +492,7 @@ const getAllProductGood = async (req) => {
         })
         all_disable_user_product = all_disable_user_product.map((product) => product.id)
 
-        let where = parseInt(is_trade) == 1 ? { is_trade: true, is_donation: false, discount: 0, is_block: false, is_organic: is_organic == 'true' ? true : false } : parseInt(is_donation) == 1 ? { is_donation: true, is_trade: false, discount: 0, is_block: false, is_organic: is_organic == 'true' ? true : false } : parseInt(is_discount) == 1 ? { is_donation: false, is_trade: false, discount: { [db.Op.gt]: 0 }, is_block: false, is_organic: is_organic == 'true' ? true : false } : is_organic == 'true' ? { is_organic: true } : {}
+        let where = parseInt(is_trade) === 1 ? { is_trade: true, is_donation: false, discount: 0, is_block: false, is_organic: is_organic == 'true' ? true : false } : parseInt(is_donation) === 1 ? { is_donation: true, is_trade: false, is_block: false, is_organic: is_organic == 'true' ? true : false } : parseInt(is_discount) == 1 ? { is_donation: false, is_trade: false, discount: { [db.Op.gt]: 0 }, is_block: false, is_organic: is_organic == 'true' ? true : false } : is_organic == 'true' ? { is_organic: true } : {}
         const whereClause = {}
         if ('$userProductGood.allow_to_0rder_advance' > 0) {
             whereClause.available_from = {
@@ -552,7 +558,7 @@ const getAllProductGood = async (req) => {
                 },
                 {
                     association: 'user',
-                    attributes: ['id', 'first_name', 'last_name', 'chat_id', 'lat', 'log', 'image', 'email', 'display_phone', 'display_email', 'display_dob', 'display_location', 'display_profile', 'display_dob_full_format', 'stripe_account_id', 'stripe_account_verified']
+                    attributes: ['id', 'first_name', 'last_name', 'chat_id', 'lat', 'log', 'address', 'image', 'email', 'display_phone', 'display_email', 'display_dob', 'display_location', 'display_profile', 'display_dob_full_format', 'stripe_account_id', 'stripe_account_verified']
                 },
                 {
                     association: 'chemical_data',

@@ -51,7 +51,6 @@ const MainCategorySideBar = ({ sellerId, setSinglePost, isContactUsOpen, setIsCo
 	}
 
 	const getColor = async () => {
-		// let color = await colorPicker(data?.first_name ? data?.first_name[0]?.toLowerCase() : 'n')
 		setColor(color)
 		return color
 	}
@@ -74,19 +73,16 @@ const MainCategorySideBar = ({ sellerId, setSinglePost, isContactUsOpen, setIsCo
 	}
 
 	return (
-
-		<StyledWrapper scroll={scrollPosition} position={isAboutOpen || isContactUsOpen}>
-			<MdHide scroll={scrollPosition} isHome={pathname === '/community'}>
+		<StyledWrapper scroll={scrollPosition} screenHeight={screenHeight}>
+			<MdHide scroll={scrollPosition} isHome={pathname === '/community' || pathname === '/products'} screenHeight={screenHeight}>
 				<MainTabs setSelectedBtn={setSelectedBtn} setSinglePost={setSinglePost} setSellerId={setSellerId} setSingleEvent={setSingleEvent} />
 				<OnlyForWeb className="most-viewed mt-md-5  p-2">
-
 					{topPost?.data?.length > 0 && (
 						<Text type="normal" className="mb-3" color="black_100" fontWeight={700}>
 							Most Viewed Posts
 						</Text>
 					)}
 					{topPost?.data?.map((item: any, index: any) => (
-
 						<List key={index} onClick={() => handleItemClick(item?.id)}>
 							<li >
 								<Flexed direction="row" align="center" gap={0.5} className='most-viewed-posts'>
@@ -96,9 +92,6 @@ const MainCategorySideBar = ({ sellerId, setSinglePost, isContactUsOpen, setIsCo
 												<Img src={`https://imagescontent.s3.us-east-1.amazonaws.com/${item?.user?.image}`} />
 											) : (
 												<Img src={`https://imagescontent.s3.us-east-1.amazonaws.com/${item?.user?.first_name && item?.user?.first_name[0].toLowerCase() + '.png'}`} />
-												// <CustomText styledColor={palette.white} type="normal">
-												// 	{item?.user?.first_name && item?.user?.first_name[0].toUpperCase()}
-												// </CustomText>
 											)}
 										</Profile>
 									</div>
@@ -120,47 +113,41 @@ const MainCategorySideBar = ({ sellerId, setSinglePost, isContactUsOpen, setIsCo
 					))}
 				</OnlyForWeb>
 			</MdHide>
-			<FooterWrapper scroll={scrollPosition} isHome={pathname === '/community'}>
+			<FooterWrapper scroll={scrollPosition} isHome={pathname === '/community' || pathname === '/products'} screenHeight={screenHeight}>
 				<Spacer height={2} />
-				<Flexed flexWrap="wrap" gap={0.2} direction="row" align="center" justify="center">
-					<div
-						onClick={() => {
-							setIsAboutOpen(!isAboutOpen)
-						}}>
-						<StyledText pointer fontSize={0.95} type="normal" color="text">
-							About
-						</StyledText>
+				<Flexed flexWrap="wrap" gap={0.2} direction="column" align="center" justify="center">
+					<div>
+						<a href="/seller-aggrement" target="_blank" rel="noopener noreferrer">
+							<StyledText pointer fontSize={0.95} type="normal" color="text">
+								Seller Aggrement
+							</StyledText>
+						</a>
 					</div>
-					<Text>|</Text>
-					<a href="/seller-aggrement" target="_blank" rel="noopener noreferrer">
-						<StyledText pointer fontSize={0.95} type="normal" color="text">
-							Seller Aggrement
-						</StyledText>
-					</a>
+					<Flexed direction="row" gap={0.2} align="center" justify="center">
+						<a href="/about-us" target="_blank" rel="noopener noreferrer">
+							<StyledText pointer fontSize={0.95} type="normal" color="text">
+								About
+							</StyledText>
+						</a>
 
-					<a href="/about-us" target="_blank" rel="noopener noreferrer">
-						<StyledText pointer fontSize={0.95} type="normal" color="text">
-							About Us
-						</StyledText>
-					</a>
-
-					<Text>|</Text>
-					<div
-						onClick={() => {
-							setSelectCategory('support')
-							_navigate('/settings')
-						}}>
-						<StyledText pointer fontSize={0.95} type="normal" color="text">
-							Contact
-						</StyledText>
-					</div>
-					<Text>|</Text>
-					<a href="/legal-policies" target="_blank" rel="noopener noreferrer">
-						<StyledText pointer fontSize={0.95} type="normal" color="text">
-							Legal
-						</StyledText>
-					</a>
-					<Text>|</Text>
+						<Text>|</Text>
+						<div
+							onClick={() => {
+								setSelectCategory('support')
+								_navigate('/settings')
+							}}>
+							<StyledText pointer fontSize={0.95} type="normal" color="text">
+								Contact
+							</StyledText>
+						</div>
+						<Text>|</Text>
+						<a href="/legal-policies" target="_blank" rel="noopener noreferrer">
+							<StyledText pointer fontSize={0.95} type="normal" color="text">
+								Legal
+							</StyledText>
+						</a>
+						<Text>|</Text>
+					</Flexed>
 					<a href="/privacy-policies" target="_blank" rel="noopener noreferrer">
 						<StyledText pointer fontSize={0.95} type="normal" color="text">
 							Privacy
@@ -208,25 +195,12 @@ const MainCategorySideBar = ({ sellerId, setSinglePost, isContactUsOpen, setIsCo
 	)
 }
 const MdHide = styled.div<any>`
-	display: ${({ scroll, isHome }) => (scroll > 750 && isHome ? 'none' : 'block')};
+	display: ${({ scroll, isHome, screenHeight }) => ((scroll > screenHeight / 2 - 100 && isHome) ? 'none' : 'block')};
 `
 
-const OnlyForWeb = styled.div<any>`
-	display: none;
-	${media.xl`display: block`};
-`
-
-const Name = styled(Text) <any>`
-	text-overflow: ellipsis;
-	overflow: hidden;
-	 width: 10rem;
-	height: 1.3rem;
-	white-space: nowrap;
-`
 const FooterWrapper = styled.div<any>`
-	display: none;
 	@media only screen and (min-width: 1200px) {
-		display: ${({ scroll, isHome }) => (scroll > 750 && isHome ? 'block' : 'none')};
+		display: ${({ scroll, isHome, screenHeight }) => ((scroll > screenHeight / 2 && isHome) ? 'block' : 'none')};
 	}
 `
 
@@ -241,18 +215,28 @@ export const StyledWrapper = styled.div<any>`
 	margin-bottom: 1rem;
 
 	${media.xl`
-	// top: 132.0px;
-	top:100px;
-	height: calc(100vh - 132.03px);
-	// padding-right:1.875rem;
-	border-bottom:none;
-	// border-right: 1px solid rgb(233, 236, 239);
-	margin-bottom: 0rem;
+		top: 100px;
+		height: calc(100vh - 132.03px);
+		border-bottom:none;
+		margin-bottom: 0rem;
 	`}
-	justify-content: ${({ scroll }) => (scroll > 750 ? 'flex-end' : 'space-between')};
+	justify-content: ${({ scroll, screenHeight }) => (scroll > screenHeight / 2 - 100 ? 'flex-end' : 'flex-start')};
 	::-webkit-scrollbar {
 		display: none;
 	}
+`
+
+const OnlyForWeb = styled.div<any>`
+	display: none;
+	${media.xl`display: block`};
+`
+
+const Name = styled(Text) <any>`
+	text-overflow: ellipsis;
+	overflow: hidden;
+	 width: 10rem;
+	height: 1.3rem;
+	white-space: nowrap;
 `
 
 const StyledText = styled(Text)`
@@ -269,7 +253,6 @@ const List = styled.ul`
 	margin-bottom: 0;
 
 	& > li {
-		// padding-bottom: 0.625rem;
 		cursor: pointer;
 		color: ${palette.text_description};
 		&:hover {
@@ -310,8 +293,6 @@ const Profile = styled.div<any>`
 	height: 2.5rem;
 	width: 2.5rem;
 	border-radius: 100%;
-	// overflow: hidden;
-	/* background: ${palette.Btn_dark_green}; */
 	background: ${({ styledColor }) => (styledColor ? `${styledColor} !important` : '')};
 	color: ${palette.black};
 	display: flex;

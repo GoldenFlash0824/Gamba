@@ -12,6 +12,7 @@ const SideMenu = ({ setSelectCategory, selectCategory, setSelectProfileSettingsC
 	const [isDeleteAccountModalOpen, setIsDeleteAccountModalOpen] = useState(false)
 	const authToken = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 	const router = useRouter()
+
 	useEffect(() => {
 		if (router.query.status === 'stripe_return') {
 			setSelectCategory('payment')
@@ -58,23 +59,6 @@ const SideMenu = ({ setSelectCategory, selectCategory, setSelectProfileSettingsC
 						</StyledText>
 					</Tab>
 				)}
-				{/* <Tab
-				direction="row"
-				align="center"
-				border
-				gap={0.625}
-					active={selectCategory === 'shield'}
-					onClick={() => {
-						setSelectProfileSettingsCategory('personalInfo')
-						setSelectCategory('shield')
-					}}>
-					<div>
-						<SocialIcon active={selectCategory === 'shield'} src="/images/icons/home.svg" alt='home' />
-					</div>
-					<StyledText active={selectCategory === 'shield'} type='normal'>
-							Account Security
-					</StyledText>
-				</Tab>  */}
 
 				{authToken && (
 					<Tab
@@ -117,24 +101,6 @@ const SideMenu = ({ setSelectCategory, selectCategory, setSelectProfileSettingsC
 						</StyledText>
 					</Tab>
 				)}
-				{/* <Tab
-					className="d-flex align-items-center justify-content-center justify-content-md-start "
-					direction="row"
-					align="center"
-					border
-					gap={0.625}
-					active={selectCategory === 'support'}
-					onClick={() => {
-						setSelectProfileSettingsCategory('personalInfo')
-						setSelectCategory('support')
-					}}>
-					<div>
-						<SocialIcon active={selectCategory === 'support'} src="/images/icons/support.svg" alt="support" />
-					</div>
-					<StyledText active={selectCategory === 'support'} type="normal">
-						Contact
-					</StyledText>
-				</Tab> */}
 
 				{authToken && (
 					<Tab
@@ -147,7 +113,6 @@ const SideMenu = ({ setSelectCategory, selectCategory, setSelectProfileSettingsC
 						onClick={() => {
 							setSelectProfileSettingsCategory('personalInfo')
 							setIsDeleteAccountModalOpen(true)
-							// setSelectCategory('delete')
 						}}>
 						<div>
 							<SocialIcon active={selectCategory === 'delete'} src="/images/icons/delete_account.svg" alt="delete_account" />
@@ -166,6 +131,7 @@ const SideMenu = ({ setSelectCategory, selectCategory, setSelectProfileSettingsC
 						}}
 					/>
 				)}
+
 			</MainWrapper>
 		</>
 	)

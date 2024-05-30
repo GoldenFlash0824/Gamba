@@ -11,7 +11,7 @@ import axios from 'axios'
 
 const registerUser = async (req) => {
     try {
-        const { first_name, last_name, email, password, image, social_id, fcm_token, phone, confirmPassword, address } = req.body
+        const { first_name, last_name, email, password, image, social_id, fcm_token, phone, confirmPassword, address, lat, log } = req.body
         let user = await db.User.findOne({ where: { email: { [db.Op.eq]: `${email}` } } })
         if (user && user?.is_deleted) {
             const updatedAt = moment(user?.updatedAt);
@@ -43,16 +43,11 @@ const registerUser = async (req) => {
 
             const verifyCode = await randomCode()
 
-            // const verifyCode = 123000
-
             const bcryptPassword = await hashPassword(password)
             let dataa = image && (await s3SharpImageUpload(image))
-            let _createUser = await db.User.create({ first_name: first_name, last_name: last_name, email: email, password: bcryptPassword, image: dataa, social_id: social_id, fcm_token: fcm_token, phone: phone, verification_code: verifyCode, address: address })
+            let _createUser = await db.User.create({ first_name: first_name, last_name: last_name, email: email, password: bcryptPassword, image: dataa, social_id: social_id, fcm_token: fcm_token, phone: phone, verification_code: verifyCode, address: address, lat: lat, log: log })
             if (_createUser) {
                 _createUser = await db.User.findOne({ where: { id: _createUser.id } })
-
-                // _createUser.verification_code = ''
-                // _createUser.password = ''
 
                 const token = await generateAccessToken(_createUser)
                 _createUser.auth_token = token
@@ -60,10 +55,7 @@ const registerUser = async (req) => {
                 await db.User.update({ auth_token: token, login_token: token }, { where: { id: _createUser.id } })
                 let filterInfo = await db.User.findOne({ where: { id: _createUser.id }, attributes: ['id', 'first_name', 'last_name', 'email', 'auth_token', 'login_token', 'social_id', 'image', 'fcm_token', 'phone'] })
                 await welcomeEmail(_createUser, email)
-                await verificationCodeEmail(verifyCode, email)
-
-                //for phone number
-                // await sendSms(phone, verifyCode)
+                await verificationCodeEmail(verifyCode, email, _createUser)
 
                 const chemicalData = await db.Chemicals.findAll({})
                 const categoryData = await db.Categories.findAll({})
@@ -268,7 +260,7 @@ const autoLogin = async (req) => {
             const user = await db.User.findOne({ where: { id: u_id } })
             if (!user?.is_block) {
                 const token = await generateAccessTokenAutoLogin(user)
-                const updatedToken = await db.User.update({ auth_token: token, login_token: token }, { where: { id: u_id } })
+                const updatedToken = await db.User.update({ auth_token: token, login_token: token, is_logged_in: true }, { where: { id: u_id } })
                 if (updatedToken) {
                     const updatedUser = await db.User.findOne({ where: { id: u_id } })
                     updatedUser.password = ''
@@ -298,6 +290,35 @@ const autoLogin = async (req) => {
         }
     }
 }
+
+const logoutUser = async (req) => {
+    try {
+        const u_id = await getUserIdFromToken(req);
+
+        await db.User.update({ is_logged_in: false }, { where: { id: u_id } });
+
+        const updated_user = await db.User.findOne({ where: { id: u_id } });
+
+        if (updated_user) {
+            return {
+                status: true,
+                message: 'User logged out successfully'
+            };
+        } else {
+            return {
+                status: false,
+                message: 'User not found'
+            };
+        }
+    } catch (error) {
+        return {
+            status: false,
+            message: error.message
+        };
+    }
+}
+
+
 //qqq
 const loginUser = async (req) => {
     try {
@@ -326,7 +347,7 @@ const loginUser = async (req) => {
                     const login_token = await generateAccessTokenAutoLogin(loginUser)
 
                     let updateUser = null
-                    updateUser = await db.User.update({ auth_token: auth_token, login_token: login_token }, { where: { id: user.id } })
+                    updateUser = await db.User.update({ auth_token: auth_token, login_token: login_token, is_logged_in: true }, { where: { id: user.id } })
                     const userinfo = await db.User.findOne({ where: { email: email }, attributes: { exclude: ['password', 'verification_code',] } })
 
                     const chemicalData = await db.Chemicals.findAll({})
@@ -412,7 +433,6 @@ const socialLogin = async (req, res) => {
                 }
             }
             if (platform != 'web') {
-                //1st Time Registeration With Google
 
                 const _createUser = await db.User.create({ firstName: name, email: email, social_id: social_id })
                 if (_createUser) {
@@ -529,9 +549,9 @@ const socaiLoginUser = async (userBySocialId, fcm_token, platform) => {
     userBySocialId.login_token = token
     userBySocialId.fcm_token = fcm_token
     if (platform == 'web') {
-        await db.User.update({ auth_token: token, login_token: token }, { where: { id: userBySocialId.id } })
+        await db.User.update({ auth_token: token, login_token: token, is_logged_in: true }, { where: { id: userBySocialId.id } })
     } else {
-        await db.User.update({ auth_token: token, login_token: token, fcm_token: fcm_token, badge_count: 0 }, { where: { id: userBySocialId.id } })
+        await db.User.update({ auth_token: token, login_token: token, fcm_token: fcm_token, is_logged_in: true, badge_count: 0 }, { where: { id: userBySocialId.id } })
     }
     return userBySocialId
 }
@@ -1463,6 +1483,7 @@ const getUserWMaxPosts = async (req) => {
                 'display_dob_full_format',
                 'lat',
                 'log',
+                'is_logged_in',
                 [
                     db.sequelize.literal(`(
                     SELECT COUNT(*)
@@ -1474,9 +1495,6 @@ const getUserWMaxPosts = async (req) => {
                 [db.sequelize.literal(`CASE WHEN EXISTS(SELECT 1 FROM favoriteSellers WHERE favoriteSellers.seller_id = user.id AND favoriteSellers.u_id = ${u_id}) THEN TRUE ELSE FALSE END`), 'isFev']
             ],
             where: {
-                // id: {
-                //     [db.Op.ne]: u_id
-                // },
                 disable: false,
                 is_block: false,
                 [db.Op.and]: [{ id: { [db.Op.ne]: u_id } }, { id: { [db.Op.notIn]: seller_id_data } }]
@@ -1520,12 +1538,8 @@ const topSeller = async (req) => {
     sellerIds = sellerIds?.length ? sellerIds.map((e) => e.u_id) : []
 
     const allSellers = await db.User.findAll({
-        // where: {id: {[db.Op.in]: sellerIds}},
         attributes: {
             include: [
-                //  [db.sequelize.fn('SUM', db.sequelize.col('total')), 'totalSum'],
-                //[db.sequelize.fn('AVG', db.sequelize.col('rating')), 'totalSum'],
-                //[db.sequelize.literal(`(SELECT SUM(*) FROM ratings WHERE seller = user.id)`), 'sum'],
                 [db.sequelize.literal(`(SELECT COUNT(*) FROM ratings WHERE seller = user.id)`), 'count'],
                 [db.sequelize.literal(`(SELECT AVG(rating) FROM ratings WHERE seller = user.id)`), 'avg'],
                 [db.sequelize.literal(`(SELECT COUNT(*) FROM soldProducts WHERE seller_id = user.id)`), 'sold_product_count'],
@@ -1545,21 +1559,12 @@ const topSeller = async (req) => {
                 'display_profile',
                 'display_dob_full_format',
                 [db.sequelize.literal(`CASE WHEN EXISTS(SELECT 1 FROM favoriteSellers WHERE favoriteSellers.seller_id = user.id AND favoriteSellers.u_id = ${u_id}) THEN TRUE ELSE FALSE END`), 'isFev']
-                // [db.sequelize.literal('(SELECT COUNT(*) FROM soldProducts WHERE seller_id = user.id AND COUNT >0)')]
             ],
             exclude: ['email', 'password', 'auth_token', 'login_token', 'social_id', 'fcm_token', 'phone', 'verification_code', 'dob', 'about', 'createdAt', 'updatedAt', 'count', 'avg']
         },
 
-        // include: [
-        //     {
-        //         association: 'userProducts'
-        //     }
-        // ],
         where: { id: { [db.Op.in]: sellerIds }, is_block: false, disable: false, id: { [db.Op.notIn]: [...seller_id_data, u_id] } },
 
-        // where: {
-        //     [db.Op.and]: [{id: {[db.Op.in]: sellerIds}}, {id: {[db.Op.notIn]: seller_id_data}},{ is_block: {false}],
-        // },
         order: [[db.sequelize.literal('sold_product_count'), 'DESC']],
         having: { sold_product_count: { [db.Op.gt]: 0 } }
     })
@@ -1833,16 +1838,6 @@ const notification = async (req) => {
                 f_id: u_id
             }
         })
-        // await db.notification.update(
-        //     {
-        //         is_read: true
-        //     },
-        //     {
-        //         where: {
-        //             f_id: u_id
-        //         }
-        //     }
-        // )
         return {
             data: response,
             status: true,
@@ -1921,6 +1916,42 @@ const markAllReadnotification = async (req) => {
         )
 
         let response = await db.notification.findAll({
+            order: [['createdAt', 'DESC']],
+            include: [
+                {
+                    association: 'user_data_notification',
+                    attributes: ['id', 'first_name', 'last_name', 'image']
+                },
+                {
+                    association: 'post_data_notification'
+                },
+                {
+                    association: 'product_detail_notification'
+                }
+            ],
+
+            where: {
+                f_id: u_id
+            }
+        })
+
+        return {
+            data: response,
+            status: true,
+            message: `My All Notification `
+        }
+    } catch (error) {
+        return {
+            status: false,
+            message: error
+        }
+    }
+}
+
+const deleteAllNotifications = async (req) => {
+    try {
+        const u_id = await getUserIdFromToken(req)
+        let response = await db.notification.destroy({
             order: [['createdAt', 'DESC']],
             include: [
                 {
@@ -2735,4 +2766,4 @@ const getAllBlockUsers = async () => {
     }
 }
 
-export { getAllBlockUsers, connectTradeProduct, connectGiveAwayProduct, contactWithUs, userProfile, autoCreate, facetStage, deleteUserAllData, getUserNotificationsArray, getNewNotificatins, sendChatFcm, getAllNotification, registerUser, updateUser, autoLogin, loginUser, socialLogin, deleteUser, viewAllUser, sendRegisterCode, sendVerificationCode, verfyRegisterCode, resetPassword, updatePassword, searchByName, updateSocialUser, blockedUser, getUserById, getAllSellers, searchSellers, getUserWMaxPosts, topSeller, updateUserPassword, getSellerById, contectUs, getContectUs, notification, hideSellerProfile, SellerOrderData, deleteUserAccount, notificationSetting, getNotificationSetting, addSellerToFevrate, getAllFevrateSeller, disableAccount, getAllDisableAccount, enableAccount, verfyTwoFectorCode, userPrivacySetting, getuserPrivacySetting, markAllReadnotification, readNotification }
+export { getAllBlockUsers, connectTradeProduct, connectGiveAwayProduct, contactWithUs, userProfile, autoCreate, facetStage, deleteUserAllData, getUserNotificationsArray, getNewNotificatins, sendChatFcm, getAllNotification, registerUser, updateUser, autoLogin, loginUser, logoutUser, socialLogin, deleteUser, viewAllUser, sendRegisterCode, sendVerificationCode, verfyRegisterCode, resetPassword, updatePassword, searchByName, updateSocialUser, blockedUser, getUserById, getAllSellers, searchSellers, getUserWMaxPosts, topSeller, updateUserPassword, getSellerById, contectUs, getContectUs, notification, deleteAllNotifications, hideSellerProfile, SellerOrderData, deleteUserAccount, notificationSetting, getNotificationSetting, addSellerToFevrate, getAllFevrateSeller, disableAccount, getAllDisableAccount, enableAccount, verfyTwoFectorCode, userPrivacySetting, getuserPrivacySetting, markAllReadnotification, readNotification }

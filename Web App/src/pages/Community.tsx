@@ -18,7 +18,9 @@ import MainCategorySideBar from '../components/MainCategorySideBar'
 
 const Community = ({ setUserId, setSellerId, sellerId, singlePost, setSelectCategory, setSinglePost, isContactUsOpen, setIsContactUsOpen, setIsAboutOpen, isAboutOpen, showStories, setSelectedBtn, setSingleEvent }: any) => {
 	const { pathname }: any = useLocation()
-	const [posts, setPosts] = useState([])
+	const [posts, setPosts] = useState<any>([])
+	const [flag, setFlag] = useState(false)
+	const [filteredPosts, setFilteredPosts] = useState<any>([])
 	const [copyPostsData, setCopyPostsData] = useState([])
 	const [topPost, setTopPost]: any = useState()
 	const authToken = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
@@ -29,6 +31,9 @@ const Community = ({ setUserId, setSellerId, sellerId, singlePost, setSelectCate
 
 	const _dispatch = useDispatch()
 	const currentRoute = useSelector<any>((state: any) => state.auth.currentRoute)
+	const searchAddress: any = useSelector<any>((state: any) => state.auth.searchAddress)
+	const searchLat: any = useSelector<any>((state: any) => state.auth.searchLat)
+	const searchLog: any = useSelector<any>((state: any) => state.auth.searchLog)
 	const [scrollPosition, setScrollPosition] = useState(0)
 	const countComment: any = useSelector<any>((state: any) => state.auth.countComment)
 	const favProduct: any = useSelector<any>((state: any) => state.auth.favProduct)
@@ -65,6 +70,10 @@ const Community = ({ setUserId, setSellerId, sellerId, singlePost, setSelectCate
 		}
 	}, [countComment])
 
+	useEffect(() => {
+
+	})
+
 	const getAllUserAndPosts = async (page: any, loadData: boolean) => {
 		_dispatch(setIsLoading(loadData))
 		setIsDataProgress(loadData)
@@ -84,12 +93,49 @@ const Community = ({ setUserId, setSellerId, sellerId, singlePost, setSelectCate
 			}
 
 			setPosts(postData)
+			setFilteredPosts(postData)
 			setCopyPostsData(postData)
 			_dispatch(commentCount(0))
 			setLoadMore(response?.data?.viewAllPosts.length >= 15)
 		}
 		setIsDataProgress(false)
 		_dispatch(setIsLoading(false))
+	}
+
+	const getSlugPost = async () => {
+		_dispatch(setIsLoading(true))
+		setIsDataProgress(true)
+
+		if (pathname.includes('/post/')) {
+			const postIdExtraction = pathname.split('/products')
+			const id = postIdExtraction[2]
+
+			if (id) {
+				const response = await getPostById(id)
+				setSinglePost(response?.viewAllPosts)
+			}
+		}
+		_dispatch(setIsLoading(false))
+		setIsDataProgress(false)
+	}
+
+	const deg2rad = (deg) => {
+		return deg * (Math.PI / 180);
+	}
+
+	const getDistanceFromLatLonInMiles = (lat1, lon1, lat2, lon2) => {
+		const R = 6371;
+		const dLat = deg2rad(lat2 - lat1);
+		const dLon = deg2rad(lon2 - lon1);
+		const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+			Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+			Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+		const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		const distanceInKm = R * c;
+
+		const distanceInMiles = distanceInKm * 0.621371;
+		return distanceInMiles;
 	}
 
 	useEffect(() => {
@@ -111,45 +157,57 @@ const Community = ({ setUserId, setSellerId, sellerId, singlePost, setSelectCate
 		getAllUserAndPosts(page, true)
 	}, [])
 
-	const getSlugPost = async () => {
-		_dispatch(setIsLoading(true))
-		setIsDataProgress(true)
-
-		if (pathname.includes('/post/')) {
-			const postIdExtraction = pathname.split('/products')
-			const id = postIdExtraction[2]
-
-			if (id) {
-				const response = await getPostById(id)
-				setSinglePost(response?.viewAllPosts)
-			}
-		}
-		_dispatch(setIsLoading(false))
-		setIsDataProgress(false)
-	}
-
 	useEffect(() => {
 		let timer: any = null
-		if (searchPosts.trim().length >= 2 && pathname === '/products') {
+		if (searchPosts.trim().length >= 2 && pathname === '/community') {
 			timer = setTimeout(async () => {
 				_dispatch(setIsLoading(true))
 				setIsDataProgress(true)
-				// setPosts([])
 				const response = await searchPostsApi(searchPosts)
-				setPosts(response.data)
+				setFilteredPosts(response.data)
 				_dispatch(setIsLoading(false))
 				setIsDataProgress(false)
 			}, 500)
 		} else if (searchPosts?.trim()?.length === 0) {
-			setPosts(copyPostsData)
+			setFilteredPosts(copyPostsData)
 		}
 		return () => clearTimeout(timer)
 	}, [searchPosts])
 
-	// const getTopUsers = async () => {
-	// 	const response = await getTopUsersApi()
-	// 	setTopUsers(response.data.data)
-	// }
+	useEffect(() => {
+		let filtered: any = []
+		_dispatch(setIsLoading(true))
+		if (posts?.length > 0 && searchAddress !== null && searchLat !== null && searchLog !== null) {
+			for (let i = 0; i < posts.length; i++) {
+				if (posts[i]?.user?.lat && posts[i]?.user?.log && posts[i]?.user?.lat?.toFixed(2) === searchLat?.toFixed(2) && posts[i]?.user?.log?.toFixed(2) === searchLog?.toFixed(2)) {
+					filtered.push(posts[i])
+				}
+			}
+			if (filtered.length > 0) {
+				setFilteredPosts(filtered)
+				setFlag(false)
+				_dispatch(setIsLoading(false))
+			} else {
+				let minDistance = 1e308, index: any
+				for (let i = 0; i < posts.length; i++) {
+					if (posts[i]?.user?.lat && posts[i]?.user.log) {
+						const distance = getDistanceFromLatLonInMiles(posts[i]?.user?.lat, posts[i]?.user?.log, searchLat, searchLog)
+						if (distance < minDistance) {
+							minDistance = distance
+							index = i
+						}
+					}
+				}
+				setFlag(true)
+				setFilteredPosts([posts[index]])
+				_dispatch(setIsLoading(false))
+			}
+		} else {
+			setFilteredPosts(posts)
+			setFlag(false)
+			_dispatch(setIsLoading(false))
+		}
+	}, [searchAddress])
 
 	const getTopPost = async () => {
 		let response = await getPopularPost()
@@ -251,7 +309,14 @@ const Community = ({ setUserId, setSellerId, sellerId, singlePost, setSelectCate
 									</>
 								) : (
 									<>
-										{posts?.map((data: any, index) => {
+										{flag === true && (
+											<Col>
+												<Text type="small" margin="1rem 0rem" isCentered>
+													{isDataProgress ? '' : 'No activities in this neighborhood yet'}
+												</Text>
+											</Col>
+										)}
+										{filteredPosts?.map((data: any, index) => {
 											return (
 												<>
 													{index === 4 || index === 9 || index === 14 ? (
@@ -273,12 +338,6 @@ const Community = ({ setUserId, setSellerId, sellerId, singlePost, setSelectCate
 										)}
 									</>
 								)}
-
-								{posts?.length === 0 && (
-									<Text type="small" margin="4rem 0rem" isCentered>
-										{isDataProgress ? '' : 'No data found'}
-									</Text>
-								)}
 							</MiddleLayout>
 						) : (
 							<MiddleLayout xxl={7} xl={6} lg={10}>
@@ -290,10 +349,8 @@ const Community = ({ setUserId, setSellerId, sellerId, singlePost, setSelectCate
 
 				<SideCol xxl={2.5} xl={3}>
 					<Wrapper scroll={scrollPosition} position={isAboutOpen || isContactUsOpen}>
-						<MdHide scroll={scrollPosition}>
-							<PopularSellers setSellerId={setSellerId} setSelectCategory={setSelectCategory} setUserId={setUserId} social={true} />
-							<Spacer height={1} />
-						</MdHide>
+						<PopularSellers setSellerId={setSellerId} setSelectCategory={setSelectCategory} setUserId={setUserId} social={true} />
+						<Spacer height={1} />
 						{/* <SponcerWrapper scroll={scrollPosition}>
 							<Spacer height={1} />
 							<StyledFlex gap={0.5}>
@@ -326,11 +383,6 @@ const Main = styled(Container)`
 		padding-left: 0.938rem;
 	`}
 	background: #F0F2F5
-`
-
-
-const MdHide = styled.div<any>`
-	display: ${({ scroll }) => (scroll > 750 ? 'none' : 'block')};
 `
 
 const Name = styled(Text) <any>`
@@ -401,7 +453,7 @@ const Wrapper = styled.div<any>`
 	display: flex;
 
 	flex-direction: column;
-	justify-content: ${({ scroll }) => (scroll > 750 ? 'flex-end' : 'space-between')};
+	// justify-content: ${({ scroll }) => (scroll > 750 ? 'flex-end' : 'space-between')};
 	::-webkit-scrollbar {
 		display: none !important;
 	}

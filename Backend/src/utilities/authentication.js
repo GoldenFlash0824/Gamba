@@ -11,19 +11,8 @@ const generateAccessToken = async (_payload, isAdmin) => {
 
 const generateAccessTokenAutoLogin = async (_payload) => {
     const payload = { id: _payload.id }
-    return jwt.sign({ payload }, process.env.JWT_SECRET, { expiresIn: '60d' }) // 60 days expiry time
+    return jwt.sign({ payload }, process.env.JWT_SECRET, { expiresIn: '60d' })
 }
-
-// const generateRefreshToken = async (_payload) => {
-//     const payload = {id: _payload.id}
-//     const token = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
-//         expiresIn: `${process.env.REFRESH_TOKEN_EXPIRY}s`
-//     })
-//     return {
-//         refreshToken: token,
-//         refreshExpiresIn: process.env.REFRESH_TOKEN_EXPIRY
-//     }
-// }
 
 const verifyAuthToken = () => {
     return async (req, res, next) => {

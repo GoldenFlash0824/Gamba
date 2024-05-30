@@ -79,6 +79,12 @@ const getAllEvent = async (req) => {
 
     let concate_event_array = event_id_details.concat(all_disable_user_event)
     let _allEvent = await db.Events.findAll({
+        where: {
+            status: false,
+            id: { [db.Op.notIn]: concate_event_array },
+            end_date: { [db.Op.gte]: currentDate },
+            [db.Op.or]: [{ privacy: 'Public' }, db.sequelize.literal(`EXISTS(SELECT * FROM favoriteSellers WHERE favoriteSellers.seller_id = ${u_id}  AND userEvents.privacy='My Network' AND favoriteSellers.u_id = userEvents.u_id)`), db.sequelize.literal(`EXISTS(SELECT * FROM userEvents as event WHERE userEvents.privacy='My Network' AND event.id=userEvents.id AND event.u_id = ${u_id})`)]
+        },
         include: [
             {
                 association: 'joinEvent',
@@ -94,14 +100,7 @@ const getAllEvent = async (req) => {
                 attributes: ['id', 'first_name', 'last_name', 'image', 'chat_id', 'lat', 'log', 'display_phone', 'display_email', 'display_dob', 'display_location', 'display_profile', 'display_dob_full_format']
             }
         ],
-        where: {
-            status: false,
-            id: { [db.Op.notIn]: concate_event_array },
-            end_date: { [db.Op.gte]: currentDate },
-            [db.Op.or]: [{ privacy: 'Public' }, db.sequelize.literal(`EXISTS(SELECT * FROM favoriteSellers WHERE favoriteSellers.seller_id = ${u_id}  AND userEvents.privacy='My Network' AND favoriteSellers.u_id = userEvents.u_id)`), db.sequelize.literal(`EXISTS(SELECT * FROM userEvents as event WHERE userEvents.privacy='My Network' AND event.id=userEvents.id AND event.u_id = ${u_id})`)]
-        },
         attributes: { include: [[db.sequelize.literal(`EXISTS(SELECT * FROM joinEvents WHERE event_id = userEvents.id AND u_id = ${u_id})`), 'isJoinMe']] },
-
         limit: limit,
         offset: offset,
         order: [['createdAt', 'DESC']]
@@ -439,7 +438,6 @@ const getPopularEvent = async (req) => {
             include: [
                 {
                     model: db.User,
-
                     as: 'eventUser',
                     attributes: ['id', 'image', 'chat_id', 'lat', 'log', 'display_phone', 'display_email', 'display_dob', 'display_location', 'display_profile', 'display_dob_full_format', 'first_name', 'last_name', 'disable'],
                     where: {

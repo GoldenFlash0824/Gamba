@@ -134,7 +134,7 @@ const SellersProfile = ({ sellerCard, setSellerId, community, sellersCardOpen, d
 							<Flexed direction="row" gap="0.2" align="center" pointer>
 								<img src="/images/icons/location.svg" alt="location" />
 								<Text type="small" color="gray" fontWeight={400}>
-									{distanceInMiles ? distanceInMiles : '0 miles.'}
+									{distanceInMiles ? distanceInMiles : 'N / A'}
 								</Text>
 							</Flexed>
 							{/* )} */}

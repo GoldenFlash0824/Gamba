@@ -29,18 +29,23 @@ export default function cartReducer(state = initialState, action: any) {
 			}
 		}
 		case types.ADD_DIRECT_ITEM_IN_CART: {
-			const index = state.products.findIndex((d) => d.id === action.value.id)
+			const index = state.products.findIndex((product) => product.id === action.value.id);
 
 			if (index > -1) {
-				state.products[index].quantity++
+				return {
+					...state,
+					products: state.products.map((product, i) =>
+						i === index ? { ...product, quantity: product.quantity + 1 } : product
+					),
+				};
 			} else {
-				state.products.push(action.value)
-			}
-			return {
-				...state,
-				products: state.products
+				return {
+					...state,
+					products: [...state.products, action.value],
+				};
 			}
 		}
+
 		case types.REMOVE_ITEM_IN_CART:
 			return {
 				...state,
@@ -52,17 +57,24 @@ export default function cartReducer(state = initialState, action: any) {
 				products: []
 			}
 		case types.INCREMENT_ITEM:
-			state.products.map((d) => (action.value.id === d.id ? (d.quantity = action.value.quantity) : ''))
 			return {
 				...state,
-				products: state.products
+				products: state.products.map((product) =>
+					action.value.id === product.id
+						? { ...product, quantity: action.value.quantity }
+						: product
+				)
 			}
 		case types.DECREMENT_ITEM:
-			state.products.map((d) => (action.value.id === d.id ? (d.quantity = action.value.quantity) : ''))
 			return {
 				...state,
-				products: state.products
+				products: state.products.map((product) =>
+					action.value.id === product.id
+						? { ...product, quantity: action.value.quantity }
+						: product
+				)
 			}
+
 		default:
 			return state
 	}

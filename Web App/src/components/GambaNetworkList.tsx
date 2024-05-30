@@ -77,7 +77,7 @@ const GambaNetworkList = ({ social, product, setSellerId, setSelectCategory, set
 								</CustomText>
 							)}
 						</Profile>
-						<ActiveStaus active={false} />
+						<ActiveStaus active={data?.is_logged_in} />
 					</div>
 					<Details direction="row" align="center" justify="space-between">
 						<Flexed gap="0.2">
@@ -86,7 +86,7 @@ const GambaNetworkList = ({ social, product, setSellerId, setSelectCategory, set
 							</Name>
 							<Distance color="text_description" type="xsmall">
 								{distanceInMiles && <LocationIcon src="/images/icons/location.svg" alt="location" />}
-								<>{distanceInMiles ? `${distanceInMiles}` : '0 miles'}</>
+								<>{distanceInMiles ? `${distanceInMiles}` : 'N / A'}</>
 							</Distance>
 						</Flexed>
 						<div>

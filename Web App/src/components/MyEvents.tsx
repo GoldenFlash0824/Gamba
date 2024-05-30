@@ -38,9 +38,6 @@ const MyEvents = ({ setUserId }) => {
 					s
 					onClick={() => {
 						_navigate('/products')
-						// setSinglePost(null)
-						// setSelectProfileSettingsCategory('')
-						// setSelectCategory('profile')
 					}}>
 					Home
 				</Text>
@@ -53,11 +50,11 @@ const MyEvents = ({ setUserId }) => {
 			</Flexed>
 			<Spacer height={1.25} />
 			<Wrapper>
-				<Row>
+				<Row className='d-flex align-items-stretch'>
 					{events.length
 						? events.map((data, index) => {
 							return (
-								<Col xxl={6} xl={6} lg={6} key={index}>
+								<Col xxl={6} xl={6} lg={6} key={index} className='d-flex d-flex-col'>
 									<Events setUserId={setUserId} data={data} index={index} onEdit={() => getEvents()} parent={true} />
 								</Col>
 							)

@@ -1031,10 +1031,13 @@ ul {
 
 .wy-appbars {
 	z-index: 0 !important;
-	/* background-color: #f0f2f5 !important; */
-	/* display: none !important; */
 	box-shadow: none !important;
 	border-bottom: 1px solid rgb(221 221 234);
+	background-color: #ffffff !important;
+	backdrop-filter: none;
+	padding: 8px;
+	border-radius: 12px 12px 0px 0px;
+	position: static !important
 }
 
 .wy-appbar {
@@ -1469,14 +1472,6 @@ ul {
 
 .wy-item-body {}
 
-.wy-appbars {
-	background-color: #ffffff !important;
-	backdrop-filter: none;
-	padding: 8px;
-	border-radius: 12px 12px 0px 0px;
-	z-index: 1020 !important;
-}
-
 .wy-appbar {
 	padding: 0px !important;
 }
@@ -1696,7 +1691,6 @@ ul {
 	border-color: rgb(56, 176, 0) !important;
 	background-color: #e7ffee;
 }
-
 
 #cb1 {
 	accent-color: rgb(56 149 12);

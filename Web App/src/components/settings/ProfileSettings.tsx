@@ -1,47 +1,44 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { palette } from '../../styled/colors'
-import { Text,Flexed } from '../../styled/shared'
+import { Text, Flexed } from '../../styled/shared'
 import { media } from 'styled-bootstrap-grid'
 
 const ProfileSettings = ({ setProfileInfoMenu, selectProfileSettingsCategory, setSelectProfileSettingsCategory }) => {
 	return (
 		<Wrapper>
-			{/* <StyledText type="normal" fontWeight={700} color="black_100">
-				My Account
-			</StyledText> */}
 			<SubWrapper>
-			<CustomHeading
-				type="normal"
-				active={selectProfileSettingsCategory === 'personalInfo'}
-				onClick={() => {
-					setSelectProfileSettingsCategory('personalInfo')
-					setProfileInfoMenu(true)
-				}}>
-				<Icon active={selectProfileSettingsCategory === 'personalInfo'} src="/images/icons/user-edit-profile.svg" alt='user-edit-profile' />
-				Personal Info
-			</CustomHeading>
+				<CustomHeading
+					type="normal"
+					active={selectProfileSettingsCategory === 'personalInfo'}
+					onClick={() => {
+						setSelectProfileSettingsCategory('personalInfo')
+						setProfileInfoMenu(true)
+					}}>
+					<Icon active={selectProfileSettingsCategory === 'personalInfo'} src="/images/icons/user-edit-profile.svg" alt='user-edit-profile' />
+					Personal Info
+				</CustomHeading>
 
-			<CustomHeading
-				type="normal"
-				active={selectProfileSettingsCategory === 'changePassword'}
-				onClick={() => {
-					setSelectProfileSettingsCategory('changePassword')
-				}}>
-				<Icon active={selectProfileSettingsCategory === 'changePassword'} src="/images/icons/lock.svg" alt='lock' />
-				Change Password
-			</CustomHeading>
-			<CustomHeading
-				type="normal"
-				active={selectProfileSettingsCategory === 'privacy'}
-				onClick={() => {
-					setSelectProfileSettingsCategory('privacy')
-				}}>
-				<Icon active={selectProfileSettingsCategory === 'privacy'} src="/images/icons/shield.svg" alt='shield' />
-				Privacy
-			</CustomHeading>
+				<CustomHeading
+					type="normal"
+					active={selectProfileSettingsCategory === 'changePassword'}
+					onClick={() => {
+						setSelectProfileSettingsCategory('changePassword')
+					}}>
+					<Icon active={selectProfileSettingsCategory === 'changePassword'} src="/images/icons/lock.svg" alt='lock' />
+					Change Password
+				</CustomHeading>
+				<CustomHeading
+					type="normal"
+					active={selectProfileSettingsCategory === 'privacy'}
+					onClick={() => {
+						setSelectProfileSettingsCategory('privacy')
+					}}>
+					<Icon active={selectProfileSettingsCategory === 'privacy'} src="/images/icons/shield.svg" alt='shield' />
+					Privacy
+				</CustomHeading>
 
-			{/* <CustomHeading
+				{/* <CustomHeading
 				type="normal"
 				onClick={() => {
 					setSelectProfileSettingsCategory('favorites')

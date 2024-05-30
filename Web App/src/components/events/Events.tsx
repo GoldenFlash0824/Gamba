@@ -45,11 +45,6 @@ const Events = ({ data, index, allEvents, selectCategory, onEdit, setUserId, get
 	const [loginPopup, setLoginPopup] = useState(false)
 	let _userLocation = JSON.parse(localStorage?.getItem('userLocation') || '{}')
 
-	// useEffect(() => {
-	// 	setEventJoined(false)
-	// 	UserJoin()
-	// }, [data])
-
 	let _startDate = moment(data?.start_date).format('MM-DD-YYYY')
 	let _endDate = moment(data?.end_date).format('MM-DD-YYYY')
 
@@ -60,9 +55,11 @@ const Events = ({ data, index, allEvents, selectCategory, onEdit, setUserId, get
 	}, [])
 
 	const doGetDistanceFromLatLonInMiles = async () => {
-		if (data?.longitude && data?.latitude && _userLocation.lat && _userLocation.log) {
-			const res = await getDistanceFromLatLonInMiles(data?.latitude, data?.longitude, _userLocation?.lat ? _userLocation?.lat : 0, _userLocation?.log ? _userLocation?.log : 0)
+		if (data?.eventUser?.log && data?.eventUser?.lat && _userLocation.lat && _userLocation.log) {
+			const res = await getDistanceFromLatLonInMiles(data?.eventUser?.lat, data?.eventUser?.log, _userLocation?.lat ? _userLocation?.lat : 0, _userLocation?.log ? _userLocation?.log : 0)
 			setDistanceInMiles(res)
+		} else {
+			setDistanceInMiles('N / A')
 		}
 	}
 
@@ -114,10 +111,6 @@ const Events = ({ data, index, allEvents, selectCategory, onEdit, setUserId, get
 		}
 	}
 
-	// const UserJoin = () => {
-	// 	const event = data?.joinEvent?.some((data: any) => (data?.u_id === userId ? true : false))
-	// 	setEventJoined(event)
-	// }
 	const parsedDate = moment(data?.end_date)
 	const parseStartdDate = moment(data?.start_date)
 
@@ -297,38 +290,25 @@ const Events = ({ data, index, allEvents, selectCategory, onEdit, setUserId, get
 							</ActionFlexed>
 						</RightFlexed>
 					</Flexed>
-
-					{/* <CustomFlex direction="row" gap="0.5" align="center">
-						{eventJoinedUsers?.slice(0, 2)?.map((val: any, index: any) => {
-							return (
-								<>
-									<StoriesCardEvent data={val.joinEventUser} key={index} setUserId={setUserId} />
-								</>
-							)
-						})}
-						{eventJoinedUsers?.length > 2 && (
-							<Text pointer onClick={() => handleShowPopup(eventJoinedUsers)}>
-								Show more
-							</Text>
-						)}
-					</CustomFlex> */}
 					<Flexed direction="row" gap={0.5} align="center" justify="space-between" flexWrap="wrap">
 						<div>
 							<Flexed direction="row" gap={0.1} align="flex-start" pointer onClick={() => setIsMapModalOpen(true)}>
 								<img src="/images/icons/location.svg" alt="location" />
 								<Text type="small" opacity='0.5' fontSize="0.8" color="black_100" lineHeight={1.125}>
-									{/* {data?.location} */}
 									{!data?.is_private && data?.location.includes(',') ? data.location.slice(data.location.indexOf(',') + 1, data?.location.length) : data?.location}, &nbsp; {distanceInMiles ? `${distanceInMiles}` : '0 ft.'}
 								</Text>
 							</Flexed>
 						</div>
 					</Flexed>
-					<EventPrice direction="row" gap={0.25} align="center">
-						<img width="23px" src="/images/icons/price_tag.svg" alt="price_tag" />
-						<Text type="large" color="black_100">
-							${data?.price}
-						</Text>
-					</EventPrice>
+					<Flexed direction="row" gap={0.5} align="center" className="mt-2">
+						<EventPrice direction="row" gap={0.25} align="center">
+							<img width="23px" src="/images/icons/price_tag.svg" alt="price_tag" />
+							<Text type="large" color="black_100">
+								${data?.price}
+							</Text>
+						</EventPrice>
+						<Button className='ml-2'>Pay</Button>
+					</Flexed>
 					<Spacer height={0.438} />
 					{parent && data?.status && (
 						<div>
@@ -402,7 +382,7 @@ const Events = ({ data, index, allEvents, selectCategory, onEdit, setUserId, get
 				{openJoinEventModal && <JoinEventModal onClose={() => setOpenJoinEventModal(false)} data={remainingData} setUserId={setUserId} />}
 
 				{loginPopup && <LoginPopupModel onClose={() => setLoginPopup(false)} />}
-			</Wrapper>
+			</Wrapper >
 		</>
 	)
 }
@@ -566,6 +546,24 @@ const JointList = styled(Flexed) <any>`
 	}
 `
 
+const Button = styled.div`
+	background: ${palette.Btn_dark_green};
+	color: ${palette.white};
+	font-weight: 500;
+	padding: 0.4rem 2rem;
+	font-size: 0.85rem;
+	border-radius: 0.5rem;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	justify-content: center;
+	&:hover {
+		background-color: ${palette.white};
+		color: ${palette.Btn_dark_green};
+		border: 1px solid ${palette.Btn_dark_green}
+	}
+`
+
 const JoinButton = styled.div<any>`
 	display: flex;
 	position: relative;
@@ -579,23 +577,16 @@ const JoinButton = styled.div<any>`
 	font-style: normal;
 	font-weight: 500;
 	background: ${palette.green_300};
-	color: ${({ active }) => (active ? ` ${palette.white}; !important` : palette.green_200)};
+	color: ${({ active }) => (active ? ` ${palette.gray}; !important` : palette.green_200)};
 	border-radius: 1.25rem;
-	
 	&:hover {
 		color: ${palette.green_200};
-		
-		
 	}
 	cursor: pointer;
 
 	&:hover ${JoinContent} {
 		display: block;
 	}
-	// ${media.sm`
-	// font-size: 0.875rem;
-	// height: 1.5rem;
-	// `}
 `
 
 const Profile = styled.div<any>`
@@ -625,7 +616,6 @@ const CustomText = styled(Text)`
 `
 
 const EventPrice = styled(Flexed)`
-	margin-top: 0.5rem !important;
 	${media.sm`margin:0rem 0rem 0rem 0rem`};
 	@media screen and (min-width: 0px) and (max-width: 670px) {
 		margin-right: 0.5rem;

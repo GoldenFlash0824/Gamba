@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 import Button from '../components/common/Button'
 import { addNewProduct, doGetChemicals, getCategory } from '../apis/apis'
 import { useDispatch } from 'react-redux'
-import { saveRoute, saveSearchText, setIsLoading } from '../actions/authActions'
+import { saveRoute, saveSearchAddress, saveSearchLat, saveSearchLog, saveSearchText, setIsLoading } from '../actions/authActions'
 import Loader from './common/Loader'
 import { toastError, toastSuccess } from '../styled/toastStyle'
 import AddChemicalsModal from './modals/AddChemicalsModal'
@@ -55,6 +55,7 @@ const CreateProducts = ({ onClose, onCreateProductCB, setSellGoodsCategory }: an
 	const [productUnitError, setProductUnitError] = useState('')
 	const [quantityError, setQuantityError] = useState('')
 	const [captionError, setCaptionError] = useState('')
+	const [chemicalsError, setChemicalsError] = useState('')
 	const [distanceError, setDistanceError] = useState('')
 	const [hoursError, setHoursError] = useState('')
 	const [daysError, setDaysError] = useState('')
@@ -79,7 +80,8 @@ const CreateProducts = ({ onClose, onCreateProductCB, setSellGoodsCategory }: an
 
 	const [dummyChemicalsArray, setDummyChemicalsArray]: any = useState([])
 
-	const [chemicals, setChemicals] = useState(dummyChemicalsArray?.filter((data: any) => data?.isChecked === true))
+	const [chemicals, setChemicals] = useState([])
+	const [chemicalsUsed, setChemicalsUsed] = useState([]);
 
 	const getAllCategory = async () => {
 		const response = await getCategory()
@@ -87,11 +89,12 @@ const CreateProducts = ({ onClose, onCreateProductCB, setSellGoodsCategory }: an
 		let res: any = []
 		let chemicals: any = []
 		getChemicals?.data?.chemical?.length && getChemicals?.data?.chemical?.map((e) => chemicals.push({ label: e?.title, isChecked: false, id: e?.id }))
-		response.data.category.map((d) => res.push({ id: d.id, value: d.title, label: d.title }))
+		response.data.category.map((d: any) => res.push({ id: d.id, value: d.title, label: d.title }))
 		setProductCategoryOptions(res)
 		setProductCategory(res[0]?.label)
 		setCategory(response.data)
 		setDummyChemicalsArray(chemicals)
+		setChemicals(chemicals)
 	}
 
 	useEffect(() => {
@@ -100,6 +103,9 @@ const CreateProducts = ({ onClose, onCreateProductCB, setSellGoodsCategory }: an
 			getAllCategory()
 		}
 		_dispatch(saveSearchText(''))
+		_dispatch(saveSearchLat(null))
+		_dispatch(saveSearchLog(null))
+		_dispatch(saveSearchAddress(''))
 	}, [])
 
 	const handleStartDateChange = (date: any) => {
@@ -243,10 +249,8 @@ const CreateProducts = ({ onClose, onCreateProductCB, setSellGoodsCategory }: an
 	const addProduct = async () => {
 		const trade = isTrade === 'Trade' ? true : false
 		const donation = isTrade === 'Giveaway' ? true : false
-
 		const category: any = productCategoryOptions?.filter((d: any) => d?.label === productCategory)
-
-		const chemicalsUsed = chemicals?.map((data) => data?.id)
+		const selectedChemicals = chemicalsUsed?.map((data: any) => data)
 		_dispatch(setIsLoading(true))
 		const response = await addNewProduct(
 			productName,
@@ -260,23 +264,21 @@ const CreateProducts = ({ onClose, onCreateProductCB, setSellGoodsCategory }: an
 			discount,
 			productUnit,
 			tradeWithProduct,
-			chemicalsUsed,
+			selectedChemicals,
 			moment.tz(startDate, 'America/New_York').format(),
 			moment.tz(endDate, 'America/New_York').format(),
 			isTrade === 'Sell' ? allowToOrder : null,
 			isDelivery,
 			isPickUp,
-			// hours,
 			isTrade === 'Sell' ? days : null,
 			distance,
 			caption,
-			// chemicalCheckBoxNone,
 			allowCustomersToGetUpTo,
 			unLimitted
 		)
 		_dispatch(setIsLoading(false))
 		if (response.success === true) {
-			// toastSuccess(response.message)
+			toastSuccess(response.message)
 			setPrice('')
 			setProductName('')
 			setShowImage([])
@@ -368,6 +370,10 @@ const CreateProducts = ({ onClose, onCreateProductCB, setSellGoodsCategory }: an
 			isValid = false
 		}
 
+		if (!toggle && chemicalsUsed.length === 0) {
+			setChemicalsError('Chemicals are required')
+		}
+
 		return isValid
 	}
 
@@ -447,7 +453,6 @@ const CreateProducts = ({ onClose, onCreateProductCB, setSellGoodsCategory }: an
 							setImageError={setImageError}
 							handleCapture={handleCapture}
 							deleteSelectImage={deleteSelectImage}
-						// showFile={showFile}
 						/>
 					) : stepper === 2 ? (
 						<ProductStepperOne
@@ -537,9 +542,13 @@ const CreateProducts = ({ onClose, onCreateProductCB, setSellGoodsCategory }: an
 								setDaysError={setDaysError}
 								setIsOrganicError={setIsOrganicError}
 								isOrganicError={isOrganicError}
+								chemicalsError={chemicalsError}
+								setChemicalsError={setChemicalsError}
 								daysError={daysError}
 								setToggle={setToggle}
 								chemicals={chemicals}
+								chemicalsUsed={chemicalsUsed}
+								setChemicalsUsed={setChemicalsUsed}
 								toggle={toggle}
 								setIsAddChemicalsModalOpen={setIsAddChemicalsModalOpen}
 								setQuantityError={setQuantityError}
@@ -561,7 +570,6 @@ const CreateProducts = ({ onClose, onCreateProductCB, setSellGoodsCategory }: an
 									label="Back"
 									width="50%"
 									type="clear"
-									// type="blue_primary"
 									ifClicked={() => {
 										setStepper(stepper - 1)
 									}}
@@ -585,24 +593,14 @@ const CreateProducts = ({ onClose, onCreateProductCB, setSellGoodsCategory }: an
 									label={`Add Product`}
 									width="50%"
 									ifClicked={async () => {
-										if (await validationStepperThree()) addProduct()
+										if (validationStepperThree()) addProduct()
 									}}
 								/>
 							)}
 						</ActionContent>
-						{/* // OLD BUTTON */}
-						{/* <Button
-							label="Add a Product"
-							width="100%"
-							ifClicked={() => {
-								if (checkValidationOnClick()) {
-									addProduct()
-								}
-							}}
-						/> */}
 					</Col>
 				</Row>
-				{isLoading && <Loader visible={isLoading} />}
+				{isLoading && <Loader visible={isLoading} width="100%" />}
 
 				{isAddChemicalsModalOpen && (
 					<AddChemicalsModal

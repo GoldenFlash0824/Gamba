@@ -22,7 +22,8 @@ const ProductsCard = React.lazy(() => import('./ProductCard'))
 const Product = ({ addToCart, setSellerId, sellerId, userId, setSelectedBtn, setUserId, setSinglePost, isContactUsOpen, setIsContactUsOpen, setIsAboutOpen, isAboutOpen, setSingleEvent }: any) => {
 	const [selectCategory, setSelectCategory] = useState('products')
 	const [isSellerSelfProfileOpen, setIsSellerSelfProfileOpen] = useState(false)
-	const [posts, setPosts] = useState([])
+	const [posts, setPosts] = useState<any>([])
+	const [filteredPosts, setFilteredPosts] = useState<any>([])
 	const [copyPostsData, setCopyPostsData] = useState([])
 	const _navigate = useNavigate()
 	const router = useRouter()
@@ -31,7 +32,8 @@ const Product = ({ addToCart, setSellerId, sellerId, userId, setSelectedBtn, set
 
 	const [isSellerProfileLinkOpen, setIsSellerProfileLinkOpen] = useState(false)
 
-	const [sellers, setSellers] = useState([])
+	const [sellers, setSellers] = useState<any>([])
+	const [filteredSellers, setFilteredSellers] = useState<any>([])
 	const [copySellersData, setCopySellersData] = useState([])
 
 	const auth_token = useSelector<any>((state: any) => state.auth.auth_token)
@@ -48,10 +50,15 @@ const Product = ({ addToCart, setSellerId, sellerId, userId, setSelectedBtn, set
 
 	const [productPageNo, setProductPageNo] = useState(1)
 	const [loadMoreProduct, setLoadMoreProduct] = useState(false)
+	const [postFlag, setPostFlag] = useState(false)
+	const [sellerFlag, setSellerFlag] = useState(false)
 	const _dispatch = useDispatch()
 	const [sellerPageNo, setSellerPageNo] = useState(1)
 	const [loadMoreSeller, setLoadMoreSeller] = useState(false)
 	const searchProduct: any = useSelector<any>((state: any) => state.auth.topSearch)
+	const searchAddress: any = useSelector<any>((state: any) => state.auth.searchAddress)
+	const searchLat: any = useSelector<any>((state: any) => state.auth.searchLat)
+	const searchLog: any = useSelector<any>((state: any) => state.auth.searchLog)
 	const searchSeller: any = useSelector<any>((state: any) => state.auth.topSearch)
 
 	useEffect(() => {
@@ -76,8 +83,10 @@ const Product = ({ addToCart, setSellerId, sellerId, userId, setSelectedBtn, set
 		setSearchTrade('')
 		setSearchTradewith('')
 		setPosts([])
+		setFilteredPosts([])
 		setCopyPostsData([])
 		setSellers([])
+		setFilteredSellers([])
 		setCopySellersData([])
 		setProductPageNo(1)
 		setLoadMoreProduct(false)
@@ -105,6 +114,7 @@ const Product = ({ addToCart, setSellerId, sellerId, userId, setSelectedBtn, set
 				postData = posts.concat(postData)
 			}
 			setPosts(postData)
+			setFilteredPosts(postData)
 			setCopyPostsData(postData)
 			setLoadMoreProduct(response?.data?.length >= 15)
 		}
@@ -164,6 +174,7 @@ const Product = ({ addToCart, setSellerId, sellerId, userId, setSelectedBtn, set
 				}
 				setUserId('')
 				setSellers(sellerData)
+				setFilteredSellers(sellerData)
 				setCopySellersData(sellerData)
 				setLoadMoreSeller(response?.data?.data?.allSellers.length >= 15)
 			}
@@ -183,11 +194,146 @@ const Product = ({ addToCart, setSellerId, sellerId, userId, setSelectedBtn, set
 		}
 	}
 
+	const deg2rad = (deg) => {
+		return deg * (Math.PI / 180);
+	}
+
+	const getDistanceFromLatLonInMiles = (lat1, lon1, lat2, lon2) => {
+		const R = 6371;
+		const dLat = deg2rad(lat2 - lat1);
+		const dLon = deg2rad(lon2 - lon1);
+		const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+			Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+			Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+		const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		const distanceInKm = R * c;
+
+		const distanceInMiles = distanceInKm * 0.621371;
+		return distanceInMiles;
+	}
+
 	useEffect(() => {
 		if (pathname.includes('/products/sellers/')) {
 			slugNavigation()
 		}
 	}, [pathname])
+
+	//search seller
+	useEffect(() => {
+		let timer: any = null
+		if (searchSeller) {
+			if (searchSeller.trim().length >= 2 && pathname == '/products') {
+				timer = setTimeout(async () => {
+					_dispatch(setIsLoading(true))
+					setIsDataProgress(true)
+					const response = await searchSellersApi(searchSeller)
+					setSellers(response.data.data)
+					setFilteredSellers(response.data.data)
+					_dispatch(setIsLoading(false))
+					setIsDataProgress(false)
+				}, 500)
+			}
+		} else if (searchSeller?.trim()?.length === 0) {
+			setSellers(copySellersData)
+			setFilteredSellers(copySellersData)
+		}
+
+		return () => clearTimeout(timer)
+	}, [searchSeller])
+
+	//search product
+	useEffect(() => {
+		let timer: any = null
+		if (searchProduct) {
+			if (searchProduct.trim().length >= 2 && pathname == '/products') {
+				timer = setTimeout(async () => {
+					_dispatch(setIsLoading(true))
+					setIsDataProgress(true)
+
+					let is_trade = 0
+					let is_donation = 0
+					let is_discount = 0
+					is_trade = selectCategory === 'trade' ? 1 : 0
+					is_donation = selectCategory === 'donation' ? 1 : 0
+					is_discount = selectCategory === 'sale' ? 1 : 0
+					const response = await searchProductsApi(is_trade, is_discount, is_donation, searchProduct, organicProducts)
+					if (response.data.length < 1) {
+						setPostFlag(true)
+					} else {
+						setPostFlag(false)
+					}
+					setFilteredPosts(response.data)
+					_dispatch(setIsLoading(false))
+					setIsDataProgress(false)
+				}, 500)
+			}
+		} else if (searchProduct?.trim()?.length === 0) {
+			setFilteredPosts(copyPostsData)
+		}
+
+		return () => clearTimeout(timer)
+	}, [searchProduct])
+
+	useEffect(() => {
+		if (selectCategory === 'sellers') {
+			let filtered: any = []
+			if (sellers.length > 0 && searchAddress !== null && searchLat !== null && searchLog !== null) {
+				for (let i = 0; i < sellers.length; i++) {
+					if (sellers[i]?.lat && sellers[i]?.log && sellers[i]?.lat?.toFixed(2) === searchLat?.toFixed(2) && sellers[i]?.log?.toFixed(2) === searchLog?.toFixed(2)) {
+						filtered.push(sellers[i])
+					}
+				}
+				if (filtered?.length > 0) {
+					setSellerFlag(false)
+					setFilteredSellers(filtered)
+				} else {
+					let minDistance = 1e308, index: any
+					for (let i = 0; i < posts.length; i++) {
+						if (filtered[i]?.lat && filtered[i]?.log) {
+							const distance = getDistanceFromLatLonInMiles(filtered[i].lat, filtered[i].log, searchLat, searchLog)
+							if (distance < minDistance) {
+								minDistance = distance
+								index = i
+							}
+						}
+					}
+					setSellerFlag(true)
+					setFilteredSellers([sellers[index]])
+				}
+			} else {
+				setFilteredSellers(sellers)
+			}
+		} else {
+			let filtered: any = []
+			if (posts.length > 0 && searchAddress !== null && searchLat !== null && searchLog !== null) {
+				for (let i = 0; i < posts.length; i++) {
+					if (posts[i]?.user?.lat && posts[i]?.user.log && posts[i]?.user?.lat?.toFixed(2) === searchLat?.toFixed(2) && posts[i]?.user?.log?.toFixed(2) === searchLog?.toFixed(2)) {
+						filtered.push(posts[i])
+					}
+				}
+				if (filtered?.length > 0) {
+					setFilteredPosts(filtered)
+					setPostFlag(false)
+				} else {
+					let minDistance = 1e308, index: any
+					for (let i = 0; i < posts.length; i++) {
+						if (posts[i]?.user?.lat && posts[i]?.user.log) {
+							const distance = getDistanceFromLatLonInMiles(posts[i]?.user?.lat, posts[i]?.user?.log, searchLat, searchLog)
+							if (distance < minDistance) {
+								minDistance = distance
+								index = i
+							}
+						}
+					}
+					setPostFlag(true)
+					setFilteredPosts([posts[index]])
+				}
+			} else {
+				setFilteredPosts(posts)
+			}
+		}
+	}, [searchAddress])
 
 	const slugNavigation = async () => {
 		if (pathname.includes('/products/sellers/')) {
@@ -209,8 +355,10 @@ const Product = ({ addToCart, setSellerId, sellerId, userId, setSelectedBtn, set
 				setIsDataProgress(true)
 				setSelectedBtn('products')
 				setSellers([])
+				setFilteredSellers([])
 				const response = await getAllSellersApi(organicProducts)
 				setSellers(response?.data?.data?.allSellers)
+				setFilteredSellers(response?.data?.data?.allSellers)
 				setSelectCategory('sellers')
 				_dispatch(setIsLoading(false))
 				setIsDataProgress(false)
@@ -241,55 +389,6 @@ const Product = ({ addToCart, setSellerId, sellerId, userId, setSelectedBtn, set
 		}
 	}
 
-	//search seller
-	useEffect(() => {
-		let timer: any = null
-		if (searchSeller) {
-			if (searchSeller.trim().length >= 2 && pathname == '/products') {
-				timer = setTimeout(async () => {
-					_dispatch(setIsLoading(true))
-					setIsDataProgress(true)
-					const response = await searchSellersApi(searchSeller)
-					setSellers(response.data.data)
-					_dispatch(setIsLoading(false))
-					setIsDataProgress(false)
-				}, 500)
-			}
-		} else if (searchSeller?.trim()?.length === 0) {
-			setSellers(copySellersData)
-		}
-
-		return () => clearTimeout(timer)
-	}, [searchSeller])
-
-	//search product
-	useEffect(() => {
-		let timer: any = null
-		if (searchProduct) {
-			if (searchProduct.trim().length >= 2 && pathname == '/products') {
-				timer = setTimeout(async () => {
-					_dispatch(setIsLoading(true))
-					setIsDataProgress(true)
-
-					let is_trade = 0
-					let is_donation = 0
-					let is_discount = 0
-					is_trade = selectCategory === 'trade' ? 1 : 0
-					is_donation = selectCategory === 'donation' ? 1 : 0
-					is_discount = selectCategory === 'sale' ? 1 : 0
-					const response = await searchProductsApi(is_trade, is_discount, is_donation, searchProduct, organicProducts)
-					setPosts(response.data)
-					_dispatch(setIsLoading(false))
-					setIsDataProgress(false)
-				}, 500)
-			}
-		} else if (searchProduct?.trim()?.length === 0) {
-			setPosts(copyPostsData)
-		}
-
-		return () => clearTimeout(timer)
-	}, [searchProduct])
-
 	useEffect(() => {
 		if (!router?.query?.id) {
 			setSelectCategory(userId ? 'sellers' : 'products')
@@ -314,14 +413,14 @@ const Product = ({ addToCart, setSellerId, sellerId, userId, setSelectedBtn, set
 					_dispatch(setIsLoading(true))
 					setIsDataProgress(true)
 					const response = await searchTradeApi(searchTrade, searchTradeWith, organicProducts)
-					setPosts(response.data)
+					setFilteredPosts(response.data)
 					setLoadMoreProduct(false)
 					_dispatch(setIsLoading(false))
 					setIsDataProgress(false)
 				}, 500)
 			}
 		} else if (searchTrade.trim().length === 0 || searchTradeWith.trim().length === 0) {
-			setPosts(copyPostsData)
+			setFilteredPosts(copyPostsData)
 			setLoadMoreProduct(copyPostsData.length >= 15)
 		}
 
@@ -376,9 +475,16 @@ const Product = ({ addToCart, setSellerId, sellerId, userId, setSelectedBtn, set
 						{selectCategory === 'products' && (
 							<>
 								<Row mdJustifyContent="start" smJustifyContent="center">
-									{posts?.map((content: any, index) => {
+									{postFlag === true && (
+										<Col>
+											<Text type="small" margin="1rem 0rem" isCentered>
+												{isDataProgress ? '' : 'No activities in this neighborhood yet'}
+											</Text>
+										</Col>
+									)}
+									{filteredPosts?.map((content: any, index) => {
 										return (
-											<div className='col-md-6 mx-0 col-12 d-grid  align-items-stretch'>
+											<div className='col-md-6 mx-0 col-12 d-grid align-items-stretch'>
 												<Suspense fallback={''}>
 													{content?.discount > 0 ? (
 														<StyledCard cardIndex={index} sale content={content} addToCart={addToCart} category={selectCategory} />
@@ -405,22 +511,22 @@ const Product = ({ addToCart, setSellerId, sellerId, userId, setSelectedBtn, set
 											<></>
 										)}
 									</Col>
-									{posts?.length === 0 && (
-										<Col>
-											<Text type="small" margin="4rem 0rem" isCentered>
-												{isDataProgress ? '' : 'No data found'}
-											</Text>
-										</Col>
-									)}
 								</Row>
 							</>
 						)}
 						{selectCategory === 'donation' && (
 							<>
 								<Row mdJustifyContent="start" smJustifyContent="center">
-									{posts?.map((content, index) => {
+									{postFlag === true && (
+										<Col>
+											<Text type="small" margin="1rem 0rem" isCentered>
+												{isDataProgress ? '' : 'No activities in this neighborhood yet'}
+											</Text>
+										</Col>
+									)}
+									{filteredPosts?.map((content, index) => {
 										return (
-											<Col lg={6} md={6} sm={8}>
+											<Col lg={6} md={6} sm={8} className='d-grid align-items-stretch'>
 												<Suspense fallback={''}>
 													<StyledCard cardIndex={index} donation content={content} addToCart={addToCart} category={selectCategory} />
 												</Suspense>
@@ -435,22 +541,22 @@ const Product = ({ addToCart, setSellerId, sellerId, userId, setSelectedBtn, set
 											</>
 										)}
 									</Col>
-									{posts?.length === 0 && (
-										<Col>
-											<Text type="small" margin="4rem 0rem" isCentered>
-												{isDataProgress ? '' : 'No data found'}
-											</Text>
-										</Col>
-									)}
 								</Row>
 							</>
 						)}
 						{selectCategory === 'sale' && (
 							<>
 								<Row mdJustifyContent="start" smJustifyContent="center">
-									{posts?.map((content, index) => {
+									{postFlag === true && (
+										<Col>
+											<Text type="small" margin="1rem 0rem" isCentered>
+												{isDataProgress ? '' : 'No activities in this neighborhood yet'}
+											</Text>
+										</Col>
+									)}
+									{filteredPosts?.map((content, index) => {
 										return (
-											<Col lg={6} md={6} sm={8}>
+											<Col lg={6} md={6} sm={8} className='d-grid align-items-stretch'>
 												<Suspense fallback={''}>
 													<StyledCard cardIndex={index} sale content={content} addToCart={addToCart} category={selectCategory} />
 												</Suspense>
@@ -465,13 +571,6 @@ const Product = ({ addToCart, setSellerId, sellerId, userId, setSelectedBtn, set
 											</>
 										)}
 									</Col>
-									{posts?.length === 0 && (
-										<Col>
-											<Text type="small" margin="4rem 0rem" isCentered>
-												{isDataProgress ? '' : 'No data found'}
-											</Text>
-										</Col>
-									)}
 								</Row>
 							</>
 						)}
@@ -479,18 +578,25 @@ const Product = ({ addToCart, setSellerId, sellerId, userId, setSelectedBtn, set
 							<>
 								<Row>
 									<TradeBayCol lg={6} md={6} sm={6} xs={6}>
-										<InputField bgTransparent handleChange={searchTradeProd} value={searchTrade} label="Trade By" />
+										<InputField bgTransparent handleChange={searchTradeProd} value={searchTrade} placeholder="Trade By" />
 										<Spacer height={1} />
 									</TradeBayCol>
 									<TradeWithCol lg={6} md={6} sm={6} xs={6}>
-										<InputField bgTransparent handleChange={searchTradeWithProd} value={searchTradeWith} label="Trade With" />
+										<InputField bgTransparent handleChange={searchTradeWithProd} value={searchTradeWith} placeholder="Trade With" />
 										<Spacer height={1} />
 									</TradeWithCol>
 								</Row>
+								{postFlag === true && (
+									<Col>
+										<Text type="small" margin="1rem 0rem" isCentered>
+											{isDataProgress ? '' : 'No activities in this neighborhood yet'}
+										</Text>
+									</Col>
+								)}
 								<Row mdJustifyContent="start" smJustifyContent="center">
-									{posts?.map((content, index) => {
+									{filteredPosts?.map((content, index) => {
 										return (
-											<Col xxl={6} xl={12} lg={6} md={6} sm={10}>
+											<Col xxl={6} xl={12} lg={6} md={6} sm={10} className='d-grid align-items-stretch'>
 												<Suspense fallback={''}>
 													<ProductsCard cardIndex={index} trade content={content} addToCart={addToCart} category={selectCategory} tradeCard={true} />
 												</Suspense>
@@ -505,14 +611,6 @@ const Product = ({ addToCart, setSellerId, sellerId, userId, setSelectedBtn, set
 											</>
 										)}
 									</Col>
-
-									{posts?.length === 0 && (
-										<Col>
-											<Text type="small" margin="4rem 0rem" isCentered>
-												{isDataProgress ? '' : 'No data found'}
-											</Text>
-										</Col>
-									)}
 								</Row>
 							</>
 						)}
@@ -522,7 +620,14 @@ const Product = ({ addToCart, setSellerId, sellerId, userId, setSelectedBtn, set
 									<SellerSelfProfile sellerId={sellerId} setIsSellerSelfProfileOpen={setIsSellerSelfProfileOpen} getAllSellers={getAllSellers} data={selectedSeller} addToCart={addToCart} />
 								) : (
 									<>
-										{sellers?.map((data: any, index) => {
+										{sellerFlag === true && (
+											<Col>
+												<Text type="small" margin="1rem 0rem" isCentered>
+													{isDataProgress ? '' : 'No activities in this neighborhood yet'}
+												</Text>
+											</Col>
+										)}
+										{filteredSellers?.map((data: any, index) => {
 											return (
 												<>
 													<SellersCard setSellerId={setSellerId} data={data} sellerCard={true} setSelectedSeller={setSelectedSeller} setIsSellerSelfProfileOpen={setIsSellerSelfProfileOpen} />
@@ -538,11 +643,6 @@ const Product = ({ addToCart, setSellerId, sellerId, userId, setSelectedBtn, set
 												</>
 											)}
 										</Col>
-										{sellers.length === 0 && (
-											<Text type="small" margin="4rem 0rem" isCentered>
-												{isDataProgress ? '' : 'No data found'}
-											</Text>
-										)}
 									</>
 								)}
 							</>
@@ -593,16 +693,15 @@ const Wrapper = styled.div`
 const Section = styled.div<any>`
 	position: sticky;
 	// top: 132.03px;
-	top: 100px
-
+	top : 100px;
 	height: calc(100vh - 132.03px);
 	overflow-y: auto;
 	display: flex;
 
 	flex-direction: column;
-	justify-content: ${({ scroll }) => (scroll > 750 ? 'flex-end' : 'space-between')};
+	// justify-content: ${({ scroll }) => (scroll > 750 ? 'flex-end' : 'space-between')};
 	::-webkit-scrollbar {
-		display: none;
+		display: none !important;
 	}
 `
 

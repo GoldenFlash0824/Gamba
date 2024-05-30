@@ -122,7 +122,7 @@ const TradeDetailsCard = ({ cardIndex, sale, content, addToCart, donation, isTra
 									)}
 									<Text color="text_description">
 										<strong>Caption: </strong>
-										<TextWithSeeMore text={content?.caption} maxLength={180} />
+										<TextWithSeeMore text={content?.caption} maxLength={180} background="" />
 									</Text>
 								</CustomInfoWrapper>
 							</CustomFlexed>

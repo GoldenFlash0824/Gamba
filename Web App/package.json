@@ -110,6 +110,7 @@
   },
   "devDependencies": {
     "@types/react-calendar": "^3.9.0",
-    "@types/react-datetime-picker": "^3.4.1"
+    "@types/react-datetime-picker": "^3.4.1",
+    "@types/react-places-autocomplete": "^7.2.14"
   }
 }

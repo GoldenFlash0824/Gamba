@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux'
 import EditProductStepperOne from './editProduct/EditProductStepperOne'
 import EditProductStepperTwo from './editProduct/EditProductStepperTwo'
 import EditProductStepperThree from './editProduct/EditProductStepperThree'
-import { saveRoute, saveSearchText, setIsLoading } from '../actions/authActions'
+import { saveRoute, saveSearchAddress, saveSearchLat, saveSearchLog, saveSearchText, setIsLoading } from '../actions/authActions'
 import { toastError } from '../styled/toastStyle'
 import moment from 'moment-timezone'
 
@@ -130,6 +130,9 @@ const EditProduct = ({ productContent, onClose, setSellGoodsCategory }) => {
 		}
 		setUnlimited(productContent?.isUnlimitted)
 		_dispatch(saveSearchText(''))
+		_dispatch(saveSearchLat(null))
+		_dispatch(saveSearchLog(null))
+		_dispatch(saveSearchAddress(''))
 	}, [])
 
 	const handleStartDateChange = (date: any) => {

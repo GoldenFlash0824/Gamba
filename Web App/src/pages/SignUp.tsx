@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import PlacesAutocomplete, { geocodeByAddress, geocodeByPlaceId, getLatLng } from 'react-places-autocomplete'
+import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete'
 import styled from 'styled-components'
 import { palette } from '../styled/colors'
 import { Flexed, Heading, Spacer, Text, getCurrentAddress, Divider } from '../styled/shared'
@@ -20,10 +20,9 @@ const SignUp = () => {
 	const [firstName, setFirstName] = useState<string>('')
 	const [lastName, setLastName] = useState('')
 	const [email, setEmail] = useState('')
+	const [address, setAddress] = useState('')
 	const [password, setPassword] = useState('')
 	const [phoneNumber, setPhoneNumber] = useState('')
-	const [clat, setCLat] = useState<any>('')
-	const [clng, setCLng] = useState<any>('')
 
 	const [firstNameError, setFirstNameError] = useState<string>('')
 	const [lastNameError, setLastNameError] = useState('')
@@ -33,11 +32,15 @@ const SignUp = () => {
 	const [phoneNumberError, setPhoneNumberError] = useState('')
 	const [latitude, setLatitude]: any = useState(null)
 	const [longitude, setLongitude]: any = useState(null)
-	const [location, setLocation] = useState('')
 
 	const signUpuser = async () => {
 		_dispatch(setIsLoading(true))
-		let response = await registerUser(firstName, lastName, email, password, phoneNumber, latitude, longitude, location)
+		let response: any;
+		if (address === '') {
+			const { curAdd, curLat, curLog } = await getCurrentLatLng();
+			response = await registerUser(firstName, lastName, email, password, phoneNumber, curLat, curLog, curAdd)
+		}
+		response = await registerUser(firstName, lastName, email, password, phoneNumber, latitude, longitude, address)
 		_dispatch(setIsLoading(false))
 		if (response.success === true) {
 			toastSuccess(response.message)
@@ -83,32 +86,60 @@ const SignUp = () => {
 		return isValid
 	}
 
+	const handleSelect = (address: any) => {
+		if (address !== '') {
+			setAddress(address);
+			geocodeByAddress(address)
+				.then((results: any[]) => {
+					if (results.length > 0) {
+						const location = results[0].geometry.location;
+						return {
+							lat: location.lat(),
+							lng: location.lng()
+						};
+					} else {
+						throw new Error('No results found for the specified address.');
+					}
+				})
+				.then((latLng: any) => {
+					setLatitude(latLng?.lat)
+					setLongitude(latLng?.lng)
+				}).catch((err: any) => console.log('Error: ', err))
+		}
+	}
+
+	const getCurrentLatLng = (): Promise<any> => {
+		return new Promise((resolve, reject) => {
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(
+					async (position) => {
+						try {
+							const curAdd = await getCurrentAddress(position.coords.latitude, position.coords.longitude);
+							resolve({
+								curAdd: curAdd,
+								curLat: position.coords.latitude,
+								curLog: position.coords.longitude
+							});
+						} catch (error) {
+							console.error('Error getting location:', error);
+							reject(error);
+						}
+					},
+					(error) => {
+						console.error('Error getting geolocation:', error);
+						reject(error);
+					}
+				);
+			} else {
+				console.error('Geolocation is not supported by this browser.');
+				reject('Geolocation is not supported by this browser.');
+			}
+		});
+	};
+
 	useEffect(() => {
-		getLatLong();
 		toastSuccess("Location is necessary for GPS tracking to detect activities near you or nearby");
 	}, [])
-
-	const getLatLong = async () => {
-		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(
-				async (position) => {
-					try {
-						setLatitude(position.coords.latitude);
-						setLongitude(position.coords.longitude);
-						const address = await getCurrentAddress(position.coords.latitude, position.coords.longitude);
-						setLocation(address);
-					} catch (error) {
-						console.error('Error getting location:', error);
-					}
-				},
-				(error) => {
-					console.error('Error getting geolocation:', error);
-				}
-			);
-		} else {
-			console.error('Geolocation is not supported by this browser.');
-		}
-	};
 
 	return (
 		<Grid>
@@ -209,26 +240,41 @@ const SignUp = () => {
 									<Spacer height={1.25} />
 								</div>
 
-								{/* <div>
-									<CustomInputField
-										label="Location."
-										type="tel"
-										placeholder="Enter your phone number"
-										handleChange={(e: any) => {
-											setPhoneNumberError('')
-											if (e === '') {
-												setPhoneNumberError('Phone Number is required')
-											}
-											setPhoneNumber(e)
-										}}
-										value={phoneNumber}
-										error={phoneNumberError}
-										errorMsg={phoneNumberError}
-										required
-										allowOnlyNumbers={true}
-									/>
+								<div>
+									<PlacesAutocomplete value={address} onChange={setAddress} onSelect={handleSelect}>
+										{({ getInputProps, suggestions, getSuggestionItemProps }: any) => (
+											<div>
+												<>
+													<InputWrapper>
+														<LabelWrapper>
+															<CalenderLabel type="normal" margin="0rem 0rem 0.25rem 0rem">
+																Location <Mandatory>*</Mandatory>
+															</CalenderLabel>
+														</LabelWrapper>
+														<GoogleAutoLocation width={'100%'} borderRadius={'0.2rem'} margin={'0'} padding={'0.8rem 0.8rem 0.8rem 2.5rem'} value={address} {...getInputProps()} placeholder="Search location" />
+													</InputWrapper>
+													<ListItems open={suggestions?.length > 0}>
+														{suggestions?.map((suggestion: any, i: any) => {
+															const style = {
+																backgroundColor: suggestion.active ? '#32CD32' : 'white'
+															}
+															return (
+																<LocationList
+																	key={i + 'mapkey'}
+																	{...getSuggestionItemProps(suggestion, {
+																		style
+																	})}>
+																	{suggestion?.description}
+																</LocationList>
+															)
+														})}
+													</ListItems>
+												</>
+											</div>
+										)}
+									</PlacesAutocomplete>
 									<Spacer height={1.25} />
-								</div> */}
+								</div>
 
 								<div>
 									<CustomInputField
@@ -357,6 +403,91 @@ export const SocialIconsCover = styled(Flexed) <any>`
 	box-shadow: ${({ hasShadow }) => (hasShadow ? '0px 6px 24px 0px rgba(0, 0, 0, 0.10)' : 'none')};
 	cursor: pointer;
 `
+const LabelWrapper = styled.div``
 
+const InputWrapper = styled.div`
+	position: relative;
+`
+
+const Mandatory = styled.span`
+	color: ${palette.danger};
+`
+
+const CalenderLabel = styled(Text)`
+	font-weight: 700;
+	color: ${palette.black};
+`
+
+const LocationList = styled.div`
+	background-color: ${palette.white};
+	cursor: pointer;
+	line-height: 2rem;
+	padding: 0.5rem 0.8rem;
+	border-bottom: 1px solid ${palette.stroke};
+	font-family: 'Lato-Regular', sans-serif;
+	text-transform: normal;
+	color: ${palette.heading_color};
+	&:hover {
+		background: ${palette.Btn_dark_green};
+		color: ${palette.white};
+	}
+
+	&:first-child {
+		border-top-left-radius: 0.375rem;
+		border-top-right-radius: 0.375rem;
+	}
+	&:last-child {
+		border-bottom-left-radius: 0.375rem;
+		border-bottom-right-radius: 0.375rem;
+	}
+	&:last-child {
+		border-bottom: 0;
+	}
+`
+
+const GoogleAutoLocation = styled.input<any>`
+	font-family: 'Lato-Regular', sans-serif;
+	width: 100%;
+	line-height: 1.25rem;
+	outline: none;
+	font-weight: 400;
+	text-align: left;
+	font-size: 1rem;
+	border-radius: 0.5rem;
+	padding: 0.7rem 1.25rem;
+	border: 1px solid ${palette.stroke};
+	background: ${palette.white};
+	width: 100%;
+
+	&:focus {
+		border: 1px solid ${({ error, disabled }) => (disabled ? 'none' : error ? palette.danger : palette.Btn_dark_green)};
+	}
+	&::placeholder {
+		color: ${palette.gray_100};
+	}
+
+	&:-ms-input-placeholder {
+		/* Internet Explorer 10-11 */
+		color: ${({ disabled, isDarkTheme }) => (disabled || isDarkTheme ? `${palette.silver}` : `${palette.gray_100}`)};
+	}
+
+	&::-ms-input-placeholder {
+		/* Microsoft Edge */
+		// color: ${palette.gray_100};
+	}
+`
+
+const ListItems = styled.div<any>`
+	position: absolute;
+	background: ${palette.white};
+	z-index: 1;
+	width: calc(100% - 1.875rem);
+	border: ${({ open }) => (open ? `1px solid ${palette.stroke}` : null)};
+
+	border-radius: 1rem;
+
+	max-height: 15rem;
+	overflow-y: auto;
+`
 
 export default SignUp

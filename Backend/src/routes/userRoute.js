@@ -10,6 +10,7 @@ import * as disLikeProfileController from '../controllers/disLikeProfileControll
 import * as likeProfileController from '../controllers/likeProfileController.js'
 import * as shareModelController from '../controllers/shareModelController.js'
 import * as reportOrderController from '../controllers/reportOrderController.js'
+import * as userNotificationController from '../controllers/userNotificationController.js'
 import { isCommentIdValid, isPostIdValid } from '../validator/postValidation.js'
 
 const router = express.Router()
@@ -18,6 +19,7 @@ router.post('/register', isEmailValidate, isPasswordValidate, isRequestValid, us
 router.get('/user_profile', verifyAuthToken(), userController.userMyProfile)
 router.post('/update', verifyAuthToken(), userController.updateUser)
 router.post('/login', isPasswordValidate, isRequestValid, userController.loginUser)
+router.get('/logout', verifyAuthToken(), userController.logoutUser)
 router.post('/social_login', isProviderValidate, isSocialIdValidate, isRequestValid, userController.socialLogin)
 router.post('/social_update', verifyAuthToken(), isRequestValid, userController.updateSocialUser)
 router.post('/send_register_code', verifyAuthToken(), isPhoneValidate, isRequestValid, userController.sendRegisterCode)
@@ -34,6 +36,7 @@ router.post('/get_seller_by_id', userController.getSellerById)
 router.post('/contect_us', verifyAuthToken(), userController.contectUs)
 router.get('/get_contect_us', userController.getContectUs)
 router.get('/user_notification', verifyAuthToken(), userController.notification)
+router.delete('/user_notification', verifyAuthToken(), userController.deleteNotifications)
 router.get('/read_notification', verifyAuthToken(), userController.readNotification)
 router.get('/mark_all_read_notification', verifyAuthToken(), userController.markAllReadnotification)
 
@@ -74,6 +77,8 @@ router.post('/verify_two_fector_auth_code', isEmailValidate, isVerificationCodeV
 router.post('/enable_user_web', verifyAuthToken(), userController.enableAccount)
 router.post('/privacy_setting', verifyAuthToken(), userController.userPrivacySetting)
 router.get('/get_user_privacy_setting', verifyAuthToken(), userController.getuserPrivacySetting)
+
+router.delete('/notifications/:id', verifyAuthToken(), userNotificationController.deleteUserNotification)
 // router.post('/search_by_name', verifyAuthToken(), userController.searchByName)
 // router.post('/update_notification', verifyAuthToken(), userNotificationController.updateUserNotification)
 // router.post('/send_fcm', verifyAuthToken(), userController.sendChatFcm)

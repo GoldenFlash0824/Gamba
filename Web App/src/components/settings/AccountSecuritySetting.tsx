@@ -1,13 +1,13 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import {palette} from '../../styled/colors'
-import {Flexed, Spacer, Text} from '../../styled/shared'
-import {Row, Col, media} from 'styled-bootstrap-grid'
-import {IoIosArrowForward} from 'react-icons/io'
+import { palette } from '../../styled/colors'
+import { Flexed, Spacer, Text } from '../../styled/shared'
+import { Row, Col, media } from 'styled-bootstrap-grid'
+import { IoIosArrowForward } from 'react-icons/io'
 import CustomInputField from '../common/CustomInputField'
 import Button from '../common/Button'
 
-const AccountSecuritySetting = ({setSelectCategory, setSelectProfileSettingsCategory}) => {
+const AccountSecuritySetting = ({ setSelectCategory, setSelectProfileSettingsCategory }) => {
 	const [verificationCode, setVerificationCode] = useState('')
 
 	return (
@@ -30,19 +30,6 @@ const AccountSecuritySetting = ({setSelectCategory, setSelectProfileSettingsCate
 			<Spacer height={0.5} />
 			<Wrapper>
 				<Row>
-					{/* <Col lg={6} md={6}>
-						<CustomInputField
-							label="confirm new Password"
-							type="password"
-							placeholder="Password"
-							handleChange={(e: any) => {
-								setConfirmNewPassword(e)
-							}}
-							value={confirmNewPassword}
-							required
-						/>
-						<Spacer height={2} />
-					</Col> */}
 					<Col>
 						<Flexed align="center" justify="center">
 							<Text type="large" color="text" isCentered>
@@ -77,7 +64,7 @@ const AccountSecuritySetting = ({setSelectCategory, setSelectProfileSettingsCate
 
 					<Col>
 						<Flexed direction="row" align="center" justify="center">
-							<Button label="Verify" width="min-content" ifClicked={() => {}} />
+							<Button label="Verify" width="min-content" ifClicked={() => { }} />
 						</Flexed>
 					</Col>
 
@@ -111,11 +98,11 @@ const Wrapper = styled.div`
 const InputField = styled.div`
 	width: 12rem;
 `
-const StyledHeading = styled(Text)<any>`
+const StyledHeading = styled(Text) <any>`
 	position: relative;
 	cursor: pointer;
-	opacity: ${({opacity}) => (opacity ? '0.5' : '1')};
-	/* color: ${({active}) => (active ? palette.Btn_dark_green : palette.text_black)}; */
+	opacity: ${({ opacity }) => (opacity ? '0.5' : '1')};
+	/* color: ${({ active }) => (active ? palette.Btn_dark_green : palette.text_black)}; */
 `
 
 export default AccountSecuritySetting

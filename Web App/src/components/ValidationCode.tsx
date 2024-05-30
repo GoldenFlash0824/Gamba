@@ -43,7 +43,7 @@ const ValidationCode = ({ isRemmber, email, setEmail, password, is2Fa, isModel, 
 					_dispatch(setAuthToken(response?.data))
 					onClose()
 				} else {
-					_navigate('/products')
+					_navigate('/settings')
 				}
 			}
 		} else if (response.message === 'User verified successfully') {
@@ -52,17 +52,21 @@ const ValidationCode = ({ isRemmber, email, setEmail, password, is2Fa, isModel, 
 			if (isRemmber) {
 				localStorage.setItem('authorization', res?.data?.user?.auth_token)
 			}
+			if (res?.data?.user?.lat && res?.data?.user?.log) {
+				let userLocation: any = { lat: res.data.user.lat, log: res.data.user.log }
+				localStorage.setItem('userLocation', JSON.stringify(userLocation))
+			}
 			sessionStorage.setItem('authorization', res?.data?.user?.auth_token)
 			_dispatch(setUserId(res?.data?.user?.id))
 			setVerified('')
 			if (isModel) {
 				onClose()
 			} else {
-				_navigate('/products')
+				_navigate('/settings')
 			}
 		} else if (response.message === 'User already verified, Please login') {
 			toastError(response.message)
-			_navigate('/products')
+			_navigate('/settings')
 			setLoading(false)
 		} else {
 			toastError(response.message)
@@ -92,10 +96,6 @@ const ValidationCode = ({ isRemmber, email, setEmail, password, is2Fa, isModel, 
 							setErrorMsg('')
 							setVerified(e)
 						}}
-						// onComplete={() => {
-						// 	checkVerification()
-						// }}
-
 						value={verified}
 					/>
 				</Flexed>
@@ -106,16 +106,6 @@ const ValidationCode = ({ isRemmber, email, setEmail, password, is2Fa, isModel, 
 					</Error>
 					<Spacer height={1} />
 				</div>
-				<div>
-					{/* <Text type="normal" color="text" isCentered>
-							{countdown > 0 ? 'Verification code expires in' : 'Verification code has expired'}
-						</Text>
-						<Spacer height={1} />
-
-						<Text type="normal" isCentered color="danger" fontWeight={600}>
-							{countdown} seconds
-						</Text> */}
-				</div>
 
 				<div>
 					<Button
@@ -125,11 +115,7 @@ const ValidationCode = ({ isRemmber, email, setEmail, password, is2Fa, isModel, 
 						disabled={verified.length < 6}
 						label="Verify Now"
 						ifClicked={() => {
-							// if (countdown > 0) {
 							checkVerification()
-							// } else {
-							// toastError('Timer expired Please click on re send.')
-							// }
 						}}
 					/>
 				</div>

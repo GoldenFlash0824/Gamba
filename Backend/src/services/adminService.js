@@ -649,7 +649,7 @@ const getAllProductGood = async (req) => {
                 },
                 {
                     association: 'user',
-                    attributes: ['id', 'first_name', 'last_name', 'chat_id', 'lat', 'log', 'image', 'email', 'display_phone', 'display_email', 'display_dob', 'display_location', 'display_profile', 'display_dob_full_format', 'stripe_account_id', 'stripe_account_verified']
+                    attributes: ['id', 'first_name', 'last_name', 'chat_id', 'lat', 'log', 'address', 'image', 'email', 'display_phone', 'display_email', 'display_dob', 'display_location', 'display_profile', 'display_dob_full_format', 'stripe_account_id', 'stripe_account_verified']
                 },
                 {
                     association: 'chemical_data',

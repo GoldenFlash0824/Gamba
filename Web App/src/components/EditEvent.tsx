@@ -10,7 +10,7 @@ import { Upload, FileInput, ImgWrapper, ShowImage, IconWrapper, CrossIcon } from
 import moment from 'moment-timezone'
 import DateTimePicker from 'react-datetime-picker'
 import { UpdateEvent } from '../apis/apis'
-import { saveSearchText, setIsLoading } from '../actions/authActions'
+import { saveSearchAddress, saveSearchLat, saveSearchLog, saveSearchText, setIsLoading } from '../actions/authActions'
 import { toastError, toastSuccess } from '../styled/toastStyle'
 import { useDispatch } from 'react-redux'
 import DropDown from './DropDown'
@@ -51,6 +51,9 @@ const EditEvent = ({ data, onClose }) => {
 
 	useEffect(() => {
 		_dispatch(saveSearchText(''))
+		_dispatch(saveSearchLat(null))
+		_dispatch(saveSearchLog(null))
+		_dispatch(saveSearchAddress(''))
 	}, [])
 
 	const handleStartDateChange = (date: any) => {

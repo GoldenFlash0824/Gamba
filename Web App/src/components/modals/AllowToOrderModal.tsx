@@ -1,13 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
-import {Modal} from 'react-responsive-modal'
+import { Modal } from 'react-responsive-modal'
 import 'react-responsive-modal/styles.css'
-import {Text, Spacer, Flexed} from '../../styled/shared'
-import {palette} from '../../styled/colors'
-import {media} from 'styled-bootstrap-grid'
+import { Text, Spacer, Flexed } from '../../styled/shared'
+import { palette } from '../../styled/colors'
+import { media } from 'styled-bootstrap-grid'
 import Button from '../common/Button'
 
-const AllowToOrderModal = ({onClose, allowPerPerson}: any) => {
+const AllowToOrderModal = ({ onClose, allowPerPerson }: any) => {
 	return (
 		<>
 			<Modal
@@ -29,16 +29,16 @@ const AllowToOrderModal = ({onClose, allowPerPerson}: any) => {
 					<Body>
 						<Text type="normal" color="text">
 							{allowPerPerson
-								? 'This is to limit donation. If you’d like to have one person get 2 times donation, then enter the number 2, if not leave it alone.'
+								? `To limit donations, please enter the number of times one person can receive a donation. For example, if you'd like to allow one person to receive two donations, enter the number 2. If no limit is needed, leave it blank`
 								: 'Please set it up If you allow customers to order your products ahead of time, please enter the number of hours or days in advance.'}
 						</Text>
 						<Spacer height={2} />
 						<Flexed direction="row" align="center" justify="center">
-							<Button  label="Ok" ifClicked={onClose} />
+							<Button label="Ok" ifClicked={onClose} />
 						</Flexed>
 					</Body>
 				</ModalWrapper>
-				
+
 			</Modal>
 		</>
 	)

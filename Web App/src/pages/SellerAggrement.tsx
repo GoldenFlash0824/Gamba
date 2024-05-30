@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Flexed, Spacer, Text } from '../styled/shared'
 import { useDispatch } from 'react-redux'
-import { saveSearchText } from '../actions/authActions'
+import { saveSearchAddress, saveSearchLat, saveSearchLog, saveSearchText } from '../actions/authActions'
 import { pdfjs } from 'react-pdf'
 import styled from 'styled-components'
 import { palette } from '../styled/colors'
@@ -20,7 +20,6 @@ const SellerAggrement = ({ profile }: any) => {
 	const Layout = defaultLayoutPlugin()
 	return (
 		<div style={{ overflow: 'hidden' }}>
-			{/* {loading && <Loader visible={loading} />} */}
 			{!profile && (
 				<Flexed className="mt-4" direction="row" align="center" gap="0.5">
 					<Text
@@ -30,6 +29,9 @@ const SellerAggrement = ({ profile }: any) => {
 						color="gray"
 						onClick={() => {
 							_dispatch(saveSearchText(''))
+							_dispatch(saveSearchLat(null))
+							_dispatch(saveSearchLog(null))
+							_dispatch(saveSearchAddress(''))
 							_navigate('/products')
 						}}>
 						Home

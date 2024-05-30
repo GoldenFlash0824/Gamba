@@ -1,18 +1,18 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {Flexed, Text, getDistanceFromLatLonInMiles} from '../styled/shared'
-import {palette} from '../styled/colors'
-import {useDispatch} from 'react-redux'
-import {useLocation, useNavigate} from 'react-router-dom'
-import {IoChatboxSharp} from 'react-icons/io5'
-import {AiOutlineEye} from 'react-icons/ai'
-import {colorPicker} from './utils'
-import {addFav, setIsLoading} from '../actions/authActions'
-import {addFavSeller, getEventById} from '../apis/apis'
+import { Flexed, Text, getDistanceFromLatLonInMiles } from '../styled/shared'
+import { palette } from '../styled/colors'
+import { useDispatch } from 'react-redux'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { IoChatboxSharp } from 'react-icons/io5'
+import { AiOutlineEye } from 'react-icons/ai'
+import { colorPicker } from './utils'
+import { addFav, setIsLoading } from '../actions/authActions'
+import { addFavSeller, getEventById } from '../apis/apis'
 import LoginPopupModel from './modals/LoginPopupModel'
-import {BiEnvelope} from 'react-icons/bi'
+import { BiEnvelope } from 'react-icons/bi'
 
-const HappeningAroundYouList = ({item, loadEvents}: any) => {
+const HappeningAroundYouList = ({ item, loadEvents }: any) => {
 	const _navigate = useNavigate()
 	const router = useLocation()
 	const _dispatch = useDispatch()
@@ -57,7 +57,7 @@ const HappeningAroundYouList = ({item, loadEvents}: any) => {
 	return (
 		<CustomFlex direction="row" align="center" gap="1" justify="space-between">
 			<Flex direction="row" align="center" gap={0.625}>
-				<div style={{position: 'relative'}}>
+				<div style={{ position: 'relative' }}>
 					<Profile styledColor={color} onClick={() => handleTextClick(item?.id)}>
 						{item?.eventUser?.image ? (
 							<Img src={`https://imagescontent.s3.us-east-1.amazonaws.com/${item?.eventUser?.image}`} alt="" />
@@ -75,7 +75,7 @@ const HappeningAroundYouList = ({item, loadEvents}: any) => {
 						</Name>
 						<Distance color="text_description" type="xsmall">
 							{distanceInMiles && <img src="/images/icons/location.svg" alt="location" />}
-							<>{distanceInMiles ? `${distanceInMiles}` : '0 mile'}</>
+							<>{distanceInMiles ? `${distanceInMiles}` : 'N / A'}</>
 						</Distance>
 					</Flexed>
 					<div>
@@ -139,7 +139,7 @@ const HappeningAroundYouList = ({item, loadEvents}: any) => {
 	)
 }
 
-const Name = styled(Text)<any>`
+const Name = styled(Text) <any>`
 	text-overflow: ellipsis;
 	overflow: hidden;
 	width: 8rem;
@@ -162,7 +162,7 @@ const Details = styled(Flexed)`
 `
 
 const CustomText = styled(Text)`
-	color: ${({styledColor}) => (styledColor ? `${styledColor}` : palette.red)};
+	color: ${({ styledColor }) => (styledColor ? `${styledColor}` : palette.red)};
 `
 const Profile = styled.div<any>`
 	height: 2.5rem;
@@ -170,7 +170,7 @@ const Profile = styled.div<any>`
 	border-radius: 100%;
 	// overflow: hidden;
 	/* background: ${palette.Btn_dark_green}; */
-	background: ${({styledColor}) => (styledColor ? `${styledColor} !important` : palette.Btn_dark_green)};
+	background: ${({ styledColor }) => (styledColor ? `${styledColor} !important` : palette.Btn_dark_green)};
 	color: ${palette.black};
 	display: flex;
 	justify-content: center;

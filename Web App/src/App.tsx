@@ -38,6 +38,7 @@ import PrivacyPolicies from './pages/PrivacyPolicies'
 import moment from 'moment-timezone'
 import SellerAggrement from './pages/SellerAggrement'
 import AboutUs from './pages/AboutUs'
+import Network from './pages/Network'
 
 const App = () => {
 	const { pathname } = useLocation()
@@ -237,6 +238,19 @@ const App = () => {
 											setSingleEvent={setSingleEvent}
 										/>
 									}></Route>
+								<Route path='/network*' element={<Network setSellerId={setSellerId}
+									sellerId={sellerId}
+									setSelectCategory={setSelectCategory}
+									setSinglePost={setSinglePost}
+									singlePost={singlePost}
+									showStories={showStories}
+									setIsContactUsOpen={setIsContactUsOpen}
+									isContactUsOpen={isContactUsOpen}
+									setIsAboutOpen={setIsAboutOpen}
+									isAboutOpen={isAboutOpen}
+									setUserId={setUserId}
+									setSelectedBtn={setSelectedBtn}
+									setSingleEvent={setSingleEvent} />}></Route>
 								<Route path="*" element={<Navigate to="/products" />} />
 							</Routes>
 						</Main>

@@ -1,8 +1,6 @@
 import Community from './Community'
 import { RsponsiveSpacer } from '../styled/shared'
 import styled from 'styled-components'
-import { palette } from '../styled/colors'
-
 
 const Social = ({ setUserId, setSellerId, sellerId, singlePost, setSelectCategory, setSinglePost, setIsContactUsOpen, isAboutOpen, setIsAboutOpen, isContactUsOpen, showStories, setSingleEvent, setSelectedBtn }) => {
 	return (

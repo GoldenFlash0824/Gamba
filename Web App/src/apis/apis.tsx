@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { toastError, toastSuccess } from '../styled/toastStyle'
 
+
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 axios.defaults.headers.post['Accept'] = 'application/json'
 axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*'
@@ -21,9 +22,6 @@ export const registerUser: any = async (firstName: any, lastName: any, email: an
 		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/register`, { first_name: firstName, last_name: lastName, email: email, password: password, confirmPassword: password, phone: phoneNumber, lat, log, address: location })
 		.then((res) => {
 			response = res?.data
-			// if (res?.data?.success == true) {
-			// 	sessionStorage.setItem('authorization', res?.data?.data?.auth_token)
-			// }
 		})
 		.catch((error) => {
 			console.error(error)
@@ -39,13 +37,33 @@ export const loginUser: any = async (email: any, password: any, lat: any, log: a
 			response = res?.data
 			response = res?.data
 			if (res?.data?.success === true) {
-				// sessionStorage.setItem('authorization', res?.data?.data?.user?.auth_token)
+				sessionStorage.setItem('authorization', res?.data?.data?.user?.auth_token)
 			}
 		})
 		.catch((error) => {
 			console.error(error)
 		})
 	return response
+}
+
+export const logoutUser: any = async () => {
+	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
+
+	await axios.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/logout`, {
+		headers: {
+			authorization: `bearer ${token}`
+		}
+	})
+		.then((res) => {
+			if (res?.data?.success === true) {
+				localStorage.removeItem('authorization')
+				sessionStorage.removeItem('authorization')
+				sessionStorage.removeItem('chatToken')
+			}
+		})
+		.catch((error) => {
+			console.log(error)
+		})
 }
 
 export const createPost: any = async (description: any, images: any, title: any, privacy: any, postDate: any) => {
@@ -547,13 +565,13 @@ export const searchSellersApi: any = async (filter: any) => {
 	return response
 }
 
-export const searchProductsApi: any = async (trade = 0, discount = 0, donation = 0, filter: any, is_organic: any) => {
+export const searchProductsApi: any = async (trade = 0, discount = 0, donation = 0, filter: any, lat: null, log: null, is_organic: any) => {
 	let response = []
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
 		headers: { authorization: `bearer ${token}` },
-		params: { is_trade: trade, is_donation: donation, is_discount: discount, filter: filter, is_organic }
+		params: { is_trade: trade, is_donation: donation, lat, log, is_discount: discount, filter: filter, is_organic }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/product/search_products`, config)
@@ -1562,6 +1580,41 @@ export const notificationSetting = async (allowOffers: any, emailNotification: a
 			{ email_notification: emailNotification, sms_notification: smsNotification, recieve_msg: recieveMessages, promotional_offers: allowOffers, two_fector_auth: twoFactorAuthentication },
 			config
 		)
+		.then((res) => {
+			response = res?.data
+		})
+		.catch((error) => {
+			console.error(error)
+		})
+	return response
+}
+
+export const deleteNotification: any = async (id: any) => {
+	let response: any = null
+	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
+
+	const config = {
+		headers: { authorization: `bearer ${token}` }
+	}
+	await axios
+		.delete(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/notifications/${id}`, config)
+		.then((res) => {
+			response = res?.data
+		})
+		.catch((error) => {
+			console.error(error)
+		})
+	return response
+}
+
+export const deleteAllNotification: any = async () => {
+	let response: any = null
+	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
+
+	const config = {
+		headers: { authorization: `bearer ${token}` }
+	}
+	await axios.delete(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/user_notification`, config)
 		.then((res) => {
 			response = res?.data
 		})

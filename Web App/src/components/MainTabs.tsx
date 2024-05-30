@@ -6,13 +6,13 @@ import { palette } from '../styled/colors'
 import { useLocation } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { saveSearchText } from '../actions/authActions'
+import { saveSearchAddress, saveSearchLat, saveSearchLog, saveSearchText } from '../actions/authActions'
 
 const MainTabs = ({ setSellerId, setSelectedBtn, setSinglePost, setSingleEvent }: any) => {
 	const _navigate = useNavigate()
 	const _dispatch = useDispatch()
 	const { pathname } = useLocation()
-	const [scrollPosition, setScrollPosition] = useState(0)
+	// const [scrollPosition, setScrollPosition] = useState(0)
 
 	const useWindowSize = () => {
 		const [size, setSize] = useState([window.innerHeight, window.innerWidth])
@@ -22,23 +22,23 @@ const MainTabs = ({ setSellerId, setSelectedBtn, setSinglePost, setSingleEvent }
 				setSize([window.innerHeight, window.innerWidth])
 			}
 			window.addEventListener('resize', handleResize)
-			window.addEventListener('scroll', handleScroll, { passive: true })
+			// window.addEventListener('scroll', handleScroll, { passive: true })
 		}, [])
 		return size
 	}
 
 	const [screenHeight, screenWidth] = useWindowSize()
 
-	const handleScroll = () => {
-		const _position = window.pageYOffset
-		setScrollPosition(_position)
-	}
+	// const handleScroll = () => {
+	// 	const _position = window.pageYOffset
+	// 	setScrollPosition(_position)
+	// }
 
 	return (
 		<MainWrapper className="d-flex justify-content-between mb-1 mt-3 mt-md-auto mb-md-auto">
 			<Tab
 				className="d-flex align-items-center justify-content-center justify-content-md-start"
-				active={pathname === '/products' || pathname === '/products/sellers/'}
+				active={pathname === '/products' || pathname === '/products/sellers/' || pathname.includes('/products')}
 				direction="row"
 				align="center"
 				border
@@ -48,6 +48,9 @@ const MainTabs = ({ setSellerId, setSelectedBtn, setSinglePost, setSingleEvent }
 					setSellerId('')
 					_navigate('/products')
 					_dispatch(saveSearchText(''))
+					_dispatch(saveSearchLat(null))
+					_dispatch(saveSearchLog(null))
+					_dispatch(saveSearchAddress(''))
 				}}>
 				<div>
 					<SocialIcon active={pathname.includes('products')} src="/images/icons/home.svg" alt="home" />
@@ -58,7 +61,7 @@ const MainTabs = ({ setSellerId, setSelectedBtn, setSinglePost, setSingleEvent }
 			</Tab>
 			<Tab
 				className="d-flex align-items-center justify-content-center justify-content-md-start "
-				active={pathname === '/community'}
+				active={pathname === '/community' || pathname.includes('/community')}
 				direction="row"
 				align="center"
 				border
@@ -69,6 +72,9 @@ const MainTabs = ({ setSellerId, setSelectedBtn, setSinglePost, setSingleEvent }
 					setSinglePost(null)
 					_navigate('/community')
 					_dispatch(saveSearchText(''))
+					_dispatch(saveSearchLat(null))
+					_dispatch(saveSearchLog(null))
+					_dispatch(saveSearchAddress(''))
 				}}>
 				<div>
 					<SocialIcon active={pathname.includes('community')} src="/images/icons/sellers.svg" alt="product" />
@@ -88,12 +94,37 @@ const MainTabs = ({ setSellerId, setSelectedBtn, setSinglePost, setSingleEvent }
 					setSingleEvent(null)
 					_navigate('/calendar')
 					_dispatch(saveSearchText(''))
+					_dispatch(saveSearchLat(null))
+					_dispatch(saveSearchLog(null))
+					_dispatch(saveSearchAddress(''))
 				}}>
 				<div>
 					<SocialIcon active={pathname === '/calendar' || pathname.includes('/calendar')} src="/images/icons/calendar.svg" alt="calendar" />
 				</div>
 				<StyledText active={pathname === '/calendar' || pathname.includes('/calendar')} type="normal">
 					Calendar
+				</StyledText>
+			</Tab>
+			<Tab
+				className="d-flex align-items-center justify-content-center justify-content-md-start"
+				active={pathname === '/network' || pathname.includes('/network')}
+				direction="row"
+				align="center"
+				gap={0.625}
+				onClick={() => {
+					setSelectedBtn('network')
+					setSingleEvent(null)
+					_navigate('/network')
+					_dispatch(saveSearchText(''))
+					_dispatch(saveSearchLat(null))
+					_dispatch(saveSearchLog(null))
+					_dispatch(saveSearchAddress(''))
+				}}>
+				<div>
+					<SocialIcon active={pathname === '/network' || pathname.includes('/network')} src="/images/icons/sellers.svg" alt="network" />
+				</div>
+				<StyledText active={pathname === '/network' || pathname.includes('/network')} type="normal">
+					Network
 				</StyledText>
 			</Tab>
 		</MainWrapper>
@@ -103,10 +134,10 @@ const MainTabs = ({ setSellerId, setSelectedBtn, setSinglePost, setSingleEvent }
 const MainWrapper = styled(Flexed) <any>`
 	flex-direction: row;
 	${media.xs` padding: 0rem 0.3rem;`};
-	${media.sm` justify-content: center; gap:0.25rem;`};
+	${media.sm` justify-content: center; gap: 0.25rem;`};
 	${media.xl`
-	flex-direction: column;
-	justify-content: start;
+		flex-direction: column;
+		justify-content: start;
 	`};
 `
 
@@ -127,11 +158,6 @@ export const MenuText = styled(Text) <any>`
 		transform: rotate(-180deg);
 		color: ${palette.orange};
 	}
-
-	&:hover {
-		// color: ${palette.green_200};
-		// transition: color 0.1s ease 0.1s;
-	}
 `
 
 const StyledText = styled(MenuText)`
@@ -146,7 +172,6 @@ const Tab = styled(Flexed) <any>`
 	@media only screen and (min-width: 1200px) {
 		background-color: ${({ active }) => (active ? ` ${palette.white}` : `0.25rem solid transparent`)};
 		box-shadow: ${({ active }) => (active ? '0 .125rem .25rem rgba(0,0,0,.075)!important;' : 'none')};
-		// background-color: ${({ active }) => (active ? `${palette.green_200}` : `transparent`)};
 		border-top-right-radius: 0.25rem;
 		border-bottom-right-radius: 0.25rem;
 		&:hover {
@@ -155,12 +180,6 @@ const Tab = styled(Flexed) <any>`
 	}
 
 	@media screen and (min-width: 0px) and (max-width: 768px) {
-		// border-bottom: ${({ active }) => (active ? `0.25rem solid ${palette.green_200}` : `0.25rem solid transparent`)};
-		// border-bottom-left-radius: 0.25rem;
-		// border-bottom-right-radius: 0.25rem;
-		// &:hover {
-		// 	border-bottom: 0.25rem solid ${palette.green_200};
-		// }
 		background-color: ${({ active }) => (active ? ` ${palette.white}` : `0.25rem solid transparent`)};
 		box-shadow: ${({ active }) => (active ? '0 .125rem .25rem rgba(0,0,0,.075)!important;' : 'none')};
 		height: 36px;
@@ -170,10 +189,6 @@ const Tab = styled(Flexed) <any>`
 	height: 50px;
 	&:hover ${SocialIcon} {
 		filter: #000000;
-	}
-	&:hover ${StyledText} {
-		// color: ${palette.green_200};
-		// font-weight: 700;
 	}
 `
 export default MainTabs

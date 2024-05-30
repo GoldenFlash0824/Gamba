@@ -34,6 +34,7 @@ export const incrementItem = (payload: any) => {
 		value: payload
 	}
 }
+
 export const decrementItem = (payload: any) => {
 	return {
 		type: types.DECREMENT_ITEM,

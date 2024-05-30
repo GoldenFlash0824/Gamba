@@ -9,7 +9,7 @@ import { RxCrossCircled } from 'react-icons/rx'
 import DateTimePicker from 'react-datetime-picker'
 import { createEvent } from '../apis/apis'
 import { useDispatch } from 'react-redux'
-import { saveRoute, saveSearchText, setIsLoading } from '../actions/authActions'
+import { saveRoute, saveSearchAddress, saveSearchLat, saveSearchLog, saveSearchText, setIsLoading } from '../actions/authActions'
 import { toastError } from '../styled/toastStyle'
 import moment from 'moment-timezone'
 import DropDown from './DropDown'
@@ -68,6 +68,9 @@ const CreateEvent = ({ onClose }: any) => {
 
 	useEffect(() => {
 		_dispatch(saveSearchText(''))
+		_dispatch(saveSearchLat(null))
+		_dispatch(saveSearchLog(null))
+		_dispatch(saveSearchAddress(''))
 		// setDefaultTime()
 	}, [])
 

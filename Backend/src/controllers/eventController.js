@@ -12,6 +12,7 @@ const createEvent = async (req, res) => {
 
 const getAllEvent = async (req, res) => {
     const response = await eventService.getAllEvent(req)
+    console.log(response.data.event)
     if (response.status) {
         return responseUtil.successResponse(res, response.message, response.data)
     } else {
@@ -125,4 +126,4 @@ const removeUserFromEvent = async (req, res) => {
     }
 }
 
-export {createEvent, getAllEvent, getSingleUserEvent, deleteEvent, updateEvent, getPopularEvent, joinEvent, getJoinEventDetail, getEventById, searchEvents, searchMyEvents, hideEvent, unJoinEvent, removeUserFromEvent}
+export { createEvent, getAllEvent, getSingleUserEvent, deleteEvent, updateEvent, getPopularEvent, joinEvent, getJoinEventDetail, getEventById, searchEvents, searchMyEvents, hideEvent, unJoinEvent, removeUserFromEvent }

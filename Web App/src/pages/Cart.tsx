@@ -1,12 +1,12 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import {Container, Row, Col, media} from 'styled-bootstrap-grid'
-import {Divider, Flexed, Heading, Spacer, Text, MiddleLayout} from '../styled/shared'
-import {useSelector} from 'react-redux'
-import {palette} from '../styled/colors'
-import {useNavigate, useLocation} from 'react-router-dom'
+import { Container, Row, Col, media } from 'styled-bootstrap-grid'
+import { Divider, Flexed, Heading, Spacer, Text, MiddleLayout } from '../styled/shared'
+import { useSelector } from 'react-redux'
+import { palette } from '../styled/colors'
+import { useNavigate, useLocation } from 'react-router-dom'
 import CartItemList from '../components/CartItemList'
-import {GiShoppingCart} from 'react-icons/gi'
+import { GiShoppingCart } from 'react-icons/gi'
 import ReorderConfirmationModal from '../components/modals/ReorderConfirmationModal'
 
 const Cart = () => {
@@ -18,7 +18,7 @@ const Cart = () => {
 		return result + item.quantity * (item.discountPrice || item.price)
 	}, 0)
 
-	
+
 	const [openReorderConfirmation, setOpenReOrderConfirmation] = useState(false)
 
 	return (
@@ -64,8 +64,8 @@ const Cart = () => {
 							{cart?.products?.length !== 0 && (
 								<List>
 									<div>
-										{cart?.products?.map((d) => (
-											<CartItemList content={d} />
+										{cart?.products?.map((d: any, index: any) => (
+											<CartItemList index={index} content={d} />
 										))}
 									</div>
 								</List>
@@ -115,15 +115,13 @@ const Cart = () => {
 								<Spacer height={1} />
 								<Button
 									onClick={() => {
-										if (data.state?.isReorder)
-										{
+										if (data.state?.isReorder) {
 											setOpenReOrderConfirmation(true)
 										}
-										else
-										{
+										else {
 											_navigate('/place-order')
 										}
-										
+
 									}}>
 									Checkout
 								</Button>
@@ -132,12 +130,12 @@ const Cart = () => {
 					</CartSection>
 				</MiddleLayout>
 				{openReorderConfirmation && (
-				<ReorderConfirmationModal
-					onClose={() => {
-						setOpenReOrderConfirmation(false)
-					}}
-				/>
-			)}
+					<ReorderConfirmationModal
+						onClose={() => {
+							setOpenReOrderConfirmation(false)
+						}}
+					/>
+				)}
 			</Row>
 			<Spacer height={6} />
 		</Main>
@@ -178,19 +176,19 @@ const CartEmpty = styled.div<any>`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	padding-bottom: ${({visible}) => (visible ? `1rem` : `0rem`)};
+	padding-bottom: ${({ visible }) => (visible ? `1rem` : `0rem`)};
 `
 
 const CartIcon = styled.img<any>`
-	font-size: ${({visible}) => (visible ? `3.5rem` : `0.5rem`)};
+	font-size: ${({ visible }) => (visible ? `3.5rem` : `0.5rem`)};
 	height: 5rem;
 	opacity: 0.3;
-	color: ${({isDarkTheme}) => (isDarkTheme ? palette.silver : palette.gray)};
-	visibility: ${({visible}) => (visible ? `visible` : `hidden`)};
+	color: ${({ isDarkTheme }) => (isDarkTheme ? palette.silver : palette.gray)};
+	visibility: ${({ visible }) => (visible ? `visible` : `hidden`)};
 `
 
 const BillingContent = styled.div<any>`
-	background: ${({isDarkTheme}) => (isDarkTheme ? palette.black : palette.white)};
+	background: ${({ isDarkTheme }) => (isDarkTheme ? palette.black : palette.white)};
 	// padding: 1rem 1rem;
 	border-radius: 0.39rem;
 	padding: 1rem;

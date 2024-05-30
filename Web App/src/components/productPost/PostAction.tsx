@@ -383,7 +383,7 @@ const PostAction = ({ data, sellersData, setUserId, userData, commentsModal, sel
 															Reply
 														</Reply>
 														<UserMessage color={palette.text_description} margin="0">
-															{moment(comment.createdAt).fromNow(true)}
+															{moment(comment.createdAt).fromNow(true) === 'now' ? moment(comment.createdAt).fromNow(true) : moment(comment.createdAt).fromNow(true) + ' ago'}
 														</UserMessage>
 													</BoxAction>
 												</Box>
@@ -761,7 +761,7 @@ export const DropContent = styled.div<any>`
 	background-color: ${({ isDarkTheme }) => (isDarkTheme ? palette.black : palette.white)};
 	min-width: 8rem;
 	box-shadow: ${palette.shadow};
-	z-index: 2;
+	z-index: 10;
 	border-radius: 0.5rem;
 	overflow: hidden;
 `
@@ -927,6 +927,7 @@ const Input = styled.input`
 	padding: 0.45rem 5.5rem 0.45rem 1.25rem;
 	color: ${palette.black};
 	width: 100%;
+	border: 1px solid #d0d1d1;
 	&::placeholder {
 		color: ${palette.gray_100};
 	}

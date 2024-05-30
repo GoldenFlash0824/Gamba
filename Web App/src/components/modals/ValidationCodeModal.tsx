@@ -1,22 +1,22 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import {Modal} from 'react-responsive-modal'
+import { Modal } from 'react-responsive-modal'
 import 'react-responsive-modal/styles.css'
-import {Text, Flexed, Spacer} from '../../styled/shared'
-import {palette} from '../../styled/colors'
+import { Text, Flexed, Spacer } from '../../styled/shared'
+import { palette } from '../../styled/colors'
 import Button from '../common/Button'
-import {Col, Container, media, Row} from 'styled-bootstrap-grid'
+import { Col, Container, media, Row } from 'styled-bootstrap-grid'
 import InputField from '../common/InputField'
-import {verifyUserRegisterCodeApi} from '../../apis/apis'
+import { verifyUserRegisterCodeApi } from '../../apis/apis'
 import VerificationInput from 'react-verification-input'
-import {useNavigate} from 'react-router-dom'
-import {useDispatch} from 'react-redux'
-import {setIsLoading} from '../../actions/authActions'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { setIsLoading } from '../../actions/authActions'
 import Loader from '../common/Loader'
-import {useSelector} from 'react-redux'
-import {toastError, toastSuccess} from '../../styled/toastStyle'
+import { useSelector } from 'react-redux'
+import { toastError, toastSuccess } from '../../styled/toastStyle'
 
-const ValidationCodeModal = ({onClose, registrationCode, email, setEmail}: any) => {
+const ValidationCodeModal = ({ onClose, registrationCode, email, setEmail }: any) => {
 	const [verified, setVerified] = useState('')
 	const [errorMsg, setErrorMsg] = useState('')
 	const isLoading = useSelector<any>((state: any) => state.auth.isLoading)
@@ -47,7 +47,7 @@ const ValidationCodeModal = ({onClose, registrationCode, email, setEmail}: any) 
 		<>
 			<Modal
 				open={registrationCode}
-				onClose={() => {}}
+				onClose={() => { }}
 				center
 				showCloseIcon={false}
 				classNames={{

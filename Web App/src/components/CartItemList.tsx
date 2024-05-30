@@ -1,24 +1,26 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {media} from 'styled-bootstrap-grid'
-import {palette} from '../styled/colors'
-import {Flexed, Heading, Text} from '../styled/shared'
-import {useSelector, useDispatch} from 'react-redux'
-import {BsXLg} from 'react-icons/bs'
-import {FaPlus, FaMinus} from 'react-icons/fa'
+import { media } from 'styled-bootstrap-grid'
+import { palette } from '../styled/colors'
+import { Flexed, Heading, Text } from '../styled/shared'
+import { useSelector, useDispatch } from 'react-redux'
+import { BsXLg } from 'react-icons/bs'
+import { FaPlus, FaMinus } from 'react-icons/fa'
 import CartItemDeleteModal from '../components/modals/CartItemDeleteModal'
-import {incrementItem, decrementItem} from '../actions/cartActions'
-import {AiOutlineMinus, AiOutlinePlus} from 'react-icons/ai'
-import {saveSearchText} from '../actions/authActions'
+import { incrementItem, decrementItem } from '../actions/cartActions'
+import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai'
+import { saveSearchLat, saveSearchLog, saveSearchText } from '../actions/authActions'
 import TextWithSeeMore from './common/SeeMoreText'
 
-const CartItemList = ({content}: any) => {
+const CartItemList = ({ content }: any) => {
 	const _isDarkTheme = useSelector<any>((state: any) => state.auth.isDarkTheme)
 	const [openDeleteModal, setOpenDeleteModal] = useState(false)
 	const dispatch = useDispatch()
 
 	useEffect(() => {
 		dispatch(saveSearchText(''))
+		dispatch(saveSearchLat(null))
+		dispatch(saveSearchLog(null))
 	}, [])
 
 	return (
@@ -35,7 +37,7 @@ const CartItemList = ({content}: any) => {
 						</Text>
 						<Text type="small" color="gray" fontWeight={500}>
 							{/* {content?.caption} */}
-							<TextWithSeeMore text={content?.caption} maxLength={180} />
+							<TextWithSeeMore text={content?.caption} maxLength={180} background="white" />
 						</Text>
 					</Text>
 
@@ -48,11 +50,11 @@ const CartItemList = ({content}: any) => {
 								<div>
 									<Icons
 										onClick={() => {
-											if (content.quantity > 1) {
-												// setQuantity(quantity - 1)
-												content.quantity--
-												dispatch(decrementItem(content))
+											const updatedContent = {
+												...content,
+												quantity: content.quantity + 1
 											}
+											dispatch(incrementItem(updatedContent))
 										}}>
 										<img src="/images/icons/arrow_up.svg" alt="arrow_qty" />
 									</Icons>
@@ -63,10 +65,13 @@ const CartItemList = ({content}: any) => {
 										rotate={true}
 										add
 										onClick={() => {
-											// if (content?.quantity > 0 ) {
-											content.quantity++
-											dispatch(incrementItem(content))
-											// }
+											if (content.quantity > 1) {
+												const updatedContent = {
+													...content,
+													quantity: content.quantity - 1
+												}
+												dispatch(decrementItem(updatedContent))
+											}
 										}}>
 										<img src="/images/icons/arrow_up.svg" alt="arrow_qty" />
 									</Icons>
@@ -110,9 +115,9 @@ const Icons = styled.div<any>`
 	font-size: 0.8rem;
 	cursor: pointer;
 	color: ${palette.black};
-	// background-color: ${({add}) => (add ? palette.Btn_dark_green : 'rgb(164 164 164)')};
-	transform: ${({rotate}) => (rotate ? 'rotate(180deg)' : 'rotate(0deg)')};
-	margin-top: ${({rotate}) => (rotate ? '2px' : '0px')};
+	// background-color: ${({ add }) => (add ? palette.Btn_dark_green : 'rgb(164 164 164)')};
+	transform: ${({ rotate }) => (rotate ? 'rotate(180deg)' : 'rotate(0deg)')};
+	margin-top: ${({ rotate }) => (rotate ? '2px' : '0px')};
 `
 
 const Input = styled.div`
@@ -136,7 +141,7 @@ const Input = styled.div`
 	}
 `
 
-const QuantityWrapper = styled(Flexed)<any>`
+const QuantityWrapper = styled(Flexed) <any>`
 	border: 1px solid ${palette.stroke};
 	border-radius: 1.39rem;
 	min-width: 5rem;
@@ -150,7 +155,7 @@ const Wrapper = styled.div<any>`
 		margin: 0 0 0.75rem 0;
 	}
 	width: 100%;
-	background: ${({isDarkTheme}) => (isDarkTheme ? palette.black : palette.white)};
+	background: ${({ isDarkTheme }) => (isDarkTheme ? palette.black : palette.white)};
 	overflow: hidden;
 	padding: 1rem;
 
@@ -209,15 +214,15 @@ const IconCover = styled.div<any>`
 	font-size: 0.7rem;
 `
 
-const Minus = styled(FaMinus)<any>`
+const Minus = styled(FaMinus) <any>`
 	color: ${palette.text};
 `
 
-const Add = styled(FaPlus)<any>`
+const Add = styled(FaPlus) <any>`
 	color: ${palette.text};
 `
 
-const CountWrapper = styled(Flexed)<any>`
+const CountWrapper = styled(Flexed) <any>`
 	height: 95%;
 `
 

@@ -6,7 +6,7 @@ import { palette } from '../../styled/colors'
 import Toggle from '../common/Toggle'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { saveSearchText, setSelectedCategory, setOrganicProducts } from '../../actions/authActions'
+import { saveSearchText, setSelectedCategory, setOrganicProducts, saveSearchLat, saveSearchLog, saveSearchAddress } from '../../actions/authActions'
 import { useSelector } from 'react-redux'
 import { sideBarCountProduct } from '../../apis/apis'
 
@@ -44,6 +44,9 @@ const ProductCategories = ({ setIsSellerSelfProfileOpen, getAllSellersApi, getAl
 						setSelectCategory('products')
 						// _dispatch(setOrganicProducts(false))
 						_dispatch(saveSearchText(''))
+						_dispatch(saveSearchLat(null))
+						_dispatch(saveSearchLog(null))
+						_dispatch(saveSearchAddress(''))
 						if (isSellerProfileLinkOpen) {
 							setIsSellerProfileLinkOpen(false)
 							_navigate('/products')
@@ -62,6 +65,9 @@ const ProductCategories = ({ setIsSellerSelfProfileOpen, getAllSellersApi, getAl
 							setIsSellerSelfProfileOpen(false)
 							setSelectCategory('sellers')
 							_dispatch(saveSearchText(''))
+							_dispatch(saveSearchLat(null))
+							_dispatch(saveSearchLog(null))
+							_dispatch(saveSearchAddress(''))
 							if (isSellerProfileLinkOpen) {
 								setIsSellerProfileLinkOpen(false)
 								_navigate('/products')
@@ -83,6 +89,9 @@ const ProductCategories = ({ setIsSellerSelfProfileOpen, getAllSellersApi, getAl
 					onClick={() => {
 						setSelectCategory('trade')
 						_dispatch(saveSearchText(''))
+						_dispatch(saveSearchLat(null))
+						_dispatch(saveSearchLog(null))
+						_dispatch(saveSearchAddress(''))
 						if (isSellerProfileLinkOpen) {
 							setIsSellerProfileLinkOpen(false)
 							_navigate('/products')
@@ -98,6 +107,9 @@ const ProductCategories = ({ setIsSellerSelfProfileOpen, getAllSellersApi, getAl
 					onClick={() => {
 						setSelectCategory('donation')
 						_dispatch(saveSearchText(''))
+						_dispatch(saveSearchLat(null))
+						_dispatch(saveSearchLog(null))
+						_dispatch(saveSearchAddress(''))
 						if (isSellerProfileLinkOpen) {
 							_navigate('/products')
 							setIsSellerProfileLinkOpen(false)
@@ -113,6 +125,9 @@ const ProductCategories = ({ setIsSellerSelfProfileOpen, getAllSellersApi, getAl
 					onClick={() => {
 						setSelectCategory('sale')
 						_dispatch(saveSearchText(''))
+						_dispatch(saveSearchLat(null))
+						_dispatch(saveSearchLog(null))
+						_dispatch(saveSearchAddress(''))
 						if (isSellerProfileLinkOpen) {
 							setIsSellerProfileLinkOpen(false)
 							_navigate('/products')
@@ -137,6 +152,9 @@ const ProductCategories = ({ setIsSellerSelfProfileOpen, getAllSellersApi, getAl
 						<div
 							onClick={async () => {
 								_dispatch(saveSearchText(''))
+								_dispatch(saveSearchLat(null))
+								_dispatch(saveSearchLog(null))
+								_dispatch(saveSearchAddress(''))
 							}}>
 							<Switch toggle={organicProducts}>
 								<Dot toggle={organicProducts} />

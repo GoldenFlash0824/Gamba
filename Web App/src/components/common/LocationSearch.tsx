@@ -51,7 +51,7 @@ const LocationSearch = ({ setLocation, isPrivate, setLatitude, location, setLong
 	return (
 		<>
 			<PlacesAutocomplete value={address} onChange={setAddress} onSelect={handleSelect}>
-				{({ getInputProps, suggestions, getSuggestionItemProps, loading }: any) => (
+				{({ getInputProps, suggestions, getSuggestionItemProps }: any) => (
 					<div>
 						<>
 							<InputWrapper>

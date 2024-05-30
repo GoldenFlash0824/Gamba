@@ -1,15 +1,15 @@
-import React, {useState, useEffect} from 'react'
-import {Flexed, Text, getDistanceFromLatLonInMiles} from '../styled/shared'
+import React, { useState, useEffect } from 'react'
+import { Flexed, Text, getDistanceFromLatLonInMiles } from '../styled/shared'
 import styled from 'styled-components'
-import {palette} from '../styled/colors'
-import {colorPicker} from './utils'
-import {useNavigate} from 'react-router-dom'
-import {addFav, saveRoute, setIsLoading} from '../actions/authActions'
-import {toastError} from '../styled/toastStyle'
-import {useDispatch} from 'react-redux'
-import {addFavSeller, addUserProfileDisike, addUserProfileLike, removeUserProfileDislike, removeUserProfileLike} from '../apis/apis'
+import { palette } from '../styled/colors'
+import { colorPicker } from './utils'
+import { useNavigate } from 'react-router-dom'
+import { addFav, saveRoute, setIsLoading } from '../actions/authActions'
+import { toastError } from '../styled/toastStyle'
+import { useDispatch } from 'react-redux'
+import { addFavSeller, addUserProfileDisike, addUserProfileLike, removeUserProfileDislike, removeUserProfileLike } from '../apis/apis'
 
-const PopularSellersCard = ({social, product, setSellerId, setSelectCategory, setUserId, data, updateUsers}: any) => {
+const PopularSellersCard = ({ social, product, setSellerId, setSelectCategory, setUserId, data, updateUsers }: any) => {
 	const dispatch = useDispatch()
 	const [color, setColor] = useState<any>('')
 	const [distanceInMiles, setDistanceInMiles]: any = useState('')
@@ -83,7 +83,7 @@ const PopularSellersCard = ({social, product, setSellerId, setSelectCategory, se
 		<>
 			<CustomFlex direction="row" align="center" gap="1" justify="space-between">
 				<Flex direction="row" align="center" gap={0.625}>
-					<div style={{position: 'relative'}}>
+					<div style={{ position: 'relative' }}>
 						<Profile styledColor={color} onClick={() => handleTextClick(data)}>
 							{data?.image ? (
 								<Img src={`https://imagescontent.s3.us-east-1.amazonaws.com/${data?.image}`} />
@@ -102,10 +102,10 @@ const PopularSellersCard = ({social, product, setSellerId, setSelectCategory, se
 							</Name>
 							<Distance color="text_description" type="xsmall">
 								{distanceInMiles && <img src="/images/icons/location.svg" alt="location" />}
-								<>{distanceInMiles ? `${distanceInMiles}` : '0 mile.'}</>
+								<>{distanceInMiles ? `${distanceInMiles}` : 'N / A'}</>
 							</Distance>
 						</Flexed>
-						<div style={{width: '40%'}}>
+						<div style={{ width: '40%' }}>
 							<Flexed direction="row" gap={0.625} align="center" justify={'space-between'}>
 								<Flexed direction="row" gap={0.313} align="center">
 									<Like
@@ -192,7 +192,7 @@ const PopularSellersCard = ({social, product, setSellerId, setSelectCategory, se
 	)
 }
 
-const Name = styled(Text)<any>`
+const Name = styled(Text) <any>`
 	text-overflow: ellipsis;
 	overflow: hidden;
 	width: 6rem;
@@ -203,11 +203,11 @@ const Name = styled(Text)<any>`
 const Chat = styled.img``
 export const Like = styled.img<any>`
 	cursor: pointer;
-	filter: ${({active}) => (active ? 'invert(49%) sepia(36%) saturate(2429%) hue-rotate(66deg) brightness(96%) contrast(101%);' : '')};
+	filter: ${({ active }) => (active ? 'invert(49%) sepia(36%) saturate(2429%) hue-rotate(66deg) brightness(96%) contrast(101%);' : '')};
 `
 export const DisLike = styled.img<any>`
 	cursor: pointer;
-	filter: ${({active}) => (active ? 'invert(1) sepia(1) saturate(100) hue-rotate(0deg) brightness(1) contrast(1) drop-shadow(0 0 0 red)' : 'none')};
+	filter: ${({ active }) => (active ? 'invert(1) sepia(1) saturate(100) hue-rotate(0deg) brightness(1) contrast(1) drop-shadow(0 0 0 red)' : 'none')};
 `
 const HeartEmpty = styled.img``
 const HeartFilled = styled.img``
@@ -227,7 +227,7 @@ const Details = styled(Flexed)`
 `
 
 const CustomText = styled(Text)`
-	color: ${({styledColor}) => (styledColor ? `${styledColor}` : palette.red)};
+	color: ${({ styledColor }) => (styledColor ? `${styledColor}` : palette.red)};
 `
 const Profile = styled.div<any>`
 	height: 2.5rem;
@@ -235,7 +235,7 @@ const Profile = styled.div<any>`
 	border-radius: 100%;
 	// overflow: hidden;
 	/* background: ${palette.Btn_dark_green}; */
-	background: ${({styledColor}) => (styledColor ? `${styledColor} !important` : palette.Btn_dark_green)};
+	background: ${({ styledColor }) => (styledColor ? `${styledColor} !important` : palette.Btn_dark_green)};
 	color: ${palette.black};
 	display: flex;
 	justify-content: center;
@@ -259,7 +259,7 @@ const ActiveStaus = styled.div<any>`
 	height: 0.719rem;
 	border-radius: 100%;
 	border: 0.094rem solid ${palette.white};
-	background: ${({active}) => (active ? palette.Btn_dark_green : palette.gray_100)};
+	background: ${({ active }) => (active ? palette.Btn_dark_green : palette.gray_100)};
 `
 
 const Distance = styled(Text)`

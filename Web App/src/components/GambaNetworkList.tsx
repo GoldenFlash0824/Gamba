@@ -86,7 +86,7 @@ const GambaNetworkList = ({ social, product, setSellerId, setSelectCategory, set
 							</Name>
 							<Distance color="text_description" type="xsmall">
 								{distanceInMiles && <LocationIcon src="/images/icons/location.svg" alt="location" />}
-								<>{distanceInMiles ? `${distanceInMiles}` : '0 miles'}</>
+								<>{distanceInMiles ? `${distanceInMiles}` : 'N / A'}</>
 							</Distance>
 						</Flexed>
 						<div>

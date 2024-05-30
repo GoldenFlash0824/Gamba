@@ -565,13 +565,13 @@ export const searchSellersApi: any = async (filter: any) => {
 	return response
 }
 
-export const searchProductsApi: any = async (trade = 0, discount = 0, donation = 0, filter: any, is_organic: any) => {
+export const searchProductsApi: any = async (trade = 0, discount = 0, donation = 0, filter: any, lat: null, log: null, is_organic: any) => {
 	let response = []
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
 	const config = {
 		headers: { authorization: `bearer ${token}` },
-		params: { is_trade: trade, is_donation: donation, is_discount: discount, filter: filter, is_organic }
+		params: { is_trade: trade, is_donation: donation, lat, log, is_discount: discount, filter: filter, is_organic }
 	}
 	await axios
 		.get(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/product/search_products`, config)
@@ -1598,6 +1598,23 @@ export const deleteNotification: any = async (id: any) => {
 	}
 	await axios
 		.delete(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/notifications/${id}`, config)
+		.then((res) => {
+			response = res?.data
+		})
+		.catch((error) => {
+			console.error(error)
+		})
+	return response
+}
+
+export const deleteAllNotification: any = async () => {
+	let response: any = null
+	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
+
+	const config = {
+		headers: { authorization: `bearer ${token}` }
+	}
+	await axios.delete(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/user_notification`, config)
 		.then((res) => {
 			response = res?.data
 		})

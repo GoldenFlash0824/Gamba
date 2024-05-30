@@ -111,6 +111,13 @@ export const saveSearchText = (payload: any) => {
 	}
 }
 
+export const saveSearchAddress = (payload: any) => {
+	return {
+		type: types.SEARCH_ADDRESS,
+		value: payload
+	}
+}
+
 export const saveSearchLat = (payload: any) => {
 	return {
 		type: types.SEARCH_LAT,

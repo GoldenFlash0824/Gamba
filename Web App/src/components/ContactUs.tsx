@@ -7,7 +7,7 @@ import CustomInputField from './common/CustomInputField'
 import { contactWithUs } from '../apis/apis'
 import { toastError, toastSuccess } from '../styled/toastStyle'
 import { useDispatch } from 'react-redux'
-import { saveSearchText } from '../actions/authActions'
+import { saveSearchLat, saveSearchLog, saveSearchText } from '../actions/authActions'
 import { useNavigate } from 'react-router-dom'
 import LoginPopupModel from './modals/LoginPopupModel'
 
@@ -77,6 +77,8 @@ const ContactUs = () => {
 
 	useEffect(() => {
 		dispatch(saveSearchText(''))
+		dispatch(saveSearchLat(null))
+		dispatch(saveSearchLog(null))
 	}, [])
 
 	return (

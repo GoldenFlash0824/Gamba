@@ -11,8 +11,9 @@ import { RiDeleteBin6Line } from 'react-icons/ri'
 import { deleteNotification, notificationApi, readSingleNotifications } from '../apis/apis'
 import { setIsLoading } from '../actions/authActions'
 import { toastError, toastSuccess } from '../styled/toastStyle'
+import DeleteModal from './modals/DeleteModal'
 
-const NotificationCard = ({ data, setCommentOpen, getAllNotificationCount, onDeleteNotification }: any) => {
+const NotificationCard = ({ data, setCommentOpen, getAllNotificationCount, deleteNotificationModal, setDeleteNotificationModal, onDeleteNotification, }: any) => {
 	let _navigate = useNavigate()
 	const _dispatch = useDispatch()
 
@@ -155,7 +156,7 @@ const NotificationCard = ({ data, setCommentOpen, getAllNotificationCount, onDel
 								<DropMenu className="d-flex align-items-center gap-2" onClick={
 									(event: any) => {
 										event.stopPropagation()
-										onDeleteNotification(data?.id)
+										setDeleteNotificationModal(true)
 									}
 								}>
 									<DeleteIcon />
@@ -194,6 +195,11 @@ const NotificationCard = ({ data, setCommentOpen, getAllNotificationCount, onDel
 							)}
 						</Text>
 					</div> */}
+				{deleteNotificationModal && (<DeleteModal onClose={() => { setDeleteNotificationModal(false) }} title="Delete Notification"
+					body="Are you sure you want to delete this notification?" onClick={(event: any) => {
+						event.stopPropagation()
+						onDeleteNotification(data?.id)
+					}} />)}
 			</Notifications >
 		</>
 	)

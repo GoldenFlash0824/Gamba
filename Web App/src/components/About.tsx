@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { palette } from '../styled/colors'
 import { Flexed, Spacer, Text } from '../styled/shared'
 import { useDispatch } from 'react-redux'
-import { saveSearchText } from '../actions/authActions'
+import { saveSearchAddress, saveSearchLat, saveSearchLog, saveSearchText } from '../actions/authActions'
 import { Document, Page, pdfjs } from 'react-pdf'
 import Loader from './common/Loader'
 import 'react-pdf/dist/Page/TextLayer.css'
@@ -28,6 +28,9 @@ const About = ({ setIsAboutOpen }) => {
 					onClick={() => {
 						setIsAboutOpen(false)
 						_dispatch(saveSearchText(''))
+						_dispatch(saveSearchLat(null))
+						_dispatch(saveSearchLog(null))
+						_dispatch(saveSearchAddress(''))
 					}}>
 					Home
 				</Text>

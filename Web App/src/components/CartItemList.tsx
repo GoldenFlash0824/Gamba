@@ -9,7 +9,7 @@ import { FaPlus, FaMinus } from 'react-icons/fa'
 import CartItemDeleteModal from '../components/modals/CartItemDeleteModal'
 import { incrementItem, decrementItem } from '../actions/cartActions'
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai'
-import { saveSearchText } from '../actions/authActions'
+import { saveSearchLat, saveSearchLog, saveSearchText } from '../actions/authActions'
 import TextWithSeeMore from './common/SeeMoreText'
 
 const CartItemList = ({ content }: any) => {
@@ -19,6 +19,8 @@ const CartItemList = ({ content }: any) => {
 
 	useEffect(() => {
 		dispatch(saveSearchText(''))
+		dispatch(saveSearchLat(null))
+		dispatch(saveSearchLog(null))
 	}, [])
 
 	return (

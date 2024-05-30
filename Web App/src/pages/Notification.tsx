@@ -7,16 +7,19 @@ import { palette } from '../styled/colors'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setCommentOpen, setIsLoading } from '../actions/authActions'
-import { deleteNotification, notificationApi, readAllNotifications } from '../apis/apis'
+import { deleteAllNotification, deleteNotification, notificationApi, readAllNotifications } from '../apis/apis'
 import NotificationCard from '../components/NotificationCard'
 import moment from 'moment-timezone'
 import { toastError, toastSuccess } from '../styled/toastStyle'
+import DeleteModal from '../components/modals/DeleteModal'
 
 const Notification = ({ getAllNotificationCount }) => {
 	const _isDarkTheme = useSelector<any>((state: any) => state.auth.isDarkTheme)
 	let _navigate = useNavigate()
 	const _dispatch = useDispatch()
 	const [userNotifications, setUserNotification]: any = useState([])
+	const [deleteNotificationModal, setDeleteNotificationModal] = useState(false)
+	const [deleteAllNotificationsModal, setDeleteAllNotificationModal] = useState(false)
 	const getNotification = async () => {
 		_dispatch(setIsLoading(true))
 		let response = await notificationApi()
@@ -60,7 +63,22 @@ const Notification = ({ getAllNotificationCount }) => {
 
 	const onDeleteNotification = async (id: any) => {
 		_dispatch(setIsLoading(true))
+		setDeleteNotificationModal(false)
 		const response: any = await deleteNotification(id)
+		if (response?.success) {
+			getNotification()
+			toastSuccess(response?.message)
+			_dispatch(setIsLoading(false))
+		} else {
+			_dispatch(setIsLoading(false))
+			toastError(response?.message)
+		}
+	}
+
+	const onDeleteAllNotifications = async () => {
+		setDeleteAllNotificationModal(false)
+		_dispatch(setIsLoading(true))
+		const response: any = await deleteAllNotification()
 		if (response?.success) {
 			getNotification()
 			toastSuccess(response?.message)
@@ -96,16 +114,28 @@ const Notification = ({ getAllNotificationCount }) => {
 									Notification
 								</Text>
 							</Flexed>
-							<Text
-								fontSize="1"
-								color="green_a"
-								margin="1rem 0rem 0rem 0rem"
-								pointer={true}
-								onClick={() => {
-									markReadAll()
-								}}>
-								Mark all as read
-							</Text>
+							<Flexed direction="row">
+								<Text
+									fontSize="1"
+									color="green_a"
+									margin="1rem 0rem 0rem 0rem"
+									pointer={true}
+									onClick={() => {
+										markReadAll()
+									}}>
+									Mark all as read
+								</Text>
+								<Text
+									fontSize="1"
+									color="green_a"
+									margin="1rem 0rem 0rem 1rem"
+									pointer={true}
+									onClick={() => {
+										setDeleteAllNotificationModal(true)
+									}}>
+									Delete all notifications
+								</Text>
+							</Flexed>
 						</Flexed>
 						<Spacer height={1.25} />
 					</MiddleLayout>
@@ -126,7 +156,7 @@ const Notification = ({ getAllNotificationCount }) => {
 													{formattedDate}
 												</Text>
 												{data?.data?.map((re: any, ind: any) => {
-													return <NotificationCard getAllNotificationCount={getAllNotificationCount} setCommentOpen={setCommentOpen} onDeleteNotification={onDeleteNotification} data={re} key={ind} />
+													return <NotificationCard deleteNotificationModal={deleteNotificationModal} setDeleteNotificationModal={setDeleteNotificationModal} getAllNotificationCount={getAllNotificationCount} setCommentOpen={setCommentOpen} onDeleteNotification={onDeleteNotification} data={re} key={ind} />
 												})}
 											</ListWrapper>
 										)
@@ -138,6 +168,9 @@ const Notification = ({ getAllNotificationCount }) => {
 				</Row>
 				<Spacer height={2} />
 			</Main>
+
+			{deleteAllNotificationsModal && (<DeleteModal onClose={() => { setDeleteAllNotificationModal(false) }} title="Delete All Notifications"
+				body="Are you sure you want to delete all notification?" onClick={() => { onDeleteAllNotifications() }} />)}
 		</Wrapper>
 	)
 }

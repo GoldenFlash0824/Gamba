@@ -1838,16 +1838,6 @@ const notification = async (req) => {
                 f_id: u_id
             }
         })
-        // await db.notification.update(
-        //     {
-        //         is_read: true
-        //     },
-        //     {
-        //         where: {
-        //             f_id: u_id
-        //         }
-        //     }
-        // )
         return {
             data: response,
             status: true,
@@ -1926,6 +1916,42 @@ const markAllReadnotification = async (req) => {
         )
 
         let response = await db.notification.findAll({
+            order: [['createdAt', 'DESC']],
+            include: [
+                {
+                    association: 'user_data_notification',
+                    attributes: ['id', 'first_name', 'last_name', 'image']
+                },
+                {
+                    association: 'post_data_notification'
+                },
+                {
+                    association: 'product_detail_notification'
+                }
+            ],
+
+            where: {
+                f_id: u_id
+            }
+        })
+
+        return {
+            data: response,
+            status: true,
+            message: `My All Notification `
+        }
+    } catch (error) {
+        return {
+            status: false,
+            message: error
+        }
+    }
+}
+
+const deleteAllNotifications = async (req) => {
+    try {
+        const u_id = await getUserIdFromToken(req)
+        let response = await db.notification.destroy({
             order: [['createdAt', 'DESC']],
             include: [
                 {
@@ -2740,4 +2766,4 @@ const getAllBlockUsers = async () => {
     }
 }
 
-export { getAllBlockUsers, connectTradeProduct, connectGiveAwayProduct, contactWithUs, userProfile, autoCreate, facetStage, deleteUserAllData, getUserNotificationsArray, getNewNotificatins, sendChatFcm, getAllNotification, registerUser, updateUser, autoLogin, loginUser, logoutUser, socialLogin, deleteUser, viewAllUser, sendRegisterCode, sendVerificationCode, verfyRegisterCode, resetPassword, updatePassword, searchByName, updateSocialUser, blockedUser, getUserById, getAllSellers, searchSellers, getUserWMaxPosts, topSeller, updateUserPassword, getSellerById, contectUs, getContectUs, notification, hideSellerProfile, SellerOrderData, deleteUserAccount, notificationSetting, getNotificationSetting, addSellerToFevrate, getAllFevrateSeller, disableAccount, getAllDisableAccount, enableAccount, verfyTwoFectorCode, userPrivacySetting, getuserPrivacySetting, markAllReadnotification, readNotification }
+export { getAllBlockUsers, connectTradeProduct, connectGiveAwayProduct, contactWithUs, userProfile, autoCreate, facetStage, deleteUserAllData, getUserNotificationsArray, getNewNotificatins, sendChatFcm, getAllNotification, registerUser, updateUser, autoLogin, loginUser, logoutUser, socialLogin, deleteUser, viewAllUser, sendRegisterCode, sendVerificationCode, verfyRegisterCode, resetPassword, updatePassword, searchByName, updateSocialUser, blockedUser, getUserById, getAllSellers, searchSellers, getUserWMaxPosts, topSeller, updateUserPassword, getSellerById, contectUs, getContectUs, notification, deleteAllNotifications, hideSellerProfile, SellerOrderData, deleteUserAccount, notificationSetting, getNotificationSetting, addSellerToFevrate, getAllFevrateSeller, disableAccount, getAllDisableAccount, enableAccount, verfyTwoFectorCode, userPrivacySetting, getuserPrivacySetting, markAllReadnotification, readNotification }

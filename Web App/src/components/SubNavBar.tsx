@@ -13,7 +13,7 @@ import AddPostModal from './modals/AddPostModal'
 import MobViewAddPost from './MobViewAddPost'
 import Loader from './common/Loader'
 import { useDispatch } from 'react-redux'
-import { saveSearchLat, saveSearchLog, saveSearchText } from '../actions/authActions'
+import { saveSearchAddress, saveSearchLat, saveSearchLog, saveSearchText, setIsLoading } from '../actions/authActions'
 import LoginPopupModel from './modals/LoginPopupModel'
 
 const SubNavBar = () => {
@@ -28,6 +28,7 @@ const SubNavBar = () => {
 	const [serachText, setSearchText] = useState('')
 	const _dispatch = useDispatch()
 	const searchQuery: any = useSelector<any>((state: any) => state.auth.topSearch)
+	const addressQuery: any = useSelector<any>((state: any) => state.auth.searchAddress)
 	const [loginPopup, setLoginPopup] = useState(false)
 
 	const handleSelect = (address: any) => {
@@ -46,8 +47,11 @@ const SubNavBar = () => {
 					}
 				})
 				.then((latLng: any) => {
+					setSearchText('')
+					_dispatch(saveSearchText(''))
 					_dispatch(saveSearchLat(latLng?.lat))
 					_dispatch(saveSearchLog(latLng?.lng))
+					_dispatch(saveSearchAddress(address))
 				}).catch((err: any) => console.log('Error: ', err))
 		}
 	}
@@ -57,9 +61,14 @@ const SubNavBar = () => {
 	}, [searchQuery])
 
 	useEffect(() => {
+		setAddress(addressQuery)
+	}, [addressQuery])
+
+	useEffect(() => {
 		if (address === '') {
 			_dispatch(saveSearchLat(null))
 			_dispatch(saveSearchLog(null))
+			_dispatch(saveSearchAddress(''))
 		}
 	}, [address])
 	return (
@@ -102,6 +111,10 @@ const SubNavBar = () => {
 								value={serachText}
 								onChange={(e: any) => {
 									setSearchText(e.target.value)
+									setAddress('')
+									_dispatch(saveSearchLat(null))
+									_dispatch(saveSearchLog(null))
+									_dispatch(saveSearchAddress(''))
 									_dispatch(saveSearchText(e.target.value))
 								}}
 							/>

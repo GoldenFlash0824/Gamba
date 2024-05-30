@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 import Button from '../components/common/Button'
 import { addNewProduct, doGetChemicals, getCategory } from '../apis/apis'
 import { useDispatch } from 'react-redux'
-import { saveRoute, saveSearchText, setIsLoading } from '../actions/authActions'
+import { saveRoute, saveSearchAddress, saveSearchLat, saveSearchLog, saveSearchText, setIsLoading } from '../actions/authActions'
 import Loader from './common/Loader'
 import { toastError, toastSuccess } from '../styled/toastStyle'
 import AddChemicalsModal from './modals/AddChemicalsModal'
@@ -103,6 +103,9 @@ const CreateProducts = ({ onClose, onCreateProductCB, setSellGoodsCategory }: an
 			getAllCategory()
 		}
 		_dispatch(saveSearchText(''))
+		_dispatch(saveSearchLat(null))
+		_dispatch(saveSearchLog(null))
+		_dispatch(saveSearchAddress(''))
 	}, [])
 
 	const handleStartDateChange = (date: any) => {

@@ -6,7 +6,7 @@ import { palette } from '../styled/colors'
 import { useLocation } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { saveSearchText } from '../actions/authActions'
+import { saveSearchAddress, saveSearchLat, saveSearchLog, saveSearchText } from '../actions/authActions'
 
 const MainTabs = ({ setSellerId, setSelectedBtn, setSinglePost, setSingleEvent }: any) => {
 	const _navigate = useNavigate()
@@ -48,6 +48,9 @@ const MainTabs = ({ setSellerId, setSelectedBtn, setSinglePost, setSingleEvent }
 					setSellerId('')
 					_navigate('/products')
 					_dispatch(saveSearchText(''))
+					_dispatch(saveSearchLat(null))
+					_dispatch(saveSearchLog(null))
+					_dispatch(saveSearchAddress(''))
 				}}>
 				<div>
 					<SocialIcon active={pathname.includes('products')} src="/images/icons/home.svg" alt="home" />
@@ -69,6 +72,9 @@ const MainTabs = ({ setSellerId, setSelectedBtn, setSinglePost, setSingleEvent }
 					setSinglePost(null)
 					_navigate('/community')
 					_dispatch(saveSearchText(''))
+					_dispatch(saveSearchLat(null))
+					_dispatch(saveSearchLog(null))
+					_dispatch(saveSearchAddress(''))
 				}}>
 				<div>
 					<SocialIcon active={pathname.includes('community')} src="/images/icons/sellers.svg" alt="product" />
@@ -88,6 +94,9 @@ const MainTabs = ({ setSellerId, setSelectedBtn, setSinglePost, setSingleEvent }
 					setSingleEvent(null)
 					_navigate('/calendar')
 					_dispatch(saveSearchText(''))
+					_dispatch(saveSearchLat(null))
+					_dispatch(saveSearchLog(null))
+					_dispatch(saveSearchAddress(''))
 				}}>
 				<div>
 					<SocialIcon active={pathname === '/calendar' || pathname.includes('/calendar')} src="/images/icons/calendar.svg" alt="calendar" />
@@ -107,6 +116,9 @@ const MainTabs = ({ setSellerId, setSelectedBtn, setSinglePost, setSingleEvent }
 					setSingleEvent(null)
 					_navigate('/network')
 					_dispatch(saveSearchText(''))
+					_dispatch(saveSearchLat(null))
+					_dispatch(saveSearchLog(null))
+					_dispatch(saveSearchAddress(''))
 				}}>
 				<div>
 					<SocialIcon active={pathname === '/network' || pathname.includes('/network')} src="/images/icons/sellers.svg" alt="network" />

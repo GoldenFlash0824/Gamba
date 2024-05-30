@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {Flexed, Heading, Spacer, Text} from '../styled/shared'
-import {palette} from '../styled/colors'
-import {Container, Row, Col, media} from 'styled-bootstrap-grid'
-import {useSelector} from 'react-redux'
-import {useDispatch} from 'react-redux'
-import {saveSearchText} from '../actions/authActions'
+import { Flexed, Heading, Spacer, Text } from '../styled/shared'
+import { palette } from '../styled/colors'
+import { Container, Row, Col, media } from 'styled-bootstrap-grid'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { saveSearchAddress, saveSearchLat, saveSearchLog, saveSearchText } from '../actions/authActions'
 
 interface IProps {
 	active?: boolean
@@ -19,6 +19,9 @@ const BusinessInterfaces = () => {
 
 	useEffect(() => {
 		_dispatch(saveSearchText(''))
+		_dispatch(saveSearchLat(null))
+		_dispatch(saveSearchLog(null))
+		_dispatch(saveSearchAddress(''))
 	}, [])
 
 	return (
@@ -225,18 +228,18 @@ const BusinessInterfaces = () => {
 	)
 }
 
-const CustomRow = styled(Row)<IProps>`
-	border-bottom: 0.2rem solid ${({isDarkTheme}) => (isDarkTheme ? `${palette.light_silver}` : `${palette.silver}`)};
+const CustomRow = styled(Row) <IProps>`
+	border-bottom: 0.2rem solid ${({ isDarkTheme }) => (isDarkTheme ? `${palette.light_silver}` : `${palette.silver}`)};
 `
 
-const Tab = styled(Text)<IProps>`
+const Tab = styled(Text) <IProps>`
 	position: relative;
-	color: ${({active}) => (active ? `${palette.blue}` : ``)};
+	color: ${({ active }) => (active ? `${palette.blue}` : ``)};
 	margin-top: 2rem;
 	${media.lg` margin-top:0`};
 	&:after {
 		content: '';
-		border-bottom: ${({active}) => (active ? ' 0.2rem' : `hidden`)} solid ${palette.blue};
+		border-bottom: ${({ active }) => (active ? ' 0.2rem' : `hidden`)} solid ${palette.blue};
 		display: block;
 		border-radius: 1rem;
 		margin: 0 auto;

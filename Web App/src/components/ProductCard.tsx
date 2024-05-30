@@ -238,7 +238,7 @@ const ProductsCard = ({ cardIndex, productPurchase, soldProducts, sale, myProduc
 								</TextBelowUser>
 								<Flexed direction={'row'} align={'center'} justify={'flex-end'}>
 									<LocationIcons src="/images/icons/location.svg" />
-									<Distance>{distanceInMiles ? `${distanceInMiles}` : '0 miles.'}</Distance>
+									<Distance>{distanceInMiles ? `${distanceInMiles}` : 'N / A'}</Distance>
 								</Flexed>
 							</Flexed>
 						)}

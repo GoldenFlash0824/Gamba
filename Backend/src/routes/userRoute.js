@@ -36,6 +36,7 @@ router.post('/get_seller_by_id', userController.getSellerById)
 router.post('/contect_us', verifyAuthToken(), userController.contectUs)
 router.get('/get_contect_us', userController.getContectUs)
 router.get('/user_notification', verifyAuthToken(), userController.notification)
+router.delete('/user_notification', verifyAuthToken(), userController.deleteNotifications)
 router.get('/read_notification', verifyAuthToken(), userController.readNotification)
 router.get('/mark_all_read_notification', verifyAuthToken(), userController.markAllReadnotification)
 

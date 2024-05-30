@@ -7,7 +7,7 @@ import { palette } from '../styled/colors'
 import Events from '../components/events/Events'
 import { getAllEventsApi, getUserEvents, searchEventsApi, searchMyEventsApi, getEventById } from '../apis/apis'
 import { useDispatch } from 'react-redux'
-import { saveRoute, saveSearchText, setIsLoading } from '../actions/authActions'
+import { saveRoute, saveSearchAddress, saveSearchLat, saveSearchLog, saveSearchText, setIsLoading } from '../actions/authActions'
 import CurrentActivities from '../components/CurrentActivities'
 import AddPostModal from '../components/modals/AddPostModal'
 import InputField from '../components/common/InputField'
@@ -30,9 +30,10 @@ const Calender = ({ setSelectedBtn, setSingleEvent, singleEvent, setUserId, setS
 	const isUserLogIn = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 	const [openEventModal, setOpenEventModal] = useState(false)
 	const [selectCategory, setSelectCategory] = useState('AllEvents')
-	const [allEvents, setAllEvents] = useState([])
+	const [allEvents, setAllEvents] = useState<any>([])
+	const [filteredEvents, setFilteredEvents] = useState<any>([])
 	const [copyAllEventsData, setCopyAllEventsData] = useState([])
-	const [myEvents, setMyEvents] = useState([])
+	const [myEvents, setMyEvents] = useState<any>([])
 	const [copyMyEventsData, setCopyMyEventsData] = useState([])
 	const [isModalFooterOpen, setIsModalFooterOpen] = useState(true)
 	const [select, setSelect] = useState('Sell')
@@ -44,9 +45,14 @@ const Calender = ({ setSelectedBtn, setSingleEvent, singleEvent, setUserId, setS
 	const [loadMoreMyEvents, setLoadMoreMyEvents] = useState(false)
 	const [scrollPosition, setScrollPosition] = useState(0)
 	const [loginPopup, setLoginPopup] = useState(false)
+	const [allEventsFlag, setAllEventsFlag] = useState(false)
+	const [myEventsFlag, setMyEventsFlag] = useState(false)
 
 	const searchQuery: any = useSelector<any>((state: any) => state.auth.topSearch)
 	const currentRoute = useSelector<any>((state: any) => state.auth.currentRoute)
+	const searchAddress: any = useSelector<any>((state: any) => state.auth.searchAddress)
+	const searchLat: any = useSelector<any>((state: any) => state.auth.searchLat)
+	const searchLog: any = useSelector<any>((state: any) => state.auth.searchLog)
 
 	const useWindowSize = () => {
 		const [size, setSize] = useState([window.innerHeight, window.innerWidth])
@@ -110,6 +116,7 @@ const Calender = ({ setSelectedBtn, setSingleEvent, singleEvent, setUserId, setS
 			}
 			setSingleEvent(null)
 			setAllEvents(eventData)
+			setFilteredEvents(eventData)
 			setCopyAllEventsData(eventData)
 			setLoadMoreAllEvents(response?.data?.event.length >= 15)
 		}
@@ -135,6 +142,25 @@ const Calender = ({ setSelectedBtn, setSingleEvent, singleEvent, setUserId, setS
 		setIsDataProgress(false)
 	}
 
+	const deg2rad = (deg) => {
+		return deg * (Math.PI / 180);
+	}
+
+	const getDistanceFromLatLonInMiles = (lat1, lon1, lat2, lon2) => {
+		const R = 6371;
+		const dLat = deg2rad(lat2 - lat1);
+		const dLon = deg2rad(lon2 - lon1);
+		const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+			Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+			Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+		const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		const distanceInKm = R * c;
+
+		const distanceInMiles = distanceInKm * 0.621371;
+		return distanceInMiles;
+	}
+
 	useEffect(() => {
 		let timer: any = null
 		if (searchQuery) {
@@ -145,15 +171,24 @@ const Calender = ({ setSelectedBtn, setSingleEvent, singleEvent, setUserId, setS
 						_dispatch(setIsLoading(true))
 						setIsDataProgress(true)
 						const response = await searchEventsApi(1, searchQuery)
-						setAllEvents(response.data?.event)
+						if (response.data.length < 1) {
+							setAllEventsFlag(true)
+						} else {
+							setAllEventsFlag(false)
+						}
+						setFilteredEvents(response.data?.event)
 						_dispatch(setIsLoading(false))
 						setIsDataProgress(false)
 					} else {
-						// setMyEvents([])
 						_dispatch(setIsLoading(true))
 						setIsDataProgress(true)
 						const response = await searchMyEventsApi(1, searchQuery)
-						setMyEvents(response.data.event)
+						if (response.data.length < 1) {
+							setMyEventsFlag(true)
+						} else {
+							setMyEventsFlag(false)
+						}
+						setFilteredEvents(response.data?.event)
 						_dispatch(setIsLoading(false))
 						setIsDataProgress(false)
 					}
@@ -161,13 +196,76 @@ const Calender = ({ setSelectedBtn, setSingleEvent, singleEvent, setUserId, setS
 			}
 		} else {
 			if (selectCategory == 'AllEvents' && searchQuery.trim().length === 0) {
-				setAllEvents(copyAllEventsData)
+				setFilteredEvents(copyAllEventsData)
 			} else if (searchQuery.trim().length === 0) {
 				setMyEvents(copyMyEventsData)
 			}
 		}
 		return () => clearTimeout(timer)
 	}, [searchQuery])
+
+	useEffect(() => {
+		if (selectCategory === 'MyEvents') {
+			let filtered: any = []
+			if (myEvents?.length > 0 && searchAddress !== null && searchLat !== null && searchLog !== null) {
+				for (let i = 0; i < myEvents.length; i++) {
+					if (myEvents[i]?.eventUser?.lat && myEvents[i]?.eventUser?.log && myEvents[i]?.eventUser?.lat?.toFixed(2) === searchLat?.toFixed(2) && myEvents[i]?.eventUser?.log?.toFixed(2) === searchLog?.toFixed(2)) {
+						filtered.push(myEvents[i])
+					}
+				}
+				if (filtered.length > 0) {
+					setFilteredEvents(filtered)
+					setMyEventsFlag(false)
+				} else {
+					let minDistance = 1e308, index: any
+					for (let i = 0; i < myEvents.length; i++) {
+						if (myEvents[i]?.eventUser?.lat && myEvents[i]?.eventUser.log) {
+							const distance = getDistanceFromLatLonInMiles(myEvents[i]?.eventUser?.lat, myEvents[i]?.eventUser?.log, searchLat, searchLog)
+							if (distance < minDistance) {
+								minDistance = distance
+								index = i
+							}
+						}
+					}
+					setMyEventsFlag(true)
+					setFilteredEvents([myEvents[index]])
+				}
+			} else {
+				setFilteredEvents(myEvents)
+				setMyEventsFlag(false)
+			}
+		} else {
+			let filtered: any = []
+			if (allEvents?.length > 0 && searchAddress !== null && searchLat !== null && searchLog !== null) {
+				for (let i = 0; i < allEvents.length; i++) {
+					if (allEvents[i]?.eventUser?.lat && allEvents[i]?.eventUser?.log && allEvents[i]?.eventUser?.lat?.toFixed(2) === searchLat?.toFixed(2) && allEvents[i]?.eventUser?.log?.toFixed(2) === searchLog?.toFixed(2)) {
+						filtered.push(allEvents[i])
+					}
+				}
+				if (filtered.length > 0) {
+					setFilteredEvents(filtered)
+					setAllEventsFlag(false)
+				} else {
+					let minDistance = 1e308, index: any
+					for (let i = 0; i < allEvents.length; i++) {
+						if (allEvents[i]?.eventUser?.lat && allEvents[i]?.eventUser.log) {
+							const distance = getDistanceFromLatLonInMiles(allEvents[i]?.eventUser?.lat, allEvents[i]?.eventUser?.log, searchLat, searchLog)
+							if (distance < minDistance) {
+								minDistance = distance
+								index = i
+							}
+						}
+					}
+					setAllEventsFlag(true)
+					setFilteredEvents([allEvents[index]])
+				}
+			} else {
+				setFilteredEvents(allEvents)
+				setAllEventsFlag(false)
+			}
+		}
+	}, [searchAddress])
+
 
 	const latestEvent = async () => {
 		let response = await getPopularEvent()
@@ -228,6 +326,9 @@ const Calender = ({ setSelectedBtn, setSingleEvent, singleEvent, setUserId, setS
 												onClick={() => {
 													setSelectCategory('AllEvents')
 													_dispatch(saveSearchText(''))
+													_dispatch(saveSearchLat(null))
+													_dispatch(saveSearchLog(null))
+													_dispatch(saveSearchAddress(''))
 												}}>
 												<SocialIcon active={selectCategory === 'AllEvents'} src="/images/icons/calendar.svg" alt="calender" />
 												All Events
@@ -243,6 +344,9 @@ const Calender = ({ setSelectedBtn, setSingleEvent, singleEvent, setUserId, setS
 														setLoginPopup(true)
 													}
 													_dispatch(saveSearchText(''))
+													_dispatch(saveSearchLat(null))
+													_dispatch(saveSearchLog(null))
+													_dispatch(saveSearchAddress(''))
 												}}>
 												<SocialIcon active={selectCategory === 'MyEvents'} src="/images/icons/account.svg" alt="profile" />
 												My Events
@@ -274,7 +378,14 @@ const Calender = ({ setSelectedBtn, setSingleEvent, singleEvent, setUserId, setS
 							<>
 								{selectCategory === 'AllEvents' && (
 									<Row>
-										{allEvents?.map((data, index) => (
+										{allEventsFlag === true && (
+											<Col>
+												<Text type="small" margin="1rem 0rem" isCentered>
+													{isDataProgress ? '' : 'No activities in this neighborhood yet'}
+												</Text>
+											</Col>
+										)}
+										{filteredEvents?.map((data, index) => (
 											<Col>
 												<Events
 													setSellerId={setSellerId}
@@ -297,18 +408,19 @@ const Calender = ({ setSelectedBtn, setSingleEvent, singleEvent, setUserId, setS
 												<Spacer height={1} />
 											</Col>
 										)}
-										{allEvents?.length === 0 && (
-											<Col>
-												<Text type="small" margin="4rem 0rem" isCentered>
-													{isDataProgress ? '' : 'No data found'}
-												</Text>
-											</Col>
-										)}
+
 									</Row>
 								)}
 								{selectCategory === 'MyEvents' && (
 									<Row>
-										{myEvents?.map((data, index) => {
+										{myEventsFlag === true && (
+											<Col>
+												<Text type="small" margin="1rem 0rem" isCentered>
+													{isDataProgress ? '' : 'No activities in this neighborhood yet'}
+												</Text>
+											</Col>
+										)}
+										{filteredEvents?.map((data, index) => {
 											return (
 												<Col>
 													<Events setSellerId={setSellerId} setSingleEvent={setSingleEvent} setUserId={setUserId} data={data} index={index} selectCategory={selectCategory} onEdit={() => getMyEvents(myEventPageNo, true)} />
@@ -319,13 +431,6 @@ const Calender = ({ setSelectedBtn, setSingleEvent, singleEvent, setUserId, setS
 											<Col>
 												<Button onClick={() => loadMoreMyEventsData()}>Load More</Button>
 												<Spacer height={1} />
-											</Col>
-										)}
-										{myEvents?.length === 0 && (
-											<Col>
-												<Text type="small" margin="4rem 0rem" isCentered>
-													{isDataProgress ? '' : 'No data found'}
-												</Text>
 											</Col>
 										)}
 									</Row>

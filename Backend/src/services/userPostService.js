@@ -248,7 +248,6 @@ const viewAllPosts = async (req) => {
                 { privacy: 'Public' },
                 db.sequelize.literal(`EXISTS(SELECT * FROM favoriteSellers WHERE favoriteSellers.seller_id = ${u_id}  AND userPosts.privacy='My Network' AND favoriteSellers.u_id = userPosts.u_id)`),
                 db.sequelize.literal(`EXISTS(SELECT * FROM userPosts as posts WHERE userPosts.privacy='My Network' AND posts.id=userPosts.id AND posts.u_id = ${u_id})`)
-                //  db.sequelize.literal(`EXISTS(SELECT * FROM userPosts WHERE  userPosts.u_id = ${u_id})`)
             ],
 
             future_post_date: { [db.Op.eq]: null }
@@ -256,7 +255,6 @@ const viewAllPosts = async (req) => {
         attributes: {
             include: [
                 [db.sequelize.literal(`(SELECT COUNT(*) FROM userLikes WHERE post_id = userPosts.id)`), 'total_likes_count'],
-
                 [db.sequelize.literal(`(SELECT COUNT(*) FROM userPostComments WHERE p_id = userPosts.id)`), 'total_comments_count'],
                 [db.sequelize.literal(`(SELECT COUNT(*) FROM shareModels WHERE post_id = userPosts.id)`), 'total_share_count'],
                 [db.sequelize.literal(`EXISTS(SELECT * FROM userLikes WHERE post_id = userPosts.id AND u_id = ${u_id})`), 'isLiked']
@@ -579,9 +577,6 @@ const searchPosts = async (req) => {
     const u_id = await getUserIdFromToken(req)
     const { limit, offset } = await facetStage(req.query.page)
     const filter = req.query.filter
-    console.log('gilterdata', filter)
-
-    //remove hide post from search
 
     let post_data = await db.hidePost.findAll({
         where: {
@@ -619,9 +614,14 @@ const searchPosts = async (req) => {
                 }
             ]
         },
-        // where: {
-        //     description: {[db.Op.like]: '%' + filter + '%'}
-        // },
+        attributes: {
+            include: [
+                [db.sequelize.literal(`(SELECT COUNT(*) FROM userLikes WHERE post_id = userPosts.id)`), 'total_likes_count'],
+                [db.sequelize.literal(`(SELECT COUNT(*) FROM userPostComments WHERE p_id = userPosts.id)`), 'total_comments_count'],
+                [db.sequelize.literal(`(SELECT COUNT(*) FROM shareModels WHERE post_id = userPosts.id)`), 'total_share_count'],
+                [db.sequelize.literal(`EXISTS(SELECT * FROM userLikes WHERE post_id = userPosts.id AND u_id = ${u_id})`), 'isLiked']
+            ]
+        },
         include: [
             {
                 association: 'user',

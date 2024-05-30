@@ -303,7 +303,7 @@ const StyledCard = ({ cardIndex, sale, myProducts, content, addToCart, donation,
 
 							<Flexed margin="0.8rem 0rem 0rem 0rem" direction="row" align="center">
 								<LocationIcons src="/images/icons/location.svg" />
-								<Distance>{distanceInMiles ? `${distanceInMiles}` : '0 mile.'}</Distance>
+								<Distance>{distanceInMiles ? `${distanceInMiles}` : 'N / A.'}</Distance>
 							</Flexed>
 
 							<Flexed margin="0.3rem 0rem 0.625rem 0rem" direction="row" align="center" style={{ minHeight: '1.813rem' }}>

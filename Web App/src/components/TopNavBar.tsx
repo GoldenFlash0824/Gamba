@@ -11,7 +11,7 @@ import MobViewMenu from './MobViewMenu'
 import Loader from './common/Loader'
 import jwtDecode from 'jwt-decode'
 import { useDispatch } from 'react-redux'
-import { saveSearchLat, saveSearchLog, saveSearchText, setUserId } from '../actions/authActions'
+import { saveSearchAddress, saveSearchLat, saveSearchLog, saveSearchText, setUserId } from '../actions/authActions'
 import { totalCount } from '../apis/apis'
 import { colorPicker } from './utils'
 import { Icons } from 'react-toastify'
@@ -123,6 +123,9 @@ const TopNavBar = ({
 										setIsAboutOpen(false)
 										setSingleEvent(null)
 										_dispatch(saveSearchText(''))
+										_dispatch(saveSearchLat(null))
+										_dispatch(saveSearchLog(null))
+										_dispatch(saveSearchAddress(''))
 									}}>
 									<CustomLogo src="/images/gambaLogo.png" alt="logo f" screenWidth={screenWidth} />
 								</Link>
@@ -144,6 +147,9 @@ const TopNavBar = ({
 														onClick={() => {
 															_navigate('/sign-up')
 															_dispatch(saveSearchText(''))
+															_dispatch(saveSearchLat(null))
+															_dispatch(saveSearchLog(null))
+															_dispatch(saveSearchAddress(''))
 														}}>
 														Sign Up
 													</CustomText>
@@ -153,6 +159,9 @@ const TopNavBar = ({
 														onClick={() => {
 															_navigate('/sign-in')
 															_dispatch(saveSearchText(''))
+															_dispatch(saveSearchLat(null))
+															_dispatch(saveSearchLog(null))
+															_dispatch(saveSearchAddress(''))
 														}}>
 														Log In
 													</LoginButton>
@@ -171,6 +180,9 @@ const TopNavBar = ({
 										onClick={() => {
 											_navigate('/cart')
 											_dispatch(saveSearchText(''))
+											_dispatch(saveSearchLat(null))
+											_dispatch(saveSearchLog(null))
+											_dispatch(saveSearchAddress(''))
 										}}>
 										{cart?.products?.length > 0 ? (
 											<div ref={cartRef}>
@@ -194,6 +206,8 @@ const TopNavBar = ({
 											setSellerId('')
 											_navigate('/notification')
 											_dispatch(saveSearchText(''))
+											_dispatch(saveSearchLat(null))
+											_dispatch(saveSearchLog(null))
 										}}
 									/>
 
@@ -229,6 +243,9 @@ const TopNavBar = ({
 												getTotalCount()
 											}
 											_dispatch(saveSearchText(''))
+											_dispatch(saveSearchLat(null))
+											_dispatch(saveSearchLog(null))
+											_dispatch(saveSearchAddress(''))
 										}}>
 										<MenuText type="normal">
 											<Icon src="/images/icons/bars.svg" alt="bars" />

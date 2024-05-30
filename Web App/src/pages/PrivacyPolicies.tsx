@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Flexed, Spacer, Text } from '../styled/shared'
 import { useDispatch } from 'react-redux'
-import { saveSearchText } from '../actions/authActions'
+import { saveSearchAddress, saveSearchLat, saveSearchLog, saveSearchText } from '../actions/authActions'
 import { Document, Page, pdfjs } from 'react-pdf'
 import Loader from '../components/common/Loader'
 import styled from 'styled-components'
@@ -31,6 +31,9 @@ const PrivacyPolicies = () => {
 					color="gray"
 					onClick={() => {
 						_dispatch(saveSearchText(''))
+						_dispatch(saveSearchLat(null))
+						_dispatch(saveSearchLog(null))
+						_dispatch(saveSearchAddress(''))
 						_navigate('/products')
 					}}>
 					Home

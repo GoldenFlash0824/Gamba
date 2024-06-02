@@ -52,9 +52,6 @@ const MyProducts = ({ addToCart, setUserId }) => {
 					color="gray"
 					onClick={() => {
 						_navigate('/products')
-						// setSinglePost(null)
-						// setSelectProfileSettingsCategory('')
-						// setSelectCategory('profile')
 					}}>
 					Home
 				</Text>

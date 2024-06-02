@@ -280,7 +280,6 @@ const ViewAllPaidOrder = forwardRef((props, ref) => {
 					if (response.data.data?.response.length > 0) {
 						setTotalPage(parseInt(((response.data.data?.remaining) / 20) + 1))
 						setRemaining(response.data.data?.remaining)
-
 						response.data.data?.response.map((data, index) => {
 							createOrderReportsTable(data)
 						})
@@ -820,7 +819,21 @@ const ViewAllPaidOrder = forwardRef((props, ref) => {
 			if (e.target.value.length > 1) {
 				await api.get(`admin/search_paid_order?page=${page}&filter=${e.target.value}`)
 					.then((response) => {
-
+						if (response.data.success == true) {
+							setOrderReports((preValue) => {
+								return {
+									columns: [...preValue.columns],
+									rows: []
+								}
+							})
+							if (response.data.data?.response.length > 0) {
+								setRemaining(response.data.data?.remaining)
+								response.data.data?.response.map((data, index) => {
+									createOrderReportsTable(data)
+								})
+							}
+						}
+						setLoading(false)
 					}).catch((err) => {
 						toast.error('Something went wrong. Please try again later.', {
 							position: toastStyle.position,
@@ -864,7 +877,6 @@ const ViewAllPaidOrder = forwardRef((props, ref) => {
 								<TextField type="email" size="small" className={classes.textField} variant="outlined" placeholder="Search" fullWidth value={search} onChange={(e) => doSearch(e)} />
 							</Grid>
 							<div className='d-flex justify-content-between align-items-center gap-5 '>
-
 								<Typography variant="h6" className={classes.heading}>
 									<div className="d-flex align-items-center" >
 										<p style={{ fontSize: '1rem', margin: '0.5rem 0.5rem 0 0.5rem' }}> Start:</p>
@@ -883,9 +895,6 @@ const ViewAllPaidOrder = forwardRef((props, ref) => {
 									</div>
 								</Typography>
 								<div style={{ display: 'flex', justifyContent: 'flex-end', margin: '0.5rem 0.5rem 0 0.5rem', fontSize: '1rem', }}>
-									{/* <Button  color="secondary" className={classes.saveButton} onClick={() => exportToCSV()}>
-										Export CSV
-									</Button> */}
 									<Button color="secondary" style={{ fontSize: '1rem', backgroundColor: 'transparent', color: '#333', border: '1px solid #333' }} className={classes.saveButton} onClick={() => exportToCSV()}>
 										<svg xmlns="http://www.w3.org/2000/svg" className='me-1' width="18px" height="18px" viewBox="0 0 576 512"><path d="M336 448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16H224v80c0 17.7 14.3 32 32 32h80v96h48V154.5c0-17-6.7-33.3-18.7-45.3L274.7 18.7C262.7 6.7 246.5 0 229.5 0H64C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V368H336v80zM489 215c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l39 39H216c-13.3 0-24 10.7-24 24s10.7 24 24 24H494.1l-39 39c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l80-80c9.4-9.4 9.4-24.6 0-33.9l-80-80z" /></svg>	Export CSV
 									</Button>
@@ -896,10 +905,7 @@ const ViewAllPaidOrder = forwardRef((props, ref) => {
 							<AppBar position="static" color="default">
 								<Tabs value={value} onChange={handleChange} indicatorColor="primary" textColor="primary" variant="fullWidth">
 									<Tab className={classes.tabHeading} label="Manage Orders" icon={<HowToReg className={classes.tabIcon} />} />
-									{/* <Tab className={classes.tabHeading} label="Unpaid" icon={<HowToReg className={classes.tabIcon} />} />
-									<Tab className={classes.tabHeading} label="Paid Orders" icon={<HowToReg className={classes.tabIcon} />} /> */}
 									<Tab className={classes.tabHeading} label="Dispute/Cancel Orders" icon={<HowToReg className={classes.tabIcon} />} />
-
 								</Tabs>
 							</AppBar>
 							<SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex}>
@@ -1012,16 +1018,7 @@ const ViewAllPaidOrder = forwardRef((props, ref) => {
 										</>
 									)}
 								</TabPanel>
-
 								<TabPanel value={value} index={2} dir={theme.direction}>
-									{/* <div className={classes.root}>
-										<Grid container>
-											<Grid item xs={12} md={3}>
-												<TextField type="email" size="small" className={classes.textField} variant="outlined" placeholder="Search" fullWidth value={search} onChange={doSearch} />
-											</Grid>
-										</Grid>
-									</div> */}
-
 									{loading ? (
 										<>
 											<div id="loader-div">
@@ -1034,14 +1031,6 @@ const ViewAllPaidOrder = forwardRef((props, ref) => {
 									)}
 								</TabPanel>
 								<TabPanel value={value} index={3} dir={theme.direction}>
-									{/* <div className={classes.root}>
-										<Grid container>
-											<Grid item xs={12} md={3}>
-												<TextField type="email" size="small" className={classes.textField} variant="outlined" placeholder="Search" fullWidth value={search} onChange={doSearch} />
-											</Grid>
-										</Grid>
-									</div> */}
-
 									{loading ? (
 										<>
 											<div id="loader-div">
@@ -1053,7 +1042,6 @@ const ViewAllPaidOrder = forwardRef((props, ref) => {
 										<MDBDataTableV5 className="customTableResponsive" responsive={true} hover entriesOptions={[15, 30, 50]} entries={15} pagesAmount={4} data={Disputed} fullPagination searchTop={false} searchBottom={false} />
 									)}
 								</TabPanel>
-
 							</SwipeableViews>
 						</div>
 					</div>

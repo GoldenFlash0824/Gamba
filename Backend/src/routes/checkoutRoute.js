@@ -1,6 +1,6 @@
 import * as checkoutController from '../controllers/checkoutController.js'
 import express from 'express'
-import {verifyAuthToken} from '../utilities/authentication.js'
+import { verifyAuthToken } from '../utilities/authentication.js'
 
 const router = express.Router()
 
@@ -23,4 +23,4 @@ router.put('/change_default_payment', verifyAuthToken(), checkoutController.chan
 router.delete('/remove_card/:paymentMethodId', verifyAuthToken(), checkoutController.deleteCard)
 
 router.post('/complete_payment/pay', verifyAuthToken(), checkoutController.initializToPayment)
-export {router}
+export { router }

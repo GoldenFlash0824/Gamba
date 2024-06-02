@@ -5,7 +5,7 @@ import { Flexed, Heading, Spacer, Text } from '../styled/shared'
 import { Container, Row, Col, media } from 'styled-bootstrap-grid'
 import { useSelector } from 'react-redux'
 
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Button from '../components/common/Button'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
@@ -22,6 +22,7 @@ axios.defaults.headers.post['Accept'] = 'application/json'
 axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*'
 
 const PlaceOrder = () => {
+	const params = useLocation()
 	const MySwal = withReactContent(Swal)
 	const dispatch = useDispatch()
 	const _isDarkTheme: any = useSelector<any>((state: any) => state.auth.isDarkTheme)
@@ -33,6 +34,7 @@ const PlaceOrder = () => {
 	const [clng, setCLng] = useState<any>('')
 	const [location, setLocation] = useState('')
 	const cart: any = useSelector<any>((state: any) => state.cart)
+	const event: any = useSelector<any>((state: any) => state.event.event)
 	const [sellerId, setSellerId] = useState(false)
 
 	useEffect(() => {
@@ -52,7 +54,6 @@ const PlaceOrder = () => {
 						setPaymentMethod('cashOnDelivery')
 						setOpenPopup(true)
 						setSellerId(res)
-						// toastError(`Seller ${res?.user?.first_name} not accept online payments, so remove it's products from cart or do cash on delivery`)
 					}
 				})
 		}
@@ -75,7 +76,6 @@ const PlaceOrder = () => {
 		)
 	}
 
-	//Function to get Exact Address from above taken Latitude and longitude
 	const getCurrentAddress = async (lat: any, lng: any) => {
 		await axios
 			.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${parseFloat(lat)},${parseFloat(lng)}&sensor=true&key=${process.env.REACT_APP_MAP_API_KEY}`)
@@ -87,13 +87,30 @@ const PlaceOrder = () => {
 			})
 	}
 
-	const total: number = cart?.products?.reduce((result, item) => {
+	const total: number = params.state === 'product' ? (cart?.products?.reduce((result: any, item: any) => {
 		return result + item.quantity * item.discountPrice
-	}, 0)
+	}, 0)) : (event.price)
 
 	const placeOrderPopup = async () => {
-		if (cart?.products.length) {
-			let res = await paymentApi(0, 0, total, cart?.products, paymentMethod)
+		if (params.state === 'product') {
+			if (cart?.products.length) {
+				let res = await paymentApi(0, 0, total, cart?.products, paymentMethod, params.state)
+				if (res.data) {
+					MySwal.fire({
+						customClass: {
+							container: 'my-custom-swal'
+						},
+						showCloseButton: true,
+						denyButtonText: 'Your order is placed.',
+						imageUrl: '/images/ThankYouGreen.png'
+					}).then(() => {
+						dispatch(clearCart('0'))
+						_navigate('/products')
+					})
+				}
+			}
+		} else {
+			let res = await paymentApi(0, 0, total, event, paymentMethod, params.state)
 			if (res.data) {
 				MySwal.fire({
 					customClass: {
@@ -104,7 +121,6 @@ const PlaceOrder = () => {
 					imageUrl: '/images/ThankYouGreen.png'
 				}).then(() => {
 					dispatch(clearCart('0'))
-					//_navigate('/order-details', {state: {data: res.data}})
 					_navigate('/products')
 				})
 			}

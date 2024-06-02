@@ -104,7 +104,6 @@ const createProductGood = async (req) => {
         let tradeproduct = [...trade_withh]
         const result = trade_with.map((trade) => `${trade.trade_title},${trade.trade_quantity}`).join(', ')
         await db.userTrades.create({ product_id: _createPoste.id, title: trade_with })
-        // })
     } else {
         _createPoste = await db.UserProducts.create({
             name: name,
@@ -143,11 +142,22 @@ const createProductGood = async (req) => {
         //     )
         // }
     }
-    let chemical
+    let chemicals = []
+    let currentChemicals = await db.Chemicals.findAll()
+    const existingChemicalTitles = new Set(currentChemicals.map(chemical => chemical.title));
+
     if (is_organic == false) {
-        for (const info of chemical_id) {
-            chemical = await db.ChemicalDetail.create({
-                chemical_id: info,
+        for (const title of chemical_id) {
+            if (!existingChemicalTitles.has(title)) {
+                const chemical = await db.Chemicals.create({
+                    title: title
+                });
+                chemicals.push(chemical);
+            }
+        }
+        for (const info of chemicals) {
+            await db.ChemicalDetail.create({
+                chemical_id: info.id,
                 product_id: _createPoste.id
             })
         }
@@ -310,6 +320,9 @@ const updateProductGood = async (req) => {
                 }
             )
         }
+        let chemicals = []
+        let currentChemicals = await db.Chemicals.findAll()
+        const existingChemicalTitles = new Set(currentChemicals.map(chemical => chemical.title));
 
         if (is_organic == false) {
             await db.UserProducts.update(
@@ -322,23 +335,19 @@ const updateProductGood = async (req) => {
                     }
                 }
             )
-            let check = await db.ChemicalDetail.findAll({
-                where: {
-                    product_id: product_good_id
+            for (const title of chemical_id) {
+                if (!existingChemicalTitles.has(title)) {
+                    const chemical = await db.Chemicals.create({
+                        title: title
+                    });
+                    chemicals.push(chemical);
                 }
-            })
-            if (check) {
-                await db.ChemicalDetail.destroy({
-                    where: {
+                for (const info of chemicals) {
+                    await db.ChemicalDetail.create({
+                        chemical_id: info.id,
                         product_id: product_good_id
-                    }
-                })
-            }
-            for (const info of chemical_id) {
-                let chemical = await db.ChemicalDetail.create({
-                    chemical_id: info,
-                    product_id: product_good_id
-                })
+                    })
+                }
             }
         } else {
             await db.UserProducts.update(

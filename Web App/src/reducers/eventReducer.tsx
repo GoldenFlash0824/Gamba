@@ -1,15 +1,21 @@
 import * as types from '../actions/types'
 
-interface Event {
+const initialState: any = {
     event: {}
 }
 
-const initialState: Event = {
-    event: {}
-}
-
-export default function EventReducer(state = initialState, action: any) {
+export default function eventReducer(state = initialState, action: any) {
     switch (action.type) {
+        case types.ADD_EVENT:
+            return {
+                ...state,
+                event: action.value
+            }
+        case types.CLEAR_EVENT:
+            return {
+                ...state,
+                event: {}
+            }
         default:
             return state
     }

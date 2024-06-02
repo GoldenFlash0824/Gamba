@@ -6,3 +6,10 @@ export const addEvent = (payload: any) => {
         value: payload
     }
 }
+
+
+export const clearEvent = () => {
+    return {
+        type: types.CLEAR_EVENT
+    }
+}

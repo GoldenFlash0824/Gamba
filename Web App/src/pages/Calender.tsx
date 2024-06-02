@@ -135,6 +135,7 @@ const Calender = ({ setSelectedBtn, setSingleEvent, singleEvent, setUserId, setS
 				eventData = myEvents.concat(eventData)
 			}
 			setMyEvents(eventData)
+			setFilteredEvents(eventData)
 			setCopyMyEventsData(eventData)
 			setLoadMoreMyEvents(response?.data?.event.length >= 15)
 		}

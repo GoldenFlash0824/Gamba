@@ -35,6 +35,7 @@ const EditProduct = ({ productContent, onClose, setSellGoodsCategory }) => {
 	const [allowCustomersToGetUpTo, setAllowCustomersToGetUpTo] = useState(productContent?.allow_per_person)
 	const [distance, setDistance] = useState(productContent?.distance)
 	const [caption, setCaption] = useState(productContent?.caption)
+	const [chemicalsError, setChemicalsError] = useState('')
 	const [startDate, setStartDate] = useState(productContent?.available_from ? new Date(productContent?.available_from) : new Date())
 	const [hours, setHours] = useState(productContent?.advance_order_day)
 	const [unLimitted, setUnlimited] = useState(false)
@@ -70,6 +71,7 @@ const EditProduct = ({ productContent, onClose, setSellGoodsCategory }) => {
 	const [chemicalCheckBox, setChemicalCheckBox] = useState(false)
 	const [dummyChemicalsArray, setDummyChemicalsArray]: any = useState([])
 	const [chemicals, setChemicals]: any = useState()
+	const [chemicalsUsed, setChemicalsUsed] = useState([]);
 
 	// const [priceError, setPriceError] = useState('')
 	const [productNameError, setProductNameError] = useState('')
@@ -121,6 +123,7 @@ const EditProduct = ({ productContent, onClose, setSellGoodsCategory }) => {
 		setDummyChemicalsArray(chemicals)
 
 		setChemicals(chemicals?.filter((data: any) => data?.isChecked === true))
+		setChemicalsUsed(chemicals?.filter((data: any) => data?.isChecked === true).map((data: any) => data?.label));
 	}
 
 	useEffect(() => {
@@ -261,9 +264,8 @@ const EditProduct = ({ productContent, onClose, setSellGoodsCategory }) => {
 		const trade = isTrade === 'Trade' ? true : false
 		const donation = isTrade === 'Giveaway' ? true : false
 
-		const chemicalsUsed = chemicals?.map((data) => data?.id)
-
 		const category: any = productCategoryOptions?.filter((d: any) => d?.label === productCategory)
+		const selectedChemicals = chemicalsUsed?.map((data: any) => data)
 		_dispatch(setIsLoading(true))
 		const response = await updateProduct(
 			productContent?.id,
@@ -278,8 +280,7 @@ const EditProduct = ({ productContent, onClose, setSellGoodsCategory }) => {
 			discount,
 			productUnit,
 			tradeWithProduct,
-			chemicalsUsed,
-			// moment.tz(startDate, 'America/New_York').format(),
+			selectedChemicals,
 			moment(startDate).format('MM/DD/YY'),
 			moment(endDate).format('MM/DD/YY'),
 			isTrade === 'Sell' ? allowToOrder : null,
@@ -288,13 +289,11 @@ const EditProduct = ({ productContent, onClose, setSellGoodsCategory }) => {
 			isTrade === 'Sell' ? days : null,
 			distance,
 			caption,
-			// chemicalCheckBoxNone,
 			allowCustomersToGetUpTo,
 			unLimitted
 		)
 		_dispatch(setIsLoading(false))
 		if (response.success === true) {
-			// toastSuccess(response?.message)
 			setPrice('')
 			setProductName('')
 			setShowImage([])
@@ -378,6 +377,11 @@ const EditProduct = ({ productContent, onClose, setSellGoodsCategory }) => {
 
 		if (!unLimitted && endDate === null) {
 			setEndDateError('End Date is required')
+			isValid = false
+		}
+
+		if (!toggle && chemicalsUsed.length === 0) {
+			setChemicalsError('Chemicals are required')
 			isValid = false
 		}
 
@@ -507,6 +511,8 @@ const EditProduct = ({ productContent, onClose, setSellGoodsCategory }) => {
 						<EditProductStepperTwo
 							setIsOrganicError={setIsOrganicError}
 							isOrganicError={isOrganicError}
+							chemicalsError={chemicalsError}
+							setChemicalsError={setChemicalsError}
 							setChemicalCheckBoxNone={setChemicalCheckBoxNone}
 							chemicalCheckBoxNone={chemicalCheckBoxNone}
 							isTrade={isTrade}
@@ -551,6 +557,8 @@ const EditProduct = ({ productContent, onClose, setSellGoodsCategory }) => {
 							daysError={daysError}
 							setToggle={setToggle}
 							chemicals={chemicals}
+							chemicalsUsed={chemicalsUsed}
+							setChemicalsUsed={setChemicalsUsed}
 							toggle={toggle}
 							setIsAddChemicalsModalOpen={setIsAddChemicalsModalOpen}
 							setQuantityError={setQuantityError}

@@ -372,6 +372,7 @@ const CreateProducts = ({ onClose, onCreateProductCB, setSellGoodsCategory }: an
 
 		if (!toggle && chemicalsUsed.length === 0) {
 			setChemicalsError('Chemicals are required')
+			isValid = false
 		}
 
 		return isValid

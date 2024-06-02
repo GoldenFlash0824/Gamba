@@ -1,20 +1,21 @@
-import React, {useState} from 'react'
-import {Col} from 'styled-bootstrap-grid'
+import React, { useState } from 'react'
+import { Col } from 'styled-bootstrap-grid'
 import DropDown from '../DropDown'
-import {Flexed, Spacer, Text} from '../../styled/shared'
+import { Flexed, Spacer, Text } from '../../styled/shared'
 import styled from 'styled-components'
-import {palette} from '../../styled/colors'
+import { palette } from '../../styled/colors'
 import DateTimePicker from 'react-datetime-picker'
 import Checkbox from '../common/CheckBox'
 import CustomInputField from '../common/CustomInputField'
 import Toggle from '../common/Toggle'
 import ChemicalsErrorModal from '../modals/ChemicalsErrorModal'
 import AllowToOrderModal from '../modals/AllowToOrderModal'
-import {BiCalendarAlt} from 'react-icons/bi'
-import {media} from 'styled-bootstrap-grid'
-import {CustomDivTitle} from '../productStepper/ProductStepperTwo'
-import {toastSuccess} from '../../styled/toastStyle'
-import {toast} from 'react-toastify'
+import { BiCalendarAlt } from 'react-icons/bi'
+import { media } from 'styled-bootstrap-grid'
+import { CustomDivTitle } from '../productStepper/ProductStepperTwo'
+import { toastSuccess } from '../../styled/toastStyle'
+import { toast } from 'react-toastify'
+import AutoComplete from '../common/AutoComplete'
 
 const EditProductStepperTwo = ({
 	isOrganicError,
@@ -63,69 +64,23 @@ const EditProductStepperTwo = ({
 	quantity,
 	allowToOrderError,
 	setAllowToOrderError,
+	chemicalsError,
+	setChemicalsError,
 	setQuantity,
 	allowToOrderOptions,
 	setToggle,
 	setIsAddChemicalsModalOpen,
 	toggle,
 	chemicals,
+	chemicalsUsed,
+	setChemicalsUsed,
 	setUnlimited,
 	unLimitted
 }) => {
 	const [isAllowToOrderModalOpen, setIsAllowToOrderModalOpen] = useState(false)
 	const [isChemicalsErrorModalOpen, setIsChemicalsErrorModalOpen] = useState(false)
-
 	return (
 		<>
-			{/* <Col lg={6}> */}
-			{/* <StyledFlex>
-					<Flexed direction="row" align="center" justify="space-between">
-						<Checkbox fontSize="1rem" label="Allow To Order" isChecked={allowToOrder} setIsChecked={setAllowToOrder} />
-					</Flexed>
-				</StyledFlex> */}
-			{/* <Spacer height={2} /> */}
-			{/* </Col> */}
-			{/* <Col lg={6} /> */}
-
-			{/* <Col lg={6}>
-				<DropDown
-					label="Allow To Order"
-					// disabled={!allowToOrder}
-					firstSelected={allowToOrderOptions[0]?.label}
-					required
-					// name="unit"
-					hasChanged={(value: any) => {
-						setAllowToOrderError('')
-						if (value == '') {
-							setAllowToOrderError('Allow To Order is required')
-						}
-						setAllowToOrder(value)
-					}}
-					error={allowToOrderError}
-					errorMsg={allowToOrderError}
-					options={allowToOrderOptions}
-				/>
-				<Spacer height={1.5} />
-			</Col>
-			<Col lg={6}>
-				<CustomInputField
-					// disabled={!allowToOrder}
-					type="number"
-					placeholder="Enter"
-					handleChange={(value: any) => {
-						if (value == '') {
-							setDaysError('Days is required')
-						}
-						setDaysError('')
-						setDays(value.toString())
-					}}
-					required
-					error={daysError}
-					errorMsg={daysError}
-					value={days}
-				/>
-				<Spacer height={1.5} />
-			</Col> */}
 			{isTrade === 'Sell' && (
 				<>
 					<Col lg={6}>
@@ -134,8 +89,6 @@ const EditProductStepperTwo = ({
 							bgTransparent
 							setIsAllowToOrderModalOpen={setIsAllowToOrderModalOpen}
 							label="Allow to order in advance "
-							// disabled={!allowToOrder}
-							// type="number"
 							placeholder="Enter"
 							handleChange={(value: any) => {
 								let reg: any = ''
@@ -269,7 +222,7 @@ const EditProductStepperTwo = ({
 				</Col>
 			)}
 			{isDelivery && (
-				<div style={{position: 'relative'}}>
+				<div style={{ position: 'relative' }}>
 					<RadiusText align="center" direction="row">
 						<Text type="small" color="gray">
 							Radius
@@ -281,71 +234,22 @@ const EditProductStepperTwo = ({
 
 			{!isDelivery && <Col lg={6} />}
 
-			{/* {isTrade === 'Donation' || isTrade === 'Trade' ? <Col lg={6} /> : null}
-			{isTrade === 'Product' ? (
-				<Col lg={6}>
-					<CustomInputField
-						label="Quantity Available"
-						// disabled={quantityUnlimited}
-						placeholder="Enter"
-						handleChange={(e: any) => {
-							setQuantityError('')
-							if (e == '' || e == 0) {
-								if (e == 0 && e !== '') setQuantityError('quantity should be greater than 0')
-								else setQuantityError('Quantity available is required')
-							}
-							setQuantity(e)
-						}}
-						required
-						error={quantityError}
-						errorMsg={quantityError}
-						value={quantity}
-						allowOnlyNumbers={true}
-					/>
-
-					<Spacer height={1.5} />
-				</Col>
-			) : null} */}
-			{/* <Col lg={6}></Col> */}
-
-			{/* <Col lg={6}>
-				<CustomInputField
-					label="Inventory Price"
-					// disabled={quantityUnlimited}
-					placeholder="Enter"
-					handleChange={(e: any) => {
-						setInventoryPriceError('')
-						if (e == '') {
-							setInventoryPriceError('Inventory Price is required')
-						}
-						setInventoryPrice(e)
-					}}
-					required
-					error={inventoryPriceError}
-					errorMsg={inventoryPriceError}
-					value={inventoryPrice}
-					allowOnlyNumbers={true}
-				/>
-
-				<Spacer height={1.5} />
-			</Col> */}
-			{/* <Col lg={6} /> */}
-
 			<Col lg={6}>
-				<div
-					onClick={() => {
-						if (!toggle) setIsAddChemicalsModalOpen(true)
-					}}>
-					<CustomInputField disabled={toggle === true} bgTransparent label="Chemical Used" value={chemicals?.map((data: any) => data?.label)} />
-				</div>
+				<AutoComplete tags={chemicalsUsed}
+					setTags={setChemicalsUsed}
+					bgTransparent={true}
+					disabled={toggle === true}
+					label="Chemical Used"
+					suggestions={chemicals}
+					error={chemicalsError}
+					errorMsg={chemicalsError}
+					setError={setChemicalsError}></AutoComplete>
 				<Spacer height={1.5} />
 			</Col>
 
 			<Col lg={6}>
 				<OrganicFlexed direction="row" gap={0.5} align="flex-end" justify="flex-end">
-					{/* <Checkbox fontSize="1rem" label="None" isChecked={chemicalCheckBoxNone} setIsChecked={setChemicalCheckBoxNone} /> */}
-
-					<Flexed direction="row" gap="0.5" onClick={() => {}}>
+					<Flexed direction="row" gap="0.5" onClick={() => { }}>
 						<Text type="small" color="gray">
 							Organic
 						</Text>
@@ -369,47 +273,6 @@ const EditProductStepperTwo = ({
 					</Flexed>
 				</OrganicFlexed>
 			</Col>
-
-			{/* <>
-				<Col lg={6}>
-					<DropDown
-						label="Hours"
-						disabled={!allowToOrder}
-						firstSelected={''}
-						hasChanged={(value: any) => {
-							setHoursError('')
-							if (value == '') {
-								setHoursError('Hours is required')
-							}
-							setHours(value)
-						}}
-						required
-						error={hoursError}
-						errorMsg={hoursError}
-						options={hoursOptions}
-					/>
-					<Spacer height={1.5} />
-				</Col>
-				<Col lg={6}>
-					<DropDown
-						label="Days"
-						disabled={!allowToOrder}
-						firstSelected={''}
-						hasChanged={(value: any) => {
-							setDaysError('')
-							if (value == '') {
-								setDaysError('Days is required')
-							}
-							setDays(value)
-						}}
-						required
-						error={daysError}
-						errorMsg={daysError}
-						options={daysOption}
-					/>
-					<Spacer height={1.5} />
-				</Col>
-			</> */}
 
 			<Col>
 				<Spacer height={1.5} />
@@ -473,7 +336,7 @@ const StyledWrapper = styled.div`
 	z-index: 1;
 `
 
-const CalenderDiv = styled(DateTimePicker)<any>`
+const CalenderDiv = styled(DateTimePicker) <any>`
 	font-family: 'Lato-Regular', sans-serif;
 	width: 100%;
 	line-height: 1.25rem;
@@ -483,17 +346,17 @@ const CalenderDiv = styled(DateTimePicker)<any>`
 	font-size: 0.875rem;
 	border-radius: .5rem;
 	padding: 0.6rem 1.25rem;
-	border: 1px solid ${({error, disabled, isDarkTheme}) => (disabled ? `${palette.green}` : error ? `${palette.danger}` : isDarkTheme ? `${palette.stroke}` : `${palette.stroke}`)};
-	color: ${({disabled, isDarkTheme}) => (disabled || isDarkTheme ? `${palette.text_black}` : `${palette.text_black}`)};
+	border: 1px solid ${({ error, disabled, isDarkTheme }) => (disabled ? `${palette.green}` : error ? `${palette.danger}` : isDarkTheme ? `${palette.stroke}` : `${palette.stroke}`)};
+	color: ${({ disabled, isDarkTheme }) => (disabled || isDarkTheme ? `${palette.text_black}` : `${palette.text_black}`)};
 	width: 100%;
-	// cursor: ${({disabled}) => (disabled ? `no-drop` : `pointer`)};
-	background: ${({disabled, bgTransparent, isDarkTheme}) => (bgTransparent ? 'transparent' : disabled ? `${palette.silver}` : isDarkTheme ? `${palette.black}` : `${palette.white}`)};
+	// cursor: ${({ disabled }) => (disabled ? `no-drop` : `pointer`)};
+	background: ${({ disabled, bgTransparent, isDarkTheme }) => (bgTransparent ? 'transparent' : disabled ? `${palette.silver}` : isDarkTheme ? `${palette.black}` : `${palette.white}`)};
 
 	// &:hover {
-	// 	box-shadow: 0 0 0.31rem ${({error, disabled}) => (disabled ? 'none' : error ? `${palette.danger}` : 'rgba(0, 0, 0, 0.25)')};
+	// 	box-shadow: 0 0 0.31rem ${({ error, disabled }) => (disabled ? 'none' : error ? `${palette.danger}` : 'rgba(0, 0, 0, 0.25)')};
 	// }
 	&:focus {
-		border: 1px solid ${({error, disabled}) => (disabled ? 'none' : error ? `${palette.danger}` : `${palette.Btn_dark_green}`)};
+		border: 1px solid ${({ error, disabled }) => (disabled ? 'none' : error ? `${palette.danger}` : `${palette.Btn_dark_green}`)};
 	}
 	&::placeholder {
 		color: ${palette.gray_100};
@@ -501,7 +364,7 @@ const CalenderDiv = styled(DateTimePicker)<any>`
 
 	&:-ms-input-placeholder {
 		/* Internet Explorer 10-11 */
-		color: ${({disabled, isDarkTheme}) => (disabled || isDarkTheme ? `${palette.silver}` : `${palette.gray_100}`)};
+		color: ${({ disabled, isDarkTheme }) => (disabled || isDarkTheme ? `${palette.silver}` : `${palette.gray_100}`)};
 	}
 
 	&::-ms-input-placeholder {

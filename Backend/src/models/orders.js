@@ -1,6 +1,7 @@
 const ordersModel = (sequelize, DataTypes) => {
     const userSoldProductGood = sequelize.define('soldProducts', {
         product_id: DataTypes.INTEGER,
+        event_id: DataTypes.INTEGER,
         quantity: DataTypes.INTEGER,
         c_id: DataTypes.INTEGER,
         seller_id: DataTypes.INTEGER,

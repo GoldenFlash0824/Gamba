@@ -43,7 +43,7 @@ const ValidationCode = ({ isRemmber, email, setEmail, password, is2Fa, isModel, 
 					_dispatch(setAuthToken(response?.data))
 					onClose()
 				} else {
-					_navigate('/settings')
+					_navigate('/products')
 				}
 			}
 		} else if (response.message === 'User verified successfully') {
@@ -62,11 +62,11 @@ const ValidationCode = ({ isRemmber, email, setEmail, password, is2Fa, isModel, 
 			if (isModel) {
 				onClose()
 			} else {
-				_navigate('/settings')
+				_navigate('/products')
 			}
 		} else if (response.message === 'User already verified, Please login') {
 			toastError(response.message)
-			_navigate('/settings')
+			_navigate('/login')
 			setLoading(false)
 		} else {
 			toastError(response.message)

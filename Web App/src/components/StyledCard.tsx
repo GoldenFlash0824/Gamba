@@ -193,9 +193,7 @@ const StyledCard = ({ cardIndex, sale, myProducts, content, addToCart, donation,
 							</>
 						)}
 					</div>
-
 				</ImgWrapper>
-
 				<CardBody>
 					<div>
 						<div>
@@ -275,7 +273,6 @@ const StyledCard = ({ cardIndex, sale, myProducts, content, addToCart, donation,
 									)}
 								</div>
 							</Flexed>
-
 							{!myProducts && (
 								<Flexed margin={"0.3rem 0rem 0rem 0rem"} direction={'row'} align={'center'} justify={'space-between'}>
 									<TextBelowUser

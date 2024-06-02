@@ -115,9 +115,10 @@ const Cart = () => {
 											setOpenReOrderConfirmation(true)
 										}
 										else {
-											_navigate('/place-order')
+											_navigate('/place-order', {
+												state: 'product'
+											})
 										}
-
 									}}>
 									Checkout
 								</Button>

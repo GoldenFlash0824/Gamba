@@ -10,7 +10,6 @@ const AutoComplete = ({ label, placeholder, disabled, error, setError, errorMsg,
     // const [filteredSuggestions, setFilteredSuggestions] = useState([])
     // const [showSuggestions, setShowSuggestions] = useState(false)
     const [wrapperWidth, setWrapperWidth] = useState(0)
-
     const handleChange = (e: any) => {
         const filtered = suggestions.filter((suggestion: any) => suggestion.label.toLowerCase().indexOf(e.target.value.toLowerCase()) > -1)
         setError('')

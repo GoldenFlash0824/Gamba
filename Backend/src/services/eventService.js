@@ -107,6 +107,48 @@ const getAllEvent = async (req) => {
         offset: offset,
         order: [['createdAt', 'DESC']]
     })
+
+    let orders = []
+
+    for (const event of _allEvent) {
+        const event_u_id = event.u_id
+        const orderElement = await db.Orders.findAll({
+            where: {
+                seller_id: event_u_id,
+                event_id: event.id
+            }
+        })
+
+        orders.push(orderElement)
+    }
+
+    let checkouts = []
+    for (const orderElement of orders) {
+        let checkoutElement = []
+        for (const order of orderElement) {
+            const checkout = await db.Checkout.findOne({
+                where: {
+                    id: order.c_id
+                }
+            })
+            checkoutElement.push(checkout)
+        }
+        checkouts.push(checkoutElement)
+    }
+
+    let paidUsers = []
+    for (const checkoutElement of checkouts) {
+        let paidUserElement = []
+        for (const checkout of checkoutElement) {
+            paidUserElement.push(checkout.u_id)
+        }
+        paidUsers.push(paidUserElement)
+    }
+
+    for (let i = 0; i < _allEvent.length; i++) {
+        _allEvent[i].dataValues.paid = paidUsers[i];
+    }
+
     if (_allEvent) {
         return {
             data: { event: _allEvent },
@@ -367,7 +409,6 @@ const updateEvent = async (req) => {
 
     let updateImage = ''
     let _event = await db.Events.findOne({ where: { id: id, u_id: u_id } })
-    console.log(_event)
 
     if (_event) {
         if (image && _event.image != image) {

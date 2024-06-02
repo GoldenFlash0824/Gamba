@@ -12,7 +12,7 @@ export const INCREMENT_ITEM = 'INCREMENT_ITEM'
 export const DECREMENT_ITEM = 'DECREMENT_ITEM'
 
 export const ADD_EVENT = 'ADD_EVENT'
-export const REMOVE_EVENT = 'REMOVE_EVENT'
+export const CLEAR_EVENT = 'CLEAR_EVENT'
 
 export const USER_ID = 'USER_ID'
 export const STORE_ROUTE = 'STORE_ROUTE'

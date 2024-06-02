@@ -4,7 +4,7 @@ import { hashPassword, comparePassword } from '../utilities/passwordUtils.js'
 import { sendNotification } from '../notification/sendNotification.js'
 import { deleteImage, deleteMultipleImage, s3SharpImageUpload } from './aws.js'
 import NotificationEnum from '../enums/notification-type-enum.js'
-import { connectGiveAwayProductBuyerEmail, connectGiveAwayProductSellerEmail, contactUsEmail, newPasswordEmail, passwordUpdated, resetPasswordEmail, verificationCodeEmail, welcomeEmail, connectTradeProductBuyerEmail, connectTradeProductSellerEmail } from './emailService.js'
+import { connectGiveAwayProductBuyerEmail, connectGiveAwayProductSellerEmail, contactUsEmail, passwordUpdated, resetPasswordEmail, verificationCodeEmail, welcomeEmail, connectTradeProductBuyerEmail, connectTradeProductSellerEmail } from './emailService.js'
 import moment from 'moment'
 import axios from 'axios'
 

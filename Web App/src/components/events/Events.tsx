@@ -21,12 +21,14 @@ import { useDispatch } from 'react-redux'
 import MapModal from '../modals/MapModal'
 import { colorPicker } from '../utils'
 import LoginPopupModel from '../modals/LoginPopupModel'
+import { addEvent, clearEvent } from '../../actions/eventActions'
 
 const Events = ({ data, index, allEvents, selectCategory, onEdit, setUserId, getAllEvents, setSellerId, parent }: any) => {
 	const _navigate = useNavigate()
 	const _dispatch = useDispatch()
 
 	const userId = useSelector<any>((state: any) => state.auth.userId)
+	const authToken = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 	const [isMapModalOpen, setIsMapModalOpen] = useState(false)
 
 	const [isHideModalOpen, setIsHideModalOpen] = useState(false)
@@ -52,6 +54,7 @@ const Events = ({ data, index, allEvents, selectCategory, onEdit, setUserId, get
 
 	useEffect(() => {
 		doGetDistanceFromLatLonInMiles()
+		_dispatch(clearEvent())
 	}, [])
 
 	const doGetDistanceFromLatLonInMiles = async () => {
@@ -80,16 +83,20 @@ const Events = ({ data, index, allEvents, selectCategory, onEdit, setUserId, get
 		if (isUserLogIn == null) {
 			setLoginPopup(true)
 		} else {
-			_dispatch(setIsLoading(true))
-			let info: any = await joinEvent(event_id, payment_id)
-			if (info?.success) {
-				setIsJoinMe(info?.data?.isJoinMe)
-				setEventJoinedUsers(info?.data?.joinEvent)
-				_dispatch(setIsLoading(false))
-				toastSuccess(info.message)
+			if (data?.price === 0 || data?.paid.includes(userId)) {
+				_dispatch(setIsLoading(true))
+				let info: any = await joinEvent(event_id, payment_id)
+				if (info?.success) {
+					setIsJoinMe(info?.data?.isJoinMe)
+					setEventJoinedUsers(info?.data?.joinEvent)
+					_dispatch(setIsLoading(false))
+					toastSuccess(info.message)
+				} else {
+					_dispatch(setIsLoading(false))
+					toastError(info.message)
+				}
 			} else {
-				_dispatch(setIsLoading(false))
-				toastError(info.message)
+				toastError('You have to pay first')
 			}
 		}
 	}
@@ -107,6 +114,18 @@ const Events = ({ data, index, allEvents, selectCategory, onEdit, setUserId, get
 			_dispatch(setIsLoading(false))
 
 			toastSuccess(info.message)
+
+		}
+	}
+
+	const handlePay = () => {
+		if (isUserLogIn === null) {
+			setLoginPopup(true)
+		} else {
+			_dispatch(addEvent(data))
+			_navigate('/place-order', {
+				state: 'event'
+			})
 		}
 	}
 
@@ -116,7 +135,7 @@ const Events = ({ data, index, allEvents, selectCategory, onEdit, setUserId, get
 	return (
 		<>
 			<Wrapper key={index + 'productList'}>
-				{/* <EventMedia image={data?.image} /> */}
+				<EventMedia image={data?.image} />
 				<CardBody>
 					<Flexed direction="row" justify="space-between" align={'baseline'} gap={.5}>
 						<div>
@@ -259,15 +278,6 @@ const Events = ({ data, index, allEvents, selectCategory, onEdit, setUserId, get
 														Edit
 													</DropMenu>
 												)}
-												{/* {userId === data?.id && (
-											<DropMenu
-												onClick={() => {
-													isUserLogIn !== null ? setOpenSocialModal(true) : setLoginPopup(true)
-												}}>
-												Share{' '}
-											</DropMenu>
-										)} */}
-
 												{userId === data?.u_id && (
 													<DropMenu className="d-flex align-items-center gap-2"
 														onClick={() => {
@@ -302,7 +312,7 @@ const Events = ({ data, index, allEvents, selectCategory, onEdit, setUserId, get
 								${data?.price}
 							</Text>
 						</EventPrice>
-						{data?.price > 0 ? <Button className='ml-2'>Pay</Button> : <></>}
+						{(data?.price > 0 && data?.eventUser?.id !== userId && !data?.paid.includes(userId)) ? <Button className='ml-2' onClick={() => { handlePay() }}>Pay</Button> : <></>}
 					</Flexed>
 					<Spacer height={0.438} />
 					{parent && data?.status && (

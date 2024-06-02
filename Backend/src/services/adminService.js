@@ -773,7 +773,6 @@ const searchProductGood = async (req) => {
             message: 'All products',
             data: { products: allProducts.rows, count: allProducts.count, remaining: remainingCount, page: req.query.page, total: total }
         }
-
     } catch (error) {
         return {
             status: false,
@@ -2699,6 +2698,7 @@ const unblockUser = async (req) => {
         }
     }
 }
+
 const getblockUser = async (req) => {
     try {
         const { limit, offset } = await facetStage(req.query.page)
@@ -2827,10 +2827,6 @@ const ManageOrder = async (req) => {
                     [db.Op.between]: [fromDate, toDate]
                 },
                 charge_gamba: true,
-                // createdAt: {
-                //     [db.Op.gte]: fromDate,
-                //     [db.Op.lte]: toDate
-                // },
                 '$seller_detail.is_block_payment$': false,
                 '$seller_detail.is_block$': false
             },
@@ -3037,44 +3033,56 @@ const searchPaidOrder = async (req) => {
     try {
         const page = req.params.page || 1
         const { filter } = req.query
-        const pageSize = 20
-        const allOrders = await db.Checkout.findAll({
+        const whereCondition = {
+            [db.Op.or]: [
+                {
+                    id: {
+                        [db.Op.like]: `%${filter}%`
+                    }
+                },
+                {
+                    '$user_orders.first_name$': {
+                        [db.Op.like]: `%${filter}%`
+                    }
+                }
+            ],
+            status: { [db.Op.or]: ['COMPLETED', null] }
+        };
+
+        const response = await db.Checkout.findAll({
             order: [['createdAt', 'DESC']],
             include: [
                 {
-                    association: 'order_products',
-                    attributes: { exclude: ['updatedAt', 'createdAt'] },
+                    model: db.Orders,
+                    as: 'order_products',
                     include: [
                         {
-                            association: 'product_orders',
-                            attributes: {
-                                exclude: [
-                                    'updatedAt', 'createdAt', 'isUnlimitted', 'allow_per_person', 'none', 'caption', 'distance', 'advance_order_in_weeks', 'advance_order_day',
-                                    'allow_to_0rder_advance', 'allow_to_0rder', 'available_to', 'available_from'
-                                ]
-                            },
+                            model: db.UserProducts,
+                            as: 'product_orders'
                         },
                         {
-                            association: 'seller_detail',
-                            attributes: ['id', 'ref_id', 'first_name', 'last_name', 'email', 'image', 'phone', 'lat', 'log', 'is_block', 'is_block_payment', 'dob', 'address', 'stripe_id', 'stripe_account_id'],
+                            model: db.User,
+                            as: 'seller_detail',
+                            attributes: ['id', 'first_name', 'last_name', 'email']
                         }
                     ]
                 },
                 {
-                    association: 'user_orders',
-                    attributes: ['id', 'ref_id', 'first_name', 'last_name', 'email', 'image', 'phone', 'lat', 'log', 'is_block', 'is_block_payment', 'dob', 'address', 'stripe_id', 'stripe_account_id']
-                },
+                    model: db.User,
+                    as: 'user_orders',
+                    attributes: ['id', 'first_name', 'last_name', 'email']
+                }
             ],
-            attributes: { exclude: ['updatedAt'] },
-            where: { status: { [db.Op.or]: ['COMPLETED', null] } },
-            limit: pageSize,
-            offset: (page - 1) * pageSize
-        })
+            where: whereCondition,
+            limit: 20,
+            offset: (page - 1) * 20
+        });
 
+        const totalRecords = await db.Checkout.count({ where: whereCondition })
         return {
+            data: { response: response, page: page, remaining: totalRecords },
             status: true,
-            message: 'Paid order data',
-            data: allOrders
+            message: 'Paid order data'
         }
     } catch (error) {
         return {

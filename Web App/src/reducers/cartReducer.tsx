@@ -11,7 +11,6 @@ const initialState: Cart = {
 
 export default function cartReducer(state = initialState, action: any) {
 	switch (action.type) {
-
 		case types.ADD_ITEM_IN_CART: {
 			const index = state.products.findIndex((d) => d.id === action.value.content.id)
 			if (index > -1) {

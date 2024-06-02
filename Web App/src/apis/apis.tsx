@@ -639,7 +639,7 @@ export const getTopUsersApi: any = async () => {
 	return response
 }
 
-export const paymentApi: any = async (delivery_charges, service_charges, total, products, payment_method) => {
+export const paymentApi: any = async (delivery_charges, service_charges, total, products, payment_method, type) => {
 	let response = []
 	const token = localStorage.getItem('authorization') || sessionStorage.getItem('authorization')
 
@@ -647,7 +647,7 @@ export const paymentApi: any = async (delivery_charges, service_charges, total, 
 		headers: { authorization: `bearer ${token}` }
 	}
 	await axios
-		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/checkout/payment`, { delivery_charges: delivery_charges, service_charges: service_charges, total: total, products: products, payment_method }, config)
+		.post(`${process.env.REACT_APP_PUBLIC_BACKEND_HOST}user/checkout/payment`, { delivery_charges: delivery_charges, service_charges: service_charges, total: total, products: products, payment_method, type: type }, config)
 		.then((res) => {
 			response = res?.data
 		})
